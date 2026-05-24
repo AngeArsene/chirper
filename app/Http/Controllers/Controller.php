@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use Illuminate\View\View as IlluminateView;
 
 /**
  * Base controller class for all application controllers.
@@ -23,7 +24,7 @@ abstract class Controller
      * @throws \InvalidArgumentException  If no matching view exists and no fallback is available.
      *
      */
-    protected function resolve_view_name(array $params = []): View
+    protected function resolve_view(array $params = []): IlluminateView
     {
         $current_route_name = Route::currentRouteName();
 
