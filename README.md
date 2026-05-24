@@ -42,7 +42,7 @@ Chirper is ideal for:
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/AngeArsene/chirper.git
    cd chirper
    ```
 
