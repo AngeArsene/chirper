@@ -14,5 +14,4 @@
             </div>
         @endforeach
     </div>
-    </div>
 </x-layouts.main>
