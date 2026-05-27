@@ -9,7 +9,6 @@ use Illuminate\View\View as IlluminateView;
 
 /**
  * Base controller class for all application controllers.
- *
  */
 abstract class Controller
 {

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chirp;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreChirpRequest;
+use App\Http\Requests\UpdateChirpRequest;
 
 class ChirpController extends Controller
 {
@@ -30,7 +31,7 @@ class ChirpController extends Controller
             ]
         ];
 
-        return $this->resolve_view(compact('chirps'));//
+        return $this->resolve_view(compact('chirps'));
     }
 
     /**
@@ -44,7 +45,7 @@ class ChirpController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreChirpRequest $request)
     {
         //
     }
@@ -68,7 +69,7 @@ class ChirpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(UpdateChirpRequest $request, Chirp $chirp)
     {
         //
     }
