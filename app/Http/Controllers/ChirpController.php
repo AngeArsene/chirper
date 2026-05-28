@@ -34,7 +34,13 @@ class ChirpController extends Controller
      */
     public function store(StoreChirpRequest $request)
     {
-        //
+        $chirp = $request->validated();
+
+        Chirp::create($chirp);
+
+        return redirect()
+            ->route('chirps.index')
+            ->with('success', 'Chirp created successfully.');
     }
 
     /**
