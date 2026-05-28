@@ -36,23 +36,19 @@ class Main extends Component
     /**
      * Main layout component constructor.
      */
-    public function __construct(
-    ) {
-    }
+    public function __construct() {}
 
     /**
      * Generate the page title based on the current route name.
-     *
-     * Converts the current route name to a human-readable title by:
-     * - Replacing dots and hyphens with spaces
-     * - Replacing 'index' with 'home' (case-insensitive)
-     * - Converting to title case
      *
      * @return string The formatted page title with app name appended
      */
     public function page_title(): string
     {
-        $title = Str::of(Route::currentRouteName())->replace(['.', '-'], ' ')->replace('index', 'home', false)->title();
+        $title = Str::of(Route::currentRouteName())
+            ->replace(['.', '-'], ' ')
+            ->replace('index', 'home', false)
+            ->title();
 
         return $title . ' - ' . config('app.name');
     }
@@ -60,10 +56,7 @@ class Main extends Component
     /**
      * Render the main layout component.
      *
-     * This method is responsible for rendering the main layout view
-     * that serves as the primary template structure for the application.
-     *
-     * @return View|Closure|string The rendered main layout view, a closure, or a string representation.
+     * @return View|Closure|string The rendered main layout view.
      */
     public function render(): View|Closure|string
     {

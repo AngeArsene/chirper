@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Chirp;
 use App\Http\Requests\StoreChirpRequest;
 use App\Http\Requests\UpdateChirpRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ChirpController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $chirps = Chirp::with('user')
             ->latest('updated_at')
@@ -32,11 +34,9 @@ class ChirpController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreChirpRequest $request)
+    public function store(StoreChirpRequest $request): RedirectResponse
     {
-        $chirp = $request->validated();
-
-        Chirp::create($chirp);
+        Chirp::create($request->validated());
 
         return redirect()
             ->route('chirps.index')
