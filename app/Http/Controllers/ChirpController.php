@@ -56,7 +56,7 @@ class ChirpController extends Controller
      */
     public function edit(Chirp $chirp)
     {
-        //
+        return $this->resolve_view(compact('chirp'));
     }
 
     /**
