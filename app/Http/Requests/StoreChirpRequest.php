@@ -23,7 +23,19 @@ class StoreChirpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message' => ['required', 'string', 'max:255'],
+            'message' => ['required', 'string', 'max:255', 'min:5'],
+        ];
+    }
+
+    /**
+     * Get custom error messages for validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'message.required' => 'Please write something to chirp.',
+            'message.max'      => 'Chirps most be :max characters or less.',
+            'message.min'      => 'Chirps must be at least :min characters.',
         ];
     }
 }

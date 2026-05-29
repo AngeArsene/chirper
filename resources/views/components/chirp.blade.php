@@ -23,9 +23,9 @@
 
             <div class="min-w-0">
                 <div class="flex items-center gap-1">
-                    <span class="text-sm font-semibold">{{ $chirp->user ? $chirp->user->name : 'Anonymous' }}</span>
+                    <span class="text-sm font-semibold">{{ __($chirp->user ? $chirp->user->name : 'Anonymous') }}</span>
                     <span class="text-base-content/60">·</span>
-                    <span class="text-sm text-base-content/60">{{ $chirp->created_at->diffForHumans() }}</span>
+                    <span class="text-sm text-base-content/60">{{ __($chirp->created_at->diffForHumans()) }}</span>
                 </div>
 
                 <p class="mt-1">

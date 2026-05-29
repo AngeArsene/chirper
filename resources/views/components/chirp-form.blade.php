@@ -1,6 +1,5 @@
 @props(['errors'])
 
-<!-- Chirp Form -->
 <div class="card bg-base-100 shadow mt-8">
     <div class="card-body">
         <form method="POST" action="{{ route('chirps.store') }}">
@@ -12,6 +11,7 @@
                     class="textarea textarea-bordered w-full resize-none @error('message') textarea-error @enderror"
                     rows="4"
                     maxlength="255"
+                    minlength="5"
                     required
                 >{{ old('message') }}</textarea>
 

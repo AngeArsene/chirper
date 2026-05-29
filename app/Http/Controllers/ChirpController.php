@@ -40,7 +40,7 @@ class ChirpController extends Controller
 
         return redirect()
             ->route('chirps.index')
-            ->with('success', 'Chirp created successfully.');
+            ->with('success', __('Your chirp has been posted!'));
     }
 
     /**
