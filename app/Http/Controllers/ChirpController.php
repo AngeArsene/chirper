@@ -68,6 +68,10 @@ class ChirpController extends Controller
      */
     public function destroy(Chirp $chirp)
     {
-        //
+        $chirp->delete();
+
+        return redirect()
+            ->route('chirps.index')
+            ->with('success', __('Your chirp has been deleted!'));
     }
 }

@@ -20,6 +20,8 @@
                             required
                         >{{ old('message', $chirp) }}</textarea>
 
+                        <input type="hidden" name="old_message" value="{{ $chirp->message }}">
+
                         @error('message')
                             <div class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>

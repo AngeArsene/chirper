@@ -2,13 +2,19 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
+/**
+ * Request object that validates an update to an existing Chirp.
+ */
 class UpdateChirpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     * @throws \Illuminate\Auth\Access\AuthorizationException When the user is not authorized
      */
     public function authorize(): bool
     {
@@ -16,19 +22,23 @@ class UpdateChirpRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Validation rules for the update request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
+     * @throws \Illuminate\Validation\ValidationException When validation fails (handled by the framework)
      */
     public function rules(): array
     {
         return [
-            'message' => ['required', 'string', 'min:5', 'max:255', 'different:message'],
+            'message' => ['required', 'string', 'min:5', 'max:255', 'different:old_message'],
         ];
     }
 
     /**
-     * Get custom error messages for validation rules.
+     * Custom error messages for validation failures.
+     *
+     * @return array<string, string> Map of rule keys to messages
+     * @throws \Illuminate\Validation\ValidationException When validation fails (handled by the framework)
      */
     public function messages(): array
     {
@@ -38,5 +48,31 @@ class UpdateChirpRequest extends FormRequest
             'message.min'       => 'Chirps must be at least :min characters.',
             'message.different' => 'The new message must be different from the old message.',
         ];
+    }
+
+    /**
+     * Attach additional validation after the base rules run.
+     *
+     * Adds a post-validation check to ensure the submitted `message` is
+     * actually different from the existing chirp's `message` retrieved
+     * from the route. If equal, a validation error will be added.
+     *
+     * @param Validator $validator The validator instance used for this request
+     * @return void
+     *
+     * @throws \RuntimeException If the route does not contain a `chirp` model
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function ($validator) {
+            $chirp = $this->route('chirp'); // get the chirp from the route
+            if (! $chirp) {
+                throw new \RuntimeException('Route parameter "chirp" is required for UpdateChirpRequest.');
+            }
+
+            if ($this->input('message') === $chirp->message) {
+                $validator->errors()->add('message', 'The new message must be different from the old message.');
+            }
+        });
     }
 }
