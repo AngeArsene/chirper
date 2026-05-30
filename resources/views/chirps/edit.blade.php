@@ -16,8 +16,9 @@
                             class="textarea textarea-bordered w-full resize-none @error('message') textarea-error @enderror"
                             rows="4"
                             maxlength="255"
+                            minlength="5"
                             required
-                        >{{ old('message', $chirp->message) }}</textarea>
+                        >{{ old('message', $chirp) }}</textarea>
 
                         @error('message')
                             <div class="label">

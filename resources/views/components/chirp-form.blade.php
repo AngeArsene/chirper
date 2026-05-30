@@ -1,5 +1,3 @@
-@props(['errors'])
-
 <div class="card bg-base-100 shadow mt-8">
     <div class="card-body">
         <form method="POST" action="{{ route('chirps.store') }}">

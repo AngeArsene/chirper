@@ -56,7 +56,11 @@ class ChirpController extends Controller
      */
     public function update(UpdateChirpRequest $request, Chirp $chirp)
     {
-        //
+        $chirp->update($request->validated());
+
+        return redirect()
+            ->route('chirps.index')
+            ->with('success', __('Your chirp has been updated!'));
     }
 
     /**

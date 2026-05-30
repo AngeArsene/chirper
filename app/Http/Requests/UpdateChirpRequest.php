@@ -12,7 +12,7 @@ class UpdateChirpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,20 @@ class UpdateChirpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'message' => ['required', 'string', 'min:5', 'max:255', 'different:message'],
+        ];
+    }
+
+    /**
+     * Get custom error messages for validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'message.required'  => 'Please write something to chirp.',
+            'message.max'       => 'Chirps most be :max characters or less.',
+            'message.min'       => 'Chirps must be at least :min characters.',
+            'message.different' => 'The new message must be different from the old message.',
         ];
     }
 }
