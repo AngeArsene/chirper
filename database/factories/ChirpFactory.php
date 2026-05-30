@@ -17,10 +17,12 @@ class ChirpFactory extends Factory
      */
     public function definition(): array
     {
+        $date_created_and_updated = fake()->dateTimeBetween('-1 year', 'now');
+
         return [
             'message' => fake()->realText(200),
-            'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
-            'updated_at' => fake()->dateTimeBetween('-1 year', 'now'),
+            'created_at' => $date_created_and_updated,
+            'updated_at' => $date_created_and_updated,
         ];
     }
 }
