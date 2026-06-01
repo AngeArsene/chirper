@@ -46,7 +46,7 @@ class ChirpController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Chirp $chirp)
+    public function edit(Chirp $chirp): View
     {
         return $this->resolve_view(compact('chirp'));
     }
@@ -54,7 +54,7 @@ class ChirpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateChirpRequest $request, Chirp $chirp)
+    public function update(UpdateChirpRequest $request, Chirp $chirp): RedirectResponse
     {
         $chirp->update($request->validated());
 
@@ -66,7 +66,7 @@ class ChirpController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Chirp $chirp)
+    public function destroy(Chirp $chirp): RedirectResponse
     {
         $chirp->delete();
 
