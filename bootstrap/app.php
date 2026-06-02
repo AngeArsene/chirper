@@ -17,7 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'guest.only' => \App\Http\Middleware\EnsureUserIsGuest::class
+            'guest.only' => \App\Http\Middleware\EnsureUserIsGuest::class,
+            'auth.only'  => \App\Http\Middleware\EnsureUserIsAuthenticated::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

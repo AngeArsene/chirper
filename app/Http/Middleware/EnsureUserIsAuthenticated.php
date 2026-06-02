@@ -2,14 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\AuthRouteNameToAction;
+use App\ChirpRouteNameToAction;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserIsGuest
+class EnsureUserIsAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -18,14 +18,15 @@ class EnsureUserIsGuest
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $action = AuthRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ?? 'authenticate';
+        $action = ChirpRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ??
+            'perform this action on';
 
-        if (Auth::check()) {
+        if (! Auth::check()) {
             return redirect()
-                ->route('chirps.index')
+                ->route('auth.sign-up')
                 ->with(
                     'success',
-                    "You are already authenticated. No need to $action again."
+                    "You must be authenticated to $action a chirp. Please consider signing in or signing up."
                 );
         }
 
