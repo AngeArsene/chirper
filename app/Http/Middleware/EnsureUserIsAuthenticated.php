@@ -21,9 +21,9 @@ class EnsureUserIsAuthenticated
         $action = ChirpRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ??
             'perform this action on';
 
-        if (! Auth::check()) {
+        if (Auth::guest()) {
             return redirect()
-                ->route('auth.sign-up')
+                ->route('auth.sign-in')
                 ->with(
                     'success',
                     "You must be authenticated to $action a chirp. Please consider signing in or signing up."

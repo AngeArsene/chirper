@@ -6,6 +6,7 @@ use App\Models\Chirp;
 use App\Http\Requests\StoreChirpRequest;
 use App\Http\Requests\UpdateChirpRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ChirpController extends Controller
@@ -28,7 +29,7 @@ class ChirpController extends Controller
      */
     public function store(StoreChirpRequest $request): RedirectResponse
     {
-        Chirp::create($request->validated());
+        Auth::user()->chirps()->create($request->validated());
 
         return redirect()
             ->route('chirps.index')
