@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -32,12 +33,9 @@ class AuthController extends Controller
             ->with('success', 'Account created successfully!');
     }
 
-    public function login(Request $request): RedirectResponse
+    public function login(LoginUserRequest $request): RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $credentials = $request->validated();
 
         // Attempt to log in
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
@@ -45,7 +43,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Redirect to intended page or home
-            return redirect()->intended('/')->with('success', 'Welcome back!');
+            return redirect()->intended('/')->with('success', 'Welcome back! ' . Auth::user()->name);
         }
 
         // If login fails, redirect back with error

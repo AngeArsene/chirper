@@ -31,6 +31,7 @@
                                    name="password"
                                    placeholder="••••••••"
                                    class="input input-bordered @error('password') input-error @enderror"
+                                   minLength="8"
                                    required>
                             <span>Password</span>
                         </label>
