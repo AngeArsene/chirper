@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Enums;
 
 enum ChirpRouteNameToAction: string
 {
@@ -19,3 +19,4 @@ enum ChirpRouteNameToAction: string
         };
     }
 }
+

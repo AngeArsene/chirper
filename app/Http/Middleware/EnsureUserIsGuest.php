@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\AuthRouteNameToAction;
+use App\Enums\AuthRouteNameToAction;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +22,7 @@ class EnsureUserIsGuest
 
         if (Auth::check()) {
             return redirect()
-                ->route('chirps.index')
+                ->back()
                 ->with(
                     'success',
                     "You are already authenticated. No need to $action again."
