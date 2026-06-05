@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Chirp;
 use App\Http\Requests\StoreChirpRequest;
 use App\Http\Requests\UpdateChirpRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ChirpController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -29,6 +32,8 @@ class ChirpController extends Controller
      */
     public function store(StoreChirpRequest $request): RedirectResponse
     {
+        $this->authorize('create', Chirp::class);
+
         Auth::user()->chirps()->create($request->validated());
 
         return redirect()
@@ -41,6 +46,8 @@ class ChirpController extends Controller
      */
     public function edit(Chirp $chirp): View
     {
+        $this->authorize('update', $chirp);
+
         return $this->resolve_view(compact('chirp'));
     }
 
@@ -49,6 +56,8 @@ class ChirpController extends Controller
      */
     public function update(UpdateChirpRequest $request, Chirp $chirp): RedirectResponse
     {
+        $this->authorize('update', $chirp);
+
         $chirp->update($request->validated());
 
         return redirect()
@@ -61,6 +70,8 @@ class ChirpController extends Controller
      */
     public function destroy(Chirp $chirp): RedirectResponse
     {
+        $this->authorize('delete', $chirp);
+
         $chirp->delete();
 
         return redirect()
