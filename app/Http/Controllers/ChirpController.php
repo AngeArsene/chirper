@@ -37,14 +37,6 @@ class ChirpController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Chirp $chirp)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Chirp $chirp): View

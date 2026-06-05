@@ -2,8 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/sign-up', 'sign_up')->name('sign-up');
+// Authentication page routes
+Route::view('/login', 'auth.sign-in')->name('sign-in');
+Route::view('/register', 'auth.sign-up')->name('sign-up');
+
+// Authentication form submission routes
+Route::post('/login', 'login')->name('login');
 Route::post('/register', 'register')->name('register');
 
-Route::get('/sign-in', 'sign_in')->name('sign-in');
-Route::post('/login', 'login')->name('login');
+// Logout route
+Route::post('/logout', 'logout')->name('logout');

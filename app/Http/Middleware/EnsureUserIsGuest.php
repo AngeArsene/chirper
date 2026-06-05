@@ -21,10 +21,9 @@ class EnsureUserIsGuest
         $action = AuthRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ?? 'authenticate';
 
         if (Auth::check()) {
-            return back()
-                ->with(
+            return back()->with(
                     'success',
-                    "You are already authenticated. No need to $action again."
+                    __("You are already authenticated. No need to $action again.")
                 );
         }
 

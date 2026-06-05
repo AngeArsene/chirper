@@ -26,7 +26,7 @@ class EnsureUserIsAuthenticated
                 ->route('auth.sign-in')
                 ->with(
                     'success',
-                    "You must be authenticated to $action a chirp. Please consider signing in or signing up."
+                    __("You must be authenticated to $action a chirp. Please consider signing in or signing up.")
                 );
         }
 

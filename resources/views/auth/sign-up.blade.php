@@ -16,6 +16,7 @@
                                    value="{{ old('name') }}"
                                    class="input input-bordered @error('name') input-error @enderror"
                                    maxlength="255"
+                                   minlength="4"
                                    required>
                             <span>Name</span>
                         </label>
