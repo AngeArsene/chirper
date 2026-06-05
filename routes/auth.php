@@ -11,4 +11,7 @@ Route::post('/login', 'login')->name('login');
 Route::post('/register', 'register')->name('register');
 
 // Logout route
-Route::post('/logout', 'logout')->name('logout');
+Route::post('/logout', 'logout')
+    ->name('logout')
+    ->withoutMiddleware('guest.only')
+    ->middleware('auth.only');
