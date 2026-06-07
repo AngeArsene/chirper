@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 
 /**
@@ -13,8 +16,7 @@ class UpdateChirpRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
-     * @throws \Illuminate\Auth\Access\AuthorizationException When the user is not authorized
+     * @throws AuthorizationException When the user is not authorized
      */
     public function authorize(): bool
     {
@@ -24,8 +26,9 @@ class UpdateChirpRequest extends FormRequest
     /**
      * Validation rules for the update request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
-     * @throws \Illuminate\Validation\ValidationException When validation fails (handled by the framework)
+     * @return array<string, Rule|array<mixed>|string>
+     *
+     * @throws ValidationException When validation fails (handled by the framework)
      */
     public function rules(): array
     {
@@ -38,14 +41,15 @@ class UpdateChirpRequest extends FormRequest
      * Custom error messages for validation failures.
      *
      * @return array<string, string> Map of rule keys to messages
-     * @throws \Illuminate\Validation\ValidationException When validation fails (handled by the framework)
+     *
+     * @throws ValidationException When validation fails (handled by the framework)
      */
     public function messages(): array
     {
         return [
-            'message.required'  => 'Please write something to chirp.',
-            'message.max'       => 'Chirps most be :max characters or less.',
-            'message.min'       => 'Chirps must be at least :min characters.',
+            'message.required' => 'Please write something to chirp.',
+            'message.max' => 'Chirps most be :max characters or less.',
+            'message.min' => 'Chirps must be at least :min characters.',
             'message.different' => 'The new message must be different from the old message.',
         ];
     }
@@ -57,8 +61,7 @@ class UpdateChirpRequest extends FormRequest
      * actually different from the existing chirp's `message` retrieved
      * from the route. If equal, a validation error will be added.
      *
-     * @param Validator $validator The validator instance used for this request
-     * @return void
+     * @param  Validator  $validator  The validator instance used for this request
      *
      * @throws \RuntimeException If the route does not contain a `chirp` model
      */

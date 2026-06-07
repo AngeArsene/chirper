@@ -3,17 +3,16 @@
 namespace App\View\Components\Layouts;
 
 use Closure;
-use Illuminate\Support\Str;
-use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use Illuminate\View\Component;
 
 /**
  * Main Layout Component
  *
  * This component serves as the primary layout wrapper for the application.
  *
- * @package App\View\Components\Layouts
  * @category View Components
  *
  * @example
@@ -50,7 +49,7 @@ class Main extends Component
             ->replace('index', 'home', false)
             ->title();
 
-        return $title . ' - ' . config('app.name');
+        return $title.' - '.config('app.name');
     }
 
     /**

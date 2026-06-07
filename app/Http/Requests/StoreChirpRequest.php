@@ -33,8 +33,8 @@ class StoreChirpRequest extends FormRequest
     {
         return [
             'message.required' => 'Please write something to chirp.',
-            'message.max'      => 'Chirps most be :max characters or less.',
-            'message.min'      => 'Chirps must be at least :min characters.',
+            'message.max' => 'Chirps most be :max characters or less.',
+            'message.min' => 'Chirps must be at least :min characters.',
         ];
     }
 }

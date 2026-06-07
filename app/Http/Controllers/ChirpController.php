@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Chirp;
 use App\Http\Requests\StoreChirpRequest;
 use App\Http\Requests\UpdateChirpRequest;
+use App\Models\Chirp;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +19,7 @@ class ChirpController extends Controller
      */
     public function index(): View
     {
-        $chirps = Chirp::with('user')
+        $chirps = Chirp::with(['user' => fn ($user) => $user->select(['id', 'name', 'email'])])
             ->latest('updated_at')
             ->take(10)
             ->get();

@@ -3,15 +3,13 @@
 namespace App\View\Components\Layouts;
 
 use Closure;
-use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
 
 class Error extends Component
 {
     /**
      * The page title for the error layout.
-     *
-     * @var string
      */
     public string $title;
 
@@ -25,18 +23,14 @@ class Error extends Component
 
     /**
      * Generate the page title for the error layout.
-     *
-     * @return string
      */
     public function page_title(): string
     {
-        return $this->title . ' - ' . config('app.name');
+        return $this->title.' - '.config('app.name');
     }
 
     /**
      * Render the error layout component.
-     *
-     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {

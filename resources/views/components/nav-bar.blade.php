@@ -31,13 +31,12 @@
         @guest
             <a href="{{ route('auth.sign-in') }}" class="btn btn-ghost btn-sm">Sign In</a>
             <a href="{{ route('auth.sign-up') }}" class="btn btn-primary btn-sm">Sign Up</a>
-        @endguest
-        @auth
+        @else
             <div class="btn btn-ghost btn-sm">{{ Auth::user()->name }}</div>
             <form method="POST" action="{{ route('auth.logout') }}">
                 @csrf
                 <button type="submit" class="btn btn-primary btn-sm">Logout</button>
             </form>
-        @endauth
+        @endguest
     </div>
 </nav>
