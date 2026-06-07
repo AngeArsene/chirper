@@ -33,20 +33,22 @@
                     </div>
 
                     @auth
-                        <div class="flex gap-1">
-                            <a href="{{ route('chirps.edit', $chirp) }}" class="btn btn-ghost btn-xs">
-                                {{ __('Edit') }}
-                            </a>
-                            <form method="POST" action="{{ route('chirps.destroy', $chirp) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    onclick="return confirm('Are you sure you want to delete this chirp?')"
-                                    class="btn btn-ghost btn-xs text-error">
-                                    {{ __('Delete') }}
-                                </button>
-                            </form>
-                        </div>
+                        @if (Auth::id() === $chirp->user_id)
+                            <div class="flex gap-1">
+                                <a href="{{ route('chirps.edit', $chirp) }}" class="btn btn-ghost btn-xs">
+                                    {{ __('Edit') }}
+                                </a>
+                                <form method="POST" action="{{ route('chirps.destroy', $chirp) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        onclick="return confirm('Are you sure you want to delete this chirp?')"
+                                        class="btn btn-ghost btn-xs text-error">
+                                        {{ __('Delete') }}
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
                     @endauth
                 </div>
 

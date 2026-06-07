@@ -3,15 +3,9 @@
         <form method="POST" action="{{ route('chirps.store') }}">
             @csrf
             <div class="form-control w-full">
-                <textarea
-                    name="message"
-                    placeholder="What's on your mind?"
-                    class="textarea textarea-bordered w-full resize-none @error('message') textarea-error @enderror"
-                    rows="4"
-                    maxlength="255"
-                    minlength="5"
-                    required
-                >{{ old('message') }}</textarea>
+                <textarea name="message" placeholder="What's on your mind?"
+                    class="textarea textarea-bordered w-full resize-none @error('message') textarea-error @enderror" rows="4"
+                    maxLength="255" minLength="5" required>{{ old('message') }}</textarea>
 
                 @error('message')
                     <div class="label">

@@ -28,15 +28,15 @@
         </a>
     </div>
     <div class="navbar-end gap-2">
-        @guest
-            <a href="{{ route('auth.sign-in') }}" class="btn btn-ghost btn-sm">Sign In</a>
-            <a href="{{ route('auth.sign-up') }}" class="btn btn-primary btn-sm">Sign Up</a>
-        @else
+        @auth
             <div class="btn btn-ghost btn-sm">{{ Auth::user()->name }}</div>
             <form method="POST" action="{{ route('auth.logout') }}">
                 @csrf
                 <button type="submit" class="btn btn-primary btn-sm">Logout</button>
             </form>
-        @endguest
+        @else
+            <a href="{{ route('auth.sign-in') }}" class="btn btn-ghost btn-sm">Sign In</a>
+            <a href="{{ route('auth.sign-up') }}" class="btn btn-primary btn-sm">Sign Up</a>
+        @endauth
     </div>
 </nav>
