@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 
@@ -20,7 +20,7 @@ class UpdateChirpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check() && Auth::user()->id === $this->route('chirp')->user_id;
     }
 
     /**
