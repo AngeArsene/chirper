@@ -25,7 +25,7 @@ class EnsureUserIsAuthenticated
             return redirect()
                 ->route('auth.sign-in')
                 ->with(
-                    'success',
+                    'error',
                     __("You must be authenticated to $action a chirp. Please consider signing in or signing up.")
                 );
         }

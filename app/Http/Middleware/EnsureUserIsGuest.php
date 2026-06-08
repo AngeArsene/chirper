@@ -22,7 +22,7 @@ class EnsureUserIsGuest
 
         if (Auth::check()) {
             return back()->with(
-                'success',
+                'error',
                 __("You are already authenticated. No need to $action again.")
             );
         }
