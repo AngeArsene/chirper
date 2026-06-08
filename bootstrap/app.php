@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\EnsureUserIsAuthenticated;
 use App\Http\Middleware\EnsureUserIsGuest;
 use Illuminate\Foundation\Application;
@@ -10,12 +11,18 @@ use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
-        then: fn () => Route::middleware(['web', 'guest.only'])
-            ->prefix('auth')->name('auth.')
-            ->controller(AuthController::class)->group(__DIR__.'/../routes/auth.php'),
+        then: function (): void {
+            Route::middleware(['web', 'guest.only'])
+                ->prefix('auth')->name('auth.')
+                ->controller(AuthController::class)->group(__DIR__ . '/../routes/auth.php');
+
+            Route::middleware(['web', 'auth.only'])
+                ->prefix('profile')->name('profile.')
+                ->controller(UserProfileController::class)->group(__DIR__ . '/../routes/profile.php');
+        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
