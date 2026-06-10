@@ -26,7 +26,7 @@
     <x-nav-bar />
 
     <!-- Success Toast -->
-    @if (session('success'))
+    @session('success')
         <div class="toast toast-top toast-center">
             <div class="alert alert-success animate-fade-out">
                 <svg xmlns="<http://www.w3.org/2000/svg>" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
@@ -35,10 +35,10 @@
                 <span>{{ __(session('success')) }}</span>
             </div>
         </div>
-    @endif
+    @endsession
 
     <!-- Error Toast -->
-    @if (session('error'))
+    @session('error')
         <div class="toast toast-top toast-center">
             <div class="alert alert-error animate-fade-out">
                 <svg xmlns="<http://www.w3.org/2000/svg>" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@
                 <span>{{ __(session('error')) }}</span>
             </div>
         </div>
-    @endif
+    @endsession
 
     <main class="flex-1 container mx-auto px-4 py-8">
         {{ $slot }}
