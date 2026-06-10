@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\EnsureUserIsAuthenticated;
 use App\Http\Middleware\EnsureUserIsGuest;
 use Illuminate\Foundation\Application;
@@ -18,10 +17,6 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware(['web', 'guest.only'])
                 ->prefix('auth')->name('auth.')
                 ->controller(AuthController::class)->group(__DIR__ . '/../routes/auth.php');
-
-            Route::middleware(['web', 'auth.only'])
-                ->prefix('profile')->name('profile.')
-                ->controller(UserProfileController::class)->group(__DIR__ . '/../routes/profile.php');
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
