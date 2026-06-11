@@ -8,14 +8,6 @@ use Illuminate\Http\Request;
 class UserProfileController extends Controller
 {
     /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, User $user)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\AuthRouteNameToAction;
+use App\Enums\AppRouteNameToAction;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,7 @@ class EnsureUserIsGuest
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $action = AuthRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ?? 'authenticate';
+        $action = AppRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ?? 'authenticate';
 
         if (Auth::check()) {
             return back()->with(

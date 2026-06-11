@@ -29,7 +29,7 @@
     </div>
     <div class="navbar-end gap-2">
         @auth
-            <div class="btn btn-ghost btn-sm">{{ Auth::user()->name }}</div>
+            <a href="{{ route('profile.show') }}" class="btn btn-ghost btn-sm">{{ Auth::user()->name }}</a>
             <form method="POST" action="{{ route('auth.logout') }}">
                 @csrf
                 <button type="submit" class="btn btn-primary btn-sm">Logout</button>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\ChirpRouteNameToAction;
+use App\Enums\AppRouteNameToAction;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,7 @@ class EnsureUserIsAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $action = ChirpRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ??
+        $action = AppRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ??
             'perform this action on';
 
         if (Auth::guest()) {
@@ -26,7 +26,7 @@ class EnsureUserIsAuthenticated
                 ->route('auth.sign-in')
                 ->with(
                     'error',
-                    __("You must be authenticated to $action a chirp. Please consider signing in or signing up.")
+                    __("You must be authenticated to $action. Please consider signing in or signing up.")
                 );
         }
 

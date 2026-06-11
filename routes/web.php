@@ -10,6 +10,8 @@ Route::middleware('auth.only')->group(function () {
     Route::resource('chirps', ChirpController::class)
         ->except('index', 'create', 'show');
 
+    Route::view('profile', 'profile.show')->name('profile.show');
+
     Route::resource('profile', UserProfileController::class)
-        ->only('show', 'update', 'destroy');
+        ->only('update', 'destroy');
 });
