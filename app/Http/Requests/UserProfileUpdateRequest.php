@@ -14,7 +14,7 @@ class UserProfileUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check() && $this->route('user')->id === Auth::id();
+        return Auth::check() && $this->route('profile')->id === Auth::id();
     }
 
     /**
@@ -27,7 +27,7 @@ class UserProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255', 'min:4'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore(Auth::id())],
-            'current_password' => ['required', 'string', 'min:8', 'max:255'],
+            'current_password' => ['required', 'current_password'],
             'password' => ['nullable', 'string', 'min:8', 'max:255', 'confirmed'],
         ];
     }
