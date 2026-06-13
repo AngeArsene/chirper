@@ -1,5 +1,3 @@
-@props(['chirp'])
-
 <x-layouts.main>
     <div class="hero min-h-[calc(100vh-16rem)]">
         <div class="hero-content flex-col w-full max-w-xl">
@@ -21,7 +19,7 @@
                     </div>
 
                     {{-- Profile form --}}
-                    <form method="POST">
+                    <form method="POST" action="{{ route('profile.update', auth()->user()) }}">
                         @csrf
                         @method('PATCH')
 
@@ -33,6 +31,8 @@
                                    value="{{ old('name', auth()->user()->name) }}"
                                    class="input input-bordered @error('name') input-error @enderror"
                                    required
+                                   maxlength="255"
+                                   minlength="4"
                                    autofocus>
                             <span>Full name</span>
                         </label>
@@ -66,8 +66,9 @@
                         <label class="floating-label mb-6">
                             <input type="password"
                                    name="current_password"
-                                   placeholder="••••••••"
+                                   placeholder="Current password"
                                    class="input input-bordered @error('current_password') input-error @enderror"
+                                   {{-- required --}}
                                    minlength="8"
                                    maxlength="255"
                                    autocomplete="current-password">
@@ -84,7 +85,7 @@
                         <label class="floating-label mb-6">
                             <input type="password"
                                    name="password"
-                                   placeholder="••••••••"
+                                   placeholder="New password"
                                    class="input input-bordered @error('password') input-error @enderror"
                                    minlength="8"
                                    maxlength="255"
@@ -102,7 +103,7 @@
                         <label class="floating-label mb-8">
                             <input type="password"
                                    name="password_confirmation"
-                                   placeholder="••••••••"
+                                   placeholder="Confirm new password"
                                    class="input input-bordered"
                                    minlength="8"
                                    maxlength="255"
@@ -123,7 +124,7 @@
                     {{-- Danger zone --}}
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-base-content/60">{{ __('Want to leave?') }}</span>
-                        <form method="POST" action="{{ route('auth.logout') }}">
+                        <form method="POST" action="{{ route('profile.destroy', auth()->user()) }}">
                             @csrf
                             <button type="submit" class="btn btn-ghost btn-sm text-error">
                                 {{ __('Sign out') }}
