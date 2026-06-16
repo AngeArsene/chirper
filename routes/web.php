@@ -13,6 +13,8 @@ Route::middleware('auth.only')->group(function () {
     Route::view('profile', 'profile.show')->name('profile.show');
     Route::view('profile/edit', 'profile.edit')->name('profile.edit');
 
+    Route::match(['PUT', 'PATCH'], 'profile', [UserProfileController::class, 'update'])->name('profile.update');
+
     Route::resource('profile', UserProfileController::class)
-        ->only('update', 'destroy');
+        ->only('destroy');
 });

@@ -14,7 +14,7 @@ class UserProfileUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check() && $this->route('profile')->id === Auth::id();
+        return Auth::check();
     }
 
     /**
