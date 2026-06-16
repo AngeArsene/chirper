@@ -11,6 +11,7 @@ Route::middleware('auth.only')->group(function () {
         ->except('index', 'create', 'show');
 
     Route::view('profile', 'profile.show')->name('profile.show');
+    Route::view('profile/edit', 'profile.edit')->name('profile.edit');
 
     Route::resource('profile', UserProfileController::class)
         ->only('update', 'destroy');
