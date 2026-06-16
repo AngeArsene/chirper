@@ -19,7 +19,7 @@
                     </div>
 
                     {{-- Profile form --}}
-                    <form method="POST" action="{{ route('profile.update', auth()->user()) }}">
+                    <form method="POST" action="{{ route('profile.update') }}">
                         @csrf
                         @method('PATCH')
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserProfileUpdateRequest;
 use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,7 +13,7 @@ class UserProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserProfileUpdateRequest $request, User $profile): RedirectResponse
+    public function update(UserProfileUpdateRequest $request, #[CurrentUser] User $profile): RedirectResponse
     {
         $validated = $request->validated();
 
