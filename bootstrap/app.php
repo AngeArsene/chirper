@@ -17,11 +17,13 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function (): void {
             Route::middleware(['web', 'guest.only'])
                 ->prefix('auth')->name('auth.')
-                ->controller(AuthController::class)->group(__DIR__ . '/../routes/auth.php');
+                ->controller(AuthController::class)
+                ->group(base_path('routes'. DIRECTORY_SEPARATOR .'auth.php'));
 
             Route::middleware(['web', 'auth.only'])
                 ->name('profile.')
-                ->controller(UserProfileController::class)->group(__DIR__ . '/../routes/profile.php');
+                ->controller(UserProfileController::class)
+                ->group(base_path('routes'. DIRECTORY_SEPARATOR .'profile.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
