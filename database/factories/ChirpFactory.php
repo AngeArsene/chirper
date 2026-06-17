@@ -21,6 +21,7 @@ class ChirpFactory extends Factory
 
         return [
             'message' => fake()->realText(200),
+            'idempotency_key' => fake()->unique()->uuid(),
             'created_at' => $date_created_and_updated,
             'updated_at' => $date_created_and_updated,
         ];

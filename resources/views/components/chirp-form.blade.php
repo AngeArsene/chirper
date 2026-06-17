@@ -12,6 +12,14 @@
                         <span class="label-text-alt text-error">{{ __($message) }}</span>
                     </div>
                 @enderror
+
+                <input type="hidden" name="idempotency_key" value="{{ old('idempotency_key', (string) Str::uuid()) }}">
+
+                @error('idempotency_key')
+                    <div class="label">
+                        <span class="label-text-alt text-error">{{ __($message) }}</span>
+                    </div>
+                @enderror
             </div>
 
             <div class="mt-4 flex items-center justify-end">

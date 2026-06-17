@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Chirp;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreChirpRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class StoreChirpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return $this->user()?->can('create', Chirp::class) ?? false;
     }
 
     /**
@@ -24,6 +25,7 @@ class StoreChirpRequest extends FormRequest
     {
         return [
             'message' => ['required', 'string', 'max:255', 'min:5'],
+            'idempotency_key' => ['required', 'uuid', Rule::unique('chirps', 'idempotency_key')],
         ];
     }
 
@@ -36,6 +38,7 @@ class StoreChirpRequest extends FormRequest
             'message.required' => 'Please write something to chirp.',
             'message.max' => 'Chirps most be :max characters or less.',
             'message.min' => 'Chirps must be at least :min characters.',
+            'idempotency_key.unique' => 'It looks like this chirp was already submitted.',
         ];
     }
 }
