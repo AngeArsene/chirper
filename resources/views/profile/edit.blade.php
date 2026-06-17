@@ -68,7 +68,7 @@
                                    name="current_password"
                                    placeholder="Current password"
                                    class="input input-bordered @error('current_password') input-error @enderror"
-                                   {{-- required --}}
+                                   required
                                    minlength="8"
                                    maxlength="255"
                                    autocomplete="current-password">

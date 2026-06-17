@@ -37,6 +37,7 @@ class UserProfileUpdateRequest extends FormRequest
         return [
             'password.confirmed'        => __('The New password field does not match the Confirm new password field.'),
             'current_password.required' => __('Please enter your current password to confirm changes.'),
+            'current_password.current_password' => __('The provided current password is incorrect.'),
         ];
     }
 }

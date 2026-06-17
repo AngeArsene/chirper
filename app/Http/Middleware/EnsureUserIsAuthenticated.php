@@ -22,8 +22,7 @@ class EnsureUserIsAuthenticated
             'perform this action on';
 
         if (Auth::guest()) {
-            return redirect()
-                ->route('auth.sign-in')
+            return to_route('auth.sign-in')
                 ->with(
                     'error',
                     __("You must be authenticated to $action. Please consider signing in or signing up.")

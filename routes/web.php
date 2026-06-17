@@ -15,6 +15,5 @@ Route::middleware('auth.only')->group(function () {
 
     Route::match(['PUT', 'PATCH'], 'profile', [UserProfileController::class, 'update'])->name('profile.update');
 
-    Route::resource('profile', UserProfileController::class)
-        ->only('destroy');
+    Route::delete('profile', [UserProfileController::class, 'destroy'])->name('profile.destroy');
 });

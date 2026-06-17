@@ -26,14 +26,16 @@ class UserProfileController extends Controller
 
         $profile->save();
 
-        return back()->with('success', __('Profile updated successfully.'));
+        return to_route('profile.show')->with('success', __('Profile updated successfully.'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(#[CurrentUser] User $profile): RedirectResponse
     {
-        //
+        $profile->delete();
+
+        return to_route('chirps.index')->with('success', __('Your account has been deleted successfully.'));
     }
 }
