@@ -22,14 +22,14 @@
                 @enderror
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
+            <div class="card-actions justify-between mt-4">
                 @error('idempotency_key')
                     <a href="/" class="btn btn-ghost btn-sm">
                             {{ __('Cancel') }}
                     </a>
                 @enderror
 
-                <button type="submit" class="btn btn-primary btn-sm">
+                <button type="submit" class="btn btn-primary btn-sm ml-auto">
                     {{ __('Chirp') }}
                 </button>
             </div>
