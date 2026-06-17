@@ -23,8 +23,14 @@
             </div>
 
             <div class="mt-4 flex items-center justify-end">
+                @error('idempotency_key')
+                    <a href="/" class="btn btn-ghost btn-sm">
+                            {{ __('Cancel') }}
+                    </a>
+                @enderror
+
                 <button type="submit" class="btn btn-primary btn-sm">
-                    Chirp
+                    {{ __('Chirp') }}
                 </button>
             </div>
         </form>

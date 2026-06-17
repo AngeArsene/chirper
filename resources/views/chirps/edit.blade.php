@@ -29,10 +29,10 @@
 
                     <div class="card-actions justify-between mt-4">
                         <a href="/" class="btn btn-ghost btn-sm">
-                            Cancel
+                            {{ __('Cancel') }}
                         </a>
                         <button type="submit" class="btn btn-primary btn-sm">
-                            Update Chirp
+                            {{ __('Update Chirp') }}
                         </button>
                     </div>
                 </form>
