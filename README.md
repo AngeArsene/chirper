@@ -1,46 +1,45 @@
 # Chirper
 
-> A Laravel 13 social microblogging demo with Tailwind CSS, Vite, and secure user workflows.
+> A Laravel 13 microblogging demo that lets users sign up, log in, publish short updates, and manage their profile.
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![Laravel Version](https://img.shields.io/badge/Laravel-13.8%2B-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## What the project does
 
-Chirper is a lightweight social application built with Laravel 13. It demonstrates modern Laravel conventions through a small, real-world app where users can register, authenticate, and manage short "chirp" messages.
+Chirper is a small, practical social app built with Laravel and Blade. It demonstrates how to combine authentication, authorization, validation, and a polished frontend in one working example.
 
 ## Why the project is useful
 
-Chirper is useful for developers who want a clean example of:
+This project is a good starting point for learning or building on top of a modern Laravel stack. It covers:
 
-- Laravel 13 app structure with controllers, policies, and request validation
-- User authentication and session management
-- CRUD operations for an authenticated resource
-- Tailwind CSS 4 styling with DaisyUI components
-- Vite-powered frontend asset building
-- A queue-ready Laravel development workflow
+- user registration and login flows
+- authenticated posting, editing, and deleting of chirps
+- policy-based authorization so users only manage their own content
+- profile updates and account removal
+- Tailwind CSS styling with Vite asset compilation
 
 ## Key features
 
-- User registration, login, and logout
-- Create, edit, and delete chirps
-- Authorization rules that ensure users can only update or delete their own chirps
-- Latest chirps feed with eager-loaded user data
-- Database migrations with schema-first development
-- Frontend build pipeline using Vite and Tailwind
-- PHPUnit testing support
+- Secure sign-in and sign-up pages
+- Create, update, and delete chirp posts
+- Latest chirps feed with user relationships loaded efficiently
+- Profile editing and account deletion
+- Request validation for auth and post actions
+- Testable Laravel structure with PHPUnit
 
 ## Getting started
 
 ### Prerequisites
 
-- PHP 8.3 or higher
+Make sure you have:
+
+- PHP 8.3 or newer
 - Composer
 - Node.js 18+ and npm
-- A supported database (SQLite, MySQL, PostgreSQL, SQL Server)
+- A supported database (the default setup uses SQLite)
 
-### Installation
+### Quick setup
 
 ```bash
 git clone https://github.com/AngeArsene/chirper.git
@@ -48,107 +47,88 @@ cd chirper
 composer run setup
 ```
 
-The `composer run setup` task installs dependencies, copies `.env.example` to `.env`, generates the application key, runs migrations, and builds frontend assets.
+The setup script:
 
-### Start development
+- installs Composer dependencies
+- copies `.env.example` to `.env`
+- generates an application key
+- runs migrations
+- installs frontend dependencies
+- builds the Vite assets
+
+### Run the app
 
 ```bash
 composer run dev
 ```
 
-This command starts:
+This starts the Laravel server, queue worker, and Vite dev server so you can open the app in your browser at `http://localhost:8000`.
 
-- the PHP development server
-- a queue listener
-- the Vite development server
-
-Then open `http://localhost:8000` in your browser.
-
-### Manual setup
-
-If you want to run steps manually:
+### Manual setup (if needed)
 
 ```bash
 composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
-npm install --ignore-scripts
+npm install
 npm run build
 php artisan serve
 npm run dev
 ```
 
-## Useful commands
+## Example workflow
 
-```bash
-composer run dev
-composer run setup
-php artisan test
-npm run build
-```
+Once the app is running:
+
+1. Visit `/register` to create an account.
+2. Sign in and post your first chirp from the home page.
+3. Edit or delete your own post from the interface.
+4. Open `/profile` to update your details.
 
 ## Project structure
 
 ```text
-chirper/
-├── app/              # Application code, controllers, models, policies, and requests
-├── config/           # Laravel configuration files
-├── database/         # Migrations, factories, and seeders
-├── public/           # Public entry point and assets
-├── resources/        # Blade views, CSS, and JavaScript
-├── routes/           # Route definitions
-├── tests/            # Feature and unit tests
-├── composer.json     # PHP dependencies and scripts
-├── package.json      # Node dependencies and build scripts
-└── vite.config.js    # Vite configuration
+app/            # Controllers, models, policies, requests, and middleware
+bootstrap/      # Framework bootstrap files
+config/         # Application configuration
+database/       # Migrations, factories, and seeders
+public/         # Web entry point
+resources/      # Blade views, CSS, and JavaScript assets
+routes/         # Route definitions
+tests/          # Feature and unit tests
 ```
-
-## Technology stack
-
-- Laravel 13
-- PHP 8.3+
-- Tailwind CSS 4
-- DaisyUI (via CDN)
-- Vite
-- Composer and npm
-- PHPUnit
 
 ## Testing
 
-Run the full suite:
+Run the full test suite:
 
 ```bash
 php artisan test
 ```
 
-Run a specific test file:
+You can also run a specific test file when working on one area of the app.
 
-```bash
-php artisan test tests/Feature/ExampleTest.php
-```
+## Support and documentation
 
-## Support
+Useful references:
 
-- Laravel docs: https://laravel.com/docs
-- GitHub Issues: open an issue in this repository for bugs, questions, or feature requests
+- [Laravel documentation](https://laravel.com/docs)
+- [Vite documentation](https://vitejs.dev/guide/)
+- [Tailwind CSS documentation](https://tailwindcss.com/docs)
+- Issues and discussions for this repository
 
 ## Contributing
 
-Contributions are welcome.
+Contributions are welcome. If you want to help:
 
 1. Fork the repository
-2. Create a branch (`git checkout -b feature/my-feature`)
-3. Commit your changes
-4. Push your branch
-5. Open a pull request
+2. Create a feature branch
+3. Make your changes and test them
+4. Open a pull request with a clear summary
 
-For contribution guidance, follow Laravel's community conventions.
+If you are unsure where to start, opening an issue first is a good way to discuss an idea or bug report.
 
-## Maintainer
+## Maintainers
 
-Maintained by [AngeArsene](https://github.com/AngeArsene)
-
-## License
-
-Licensed under the [MIT license](LICENSE).
+This project is maintained by the repository owner and contributors.
