@@ -15,10 +15,10 @@
         <div class="flex items-center gap-1">
             @php
                 $current = $paginator->currentPage();
-                $last = $paginator->lastPage();
-                $window = 2;
-                $start = max(1, $current - $window);
-                $end = min($last, $current + $window);
+                $last    = $paginator->lastPage();
+                $window  = 2;
+                $start   = max(1, $current - $window);
+                $end     = min($last, $current + $window);
             @endphp
 
             {{-- First Page Link (if not in window) --}}
