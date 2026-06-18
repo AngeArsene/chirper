@@ -26,7 +26,7 @@
                 <div class="hero">
                     <div class="hero-content text-center">
                         <div>
-                            <p class="mt-4 text-base-content/60">{{ $chirps->onEachSide(1)->links() }}</p>
+                            <p class="mt-4 text-base-content/60">{{ $chirps->links() }}</p>
                         </div>
                     </div>
                 </div>

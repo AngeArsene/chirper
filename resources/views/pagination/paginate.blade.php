@@ -16,7 +16,7 @@
             @php
                 $current = $paginator->currentPage();
                 $last = $paginator->lastPage();
-                $window = 3;
+                $window = 2;
                 $start = max(1, $current - $window);
                 $end = min($last, $current + $window);
             @endphp
