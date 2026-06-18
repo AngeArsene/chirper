@@ -21,6 +21,16 @@
                     </div>
                 </div>
             @endforelse
+
+            @if ($chirps->hasPages())
+                <div class="hero">
+                    <div class="hero-content text-center">
+                        <div>
+                            <p class="mt-4 text-base-content/60">{{ $chirps->links() }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </x-layouts.main>

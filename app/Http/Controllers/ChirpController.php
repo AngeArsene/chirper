@@ -19,10 +19,9 @@ class ChirpController extends Controller
      */
     public function index(): View
     {
-        $chirps = Chirp::with(['user' => fn ($user) => $user->select(['id', 'name', 'email'])])
+        $chirps = Chirp::with('user:id,name,email')
             ->latest('updated_at')
-            ->take(10)
-            ->get();
+            ->paginate(10);
 
         return $this->resolve_view(compact('chirps'));
     }
