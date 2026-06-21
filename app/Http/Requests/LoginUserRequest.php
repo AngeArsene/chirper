@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class LoginUserRequest extends FormRequest
 {
@@ -12,7 +11,7 @@ class LoginUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::guest();
+        return $this->user() === null;
     }
 
     /**
@@ -23,9 +22,8 @@ class LoginUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
+            'email'    => ['required', 'email'],
             'password' => ['required', 'string', 'min:8', 'max:255'],
-            'accepted' => ['boolean'],
         ];
     }
 }

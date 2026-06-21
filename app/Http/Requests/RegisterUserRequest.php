@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class RegisterUserRequest extends FormRequest
 {
@@ -12,7 +11,7 @@ class RegisterUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::guest();
+        return $this->user() === null;
     }
 
     /**
@@ -23,9 +22,17 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'min:4'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'accepted' => ['accepted'],
+            'name'     => ['required', 'string', 'max:255', 'min:4'],
+            'email'    => ['required', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'max:255', 'confirmed'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'accepted.accepted' => 'You must accept the Terms and Conditions.',
         ];
     }
 }

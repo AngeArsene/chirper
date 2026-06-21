@@ -7,6 +7,7 @@
 
                     <form method="POST" action="{{ route('auth.login') }}">
                         @csrf
+                        @method('POST')
 
                         <!-- Email -->
                         <label class="floating-label mb-6">
