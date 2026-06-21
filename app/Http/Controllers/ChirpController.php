@@ -31,8 +31,6 @@ class ChirpController extends Controller
      */
     public function store(StoreChirpRequest $request): RedirectResponse
     {
-        $this->authorize('create', Chirp::class);
-
         Auth::user()->chirps()->create($request->validated());
 
         return to_route('chirps.index')
