@@ -20,7 +20,7 @@ class UpdateChirpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check() && Auth::user()->id === $this->route('chirp')->user_id;
+        return $this->user()?->can('update', $this->route('chirp')) ?? false;
     }
 
     /**
