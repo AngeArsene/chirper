@@ -82,22 +82,7 @@
                         @enderror
 
                         {{-- New password --}}
-                        <label class="floating-label mb-6">
-                            <input type="password"
-                                   name="password"
-                                   placeholder="New password"
-                                   class="input input-bordered @error('password') input-error @enderror"
-                                   minlength="8"
-                                   maxlength="255"
-                                   autocomplete="new-password">
-                            <span>New password</span>
-                        </label>
-
-                        @error('password')
-                            <div class="label -mt-4 mb-2">
-                                <span class="label-text-alt text-error">{{ $message }}</span>
-                            </div>
-                        @enderror
+                        <x-password-field />
 
                         {{-- Confirm new password --}}
                         <label class="floating-label mb-8">

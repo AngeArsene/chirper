@@ -1,7 +1,11 @@
-<!-- Password -->
 <label class="floating-label mb-2">
-    <input type="password" name="password" placeholder="••••••••"
-        class="input input-bordered @error('password') input-error @enderror" minLength="8" maxLength="255" required>
+    <input type="password"
+           name="password"
+           placeholder="••••••••"
+           class="input input-bordered @error('password') input-error @enderror"
+           minLength="8"
+           maxLength="255"
+           required>
     <span>{{ __('Password') }}</span>
 </label>
 @error('password')

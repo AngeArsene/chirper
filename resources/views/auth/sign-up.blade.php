@@ -36,17 +36,7 @@
                         @enderror
 
                         <!-- Password -->
-                        <label class="floating-label mb-6">
-                            <input type="password" name="password" placeholder="••••••••"
-                                class="input input-bordered @error('password') input-error @enderror" maxlength="255"
-                                minlength="8" required>
-                            <span>{{ __('Password') }}</span>
-                        </label>
-                        @error('password')
-                            <div class="label -mt-4 mb-2">
-                                <span class="label-text-alt text-error">{{ __($message) }}</span>
-                            </div>
-                        @enderror
+                        <x-password-field />
 
                         <!-- Password Confirmation -->
                         <label class="floating-label mb-6">
