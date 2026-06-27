@@ -26,9 +26,8 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()
-            ->route('chirps.index')
-            ->with('success', __('Account created successfully!'));
+        return to_route('chirps.index')
+            ->with('success', 'Account created successfully!');
     }
 
     /**
@@ -47,7 +46,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Redirect to intended page or home
-            return redirect()->intended('/')->with('success', __('Welcome back! ').Auth::user()->name);
+            return redirect()->intended('/')->with('success', 'Welcome back! ' . Auth::user()->name);
         }
 
         // If login fails, redirect back with error
