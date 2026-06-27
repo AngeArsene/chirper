@@ -9,8 +9,8 @@
     <span>{{ __('Password') }}</span>
 </label>
 @error('password')
-    <div class="label -mt-4 mb-4">
-        <span class="label-text-alt text-error">{{ __($message) }}</span>
+    <div class="mt-2 mb-4 p-4 text-sm text-error whitespace-normal break-words">
+        {{ __($message) }}
     </div>
 @else
     <div class="mb-4 p-3 bg-base-200 rounded text-sm space-y-1">
