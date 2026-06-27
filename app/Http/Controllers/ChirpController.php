@@ -34,7 +34,7 @@ class ChirpController extends Controller
         Auth::user()->chirps()->create($request->validated());
 
         return to_route('chirps.index')
-            ->with('success', __('Your chirp has been posted!'));
+            ->with('success', 'Your chirp has been posted!');
     }
 
     /**
@@ -54,8 +54,7 @@ class ChirpController extends Controller
     {
         $chirp->update($request->validated());
 
-        return to_route('chirps.index')
-            ->with('success', __('Your chirp has been updated!'));
+        return to_route('chirps.index')->with('success', 'Your chirp has been updated!');
     }
 
     /**
@@ -67,7 +66,6 @@ class ChirpController extends Controller
 
         $chirp->delete();
 
-        return to_route('chirps.index')
-            ->with('success', __('Your chirp has been deleted!'));
+        return to_route('chirps.index')->with('success', 'Your chirp has been deleted!');
     }
 }
