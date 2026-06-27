@@ -21,20 +21,20 @@
                         {{-- Name --}}
                         <label class="floating-label mb-6">
                             <input type="text" name="name" placeholder="Ex: John Doe"
-                                value="{{ old('name', auth()->user()->name) }}" class="input input-bordered" disabled
+                                value="{{ auth()->user()->name }}" class="input input-bordered" disabled
                                 autofocus>
-                            <span>Full name</span>
+                            <span>{{ __('Full name') }}</span>
                         </label>
 
                         {{-- Email --}}
                         <label class="floating-label mb-6">
                             <input type="email" name="email" placeholder="Ex: mail@example.com"
-                                value="{{ old('email', auth()->user()->email) }}" class="input input-bordered" disabled
+                                value="{{ auth()->user()->email }}" class="input input-bordered" disabled
                                 required>
-                            <span>Email</span>
+                            <span>{{ __('Email') }}</span>
                         </label>
 
-                        <div class="divider">Edit profile ?</div>
+                        <div class="divider">{{ __('Edit profile ?') }}</div>
 
                         <div class="form-control">
                             <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-sm w-full">
