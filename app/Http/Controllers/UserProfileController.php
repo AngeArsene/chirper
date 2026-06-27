@@ -6,7 +6,9 @@ use App\Http\Requests\UserProfileUpdateRequest;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Mcp\Request;
 
 class UserProfileController extends Controller
 {
@@ -26,16 +28,19 @@ class UserProfileController extends Controller
 
         $profile->save();
 
-        return to_route('profile.show')->with('success', __('Profile updated successfully.'));
+        return to_route('profile.show')->with('success', 'Profile updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(#[CurrentUser] User $profile): RedirectResponse
+    public function destroy(HttpRequest $request, #[CurrentUser] User $profile): RedirectResponse
     {
         $profile->delete();
 
-        return to_route('chirps.index')->with('success', __('Your account has been deleted successfully.'));
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return to_route('chirps.index')->with('success', 'Your account has been deleted successfully.');
     }
 }

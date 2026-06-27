@@ -51,7 +51,7 @@ class AuthController extends Controller
 
         // If login fails, redirect back with error
         return back()
-            ->withErrors(['email' => __('The provided credentials do not match our records.')])
+            ->withErrors(['email' => 'The provided credentials do not match our records.'])
             ->onlyInput('email');
     }
 
@@ -62,6 +62,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('chirps.index')->with('success', __('Logged out successfully!'));
+        return to_route('chirps.index')->with('success', 'Logged out successfully!');
     }
 }
