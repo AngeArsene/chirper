@@ -6,7 +6,7 @@
      <x-empty-state message="No chirps yet. Be the first to post one!" />
  @endforelse
 
- @if ($chirps->hasPages())
+ @if ($chirps instanceof \Illuminate\Pagination\LengthAwarePaginator && $chirps->hasPages())
      <div class="hero">
          <div class="hero-content text-center">
              <div>
