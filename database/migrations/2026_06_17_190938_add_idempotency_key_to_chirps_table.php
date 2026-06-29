@@ -22,6 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('chirps', function (Blueprint $table) {
+            $table->dropUnique('chirps_idempotency_key_unique');
             $table->dropColumn('idempotency_key');
         });
     }
