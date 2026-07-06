@@ -1,6 +1,4 @@
-@props(['paginator'])
-
-@if ($paginator instanceof \Illuminate\Pagination\LengthAwarePaginator && $paginator->hasPages())
+@if ($hasWindow)
     <div class="flex items-center justify-center gap-2">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
@@ -15,18 +13,9 @@
 
         {{-- Pagination Elements --}}
         <div class="flex items-center gap-1">
-            @php
-                $current = $paginator->currentPage();
-                $last    = $paginator->lastPage();
-                $window  = 2;
-                $start   = max(1, $current - $window);
-                $end     = min($last, $current + $window);
-            @endphp
-
             {{-- First Page Link (if not in window) --}}
             @if ($start > 1)
                 <a href="{{ $paginator->url(1) }}" class="btn btn-ghost btn-sm">1</a>
-
                 @if ($start > 2)
                     <span class="px-2 text-base-content/60">...</span>
                 @endif
@@ -50,7 +39,6 @@
                 @if ($end < $last - 1)
                     <span class="px-2 text-base-content/60">...</span>
                 @endif
-
                 <a href="{{ $paginator->url($last) }}" class="btn btn-ghost btn-sm">{{ $last }}</a>
             @endif
         </div>
