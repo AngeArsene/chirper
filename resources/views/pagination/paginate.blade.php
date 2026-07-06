@@ -1,4 +1,6 @@
-@if ($paginator->hasPages())
+@props(['paginator'])
+
+@if ($paginator instanceof \Illuminate\Pagination\LengthAwarePaginator && $paginator->hasPages())
     <div class="flex items-center justify-center gap-2">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
