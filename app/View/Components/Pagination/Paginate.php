@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Pagination;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\Component;
@@ -13,7 +12,6 @@ class Paginate extends Component
     public int $last;
     public int $start;
     public int $end;
-    public bool $hasWindow;
 
     /**
      * Create a new component instance.
@@ -26,8 +24,6 @@ class Paginate extends Component
         $this->last    = $paginator->lastPage();
         $this->start   = max(1, $this->current - $window);
         $this->end     = min($this->last, $this->current + $window);
-        $this->hasWindow = $paginator instanceof LengthAwarePaginator
-            && $paginator->hasPages();
     }
 
     /**
@@ -35,6 +31,6 @@ class Paginate extends Component
      */
     public function render(): View
     {
-        return view('components.pagination');
+        return view('pagination.paginate');
     }
 }

@@ -1,4 +1,4 @@
-@if ($hasWindow)
+@if ($paginator->hasPages())
     <div class="flex items-center justify-center gap-2">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
