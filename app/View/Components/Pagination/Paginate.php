@@ -31,6 +31,6 @@ class Paginate extends Component
      */
     public function render(): View
     {
-        return view('pagination.paginate');
+        return view('components.pagination.paginate');
     }
 }
