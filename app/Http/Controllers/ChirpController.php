@@ -21,8 +21,7 @@ class ChirpController extends Controller
     {
         $chirps = Chirp::with('user:id,name,email')
             ->latest('updated_at')
-            ->take(10)
-            ->get();
+            ->simplePaginate(10);
 
         return $this->resolve_view(compact('chirps'));
     }
