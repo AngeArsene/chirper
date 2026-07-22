@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::defaultView('paginate');
 
-        Paginator::defaultSimpleView('pagination.simple-paginate');
+        Paginator::defaultSimpleView('simple-paginate');
 
         Password::defaults(function () {
             return Password::min(8)
