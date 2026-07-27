@@ -24,4 +24,15 @@ class SimplePaginateTest extends TestCase
 
         $contents->assertDontSee('Previous')->assertDontSee('Next');
     }
+
+    public function test_it_renders_simple_pagination_links_in_the_feed_component(): void
+    {
+        User::factory(2)->hasChirps(6)->create()->fresh();
+
+        $chirps = Chirp::simplePaginate(10);
+
+        $contents = $this->view('components.feed', compact('chirps'));
+
+        $contents->assertSee('Previous')->assertSee('Next');
+    }
 }
