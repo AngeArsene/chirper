@@ -9,8 +9,11 @@ use Illuminate\View\Component;
 class Paginate extends Component
 {
     public int $current;
+
     public int $last;
+
     public int $start;
+
     public int $end;
 
     /**
@@ -21,9 +24,9 @@ class Paginate extends Component
         int $window = 2
     ) {
         $this->current = $paginator->currentPage();
-        $this->last    = $paginator->lastPage();
-        $this->start   = max(1, $this->current - $window);
-        $this->end     = min($this->last, $this->current + $window);
+        $this->last = $paginator->lastPage();
+        $this->start = max(1, $this->current - $window);
+        $this->end = min($this->last, $this->current + $window);
     }
 
     /**

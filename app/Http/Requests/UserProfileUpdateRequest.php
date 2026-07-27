@@ -35,8 +35,8 @@ class UserProfileUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'password.confirmed'                => 'The New password field does not match the Confirm new password field.',
-            'current_password.required'         => 'Please enter your current password to confirm changes.',
+            'password.confirmed' => 'The New password field does not match the Confirm new password field.',
+            'current_password.required' => 'Please enter your current password to confirm changes.',
             'current_password.current_password' => 'The provided current password is incorrect.',
         ];
     }

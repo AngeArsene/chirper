@@ -46,9 +46,9 @@ class UpdateChirpRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'message.required'  => __('Please write something to chirp.'),
-            'message.max'       => __('Chirps most be :max characters or less.'),
-            'message.min'       => __('Chirps must be at least :min characters.'),
+            'message.required' => __('Please write something to chirp.'),
+            'message.max' => __('Chirps most be :max characters or less.'),
+            'message.min' => __('Chirps must be at least :min characters.'),
             'message.different' => __('The new message must be different from the old message.'),
         ];
     }

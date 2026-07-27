@@ -46,7 +46,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Redirect to intended page or home
-            return redirect()->intended('/')->with('success', 'Welcome back! ' . Auth::user()->name);
+            return redirect()->intended('/')->with('success', 'Welcome back! '.Auth::user()->name);
         }
 
         // If login fails, redirect back with error

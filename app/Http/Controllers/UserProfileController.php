@@ -8,7 +8,6 @@ use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Mcp\Request;
 
 class UserProfileController extends Controller
 {
@@ -22,7 +21,7 @@ class UserProfileController extends Controller
         $profile->name = $validated['name'];
         $profile->email = $validated['email'];
 
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $profile->password = Hash::make($validated['password']);
         }
 
