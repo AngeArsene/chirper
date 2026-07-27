@@ -19,6 +19,8 @@ class ChirpController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('viewAll', Chirp::class);
+
         $chirps = Chirp::with('user:id,name,email')
             ->latest('updated_at')
             ->paginate(10);

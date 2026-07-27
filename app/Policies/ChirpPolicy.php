@@ -7,6 +7,11 @@ use App\Models\User;
 
 class ChirpPolicy
 {
+    public function viewAll(?User $user): bool
+    {
+        return true;
+    }
+
     /**
      * Determine whether the user can create models.
      */
