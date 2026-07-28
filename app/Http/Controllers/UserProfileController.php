@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserProfileController extends Controller
 {
@@ -34,6 +35,8 @@ class UserProfileController extends Controller
      */
     public function destroy(HttpRequest $request, #[CurrentUser] User $profile): RedirectResponse
     {
+        Auth::logout();
+
         $profile->delete();
 
         $request->session()->invalidate();
