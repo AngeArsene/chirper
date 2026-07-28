@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request as HttpRequest;
-use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
@@ -19,10 +18,10 @@ class UserProfileController extends Controller
         $validated = $request->validated();
 
         $profile->name = $validated['name'];
-        $profile->email = $validated['email'];
 
-        if (! empty($validated['password'])) {
-            $profile->password = Hash::make($validated['password']);
+        if ($profile->email !== $validated['email']) {
+            $profile->email = $validated['email'];
+            $profile->email_verified_at = null;
         }
 
         $profile->save();

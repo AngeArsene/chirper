@@ -60,42 +60,6 @@
                             </div>
                         @enderror
 
-                        <div class="divider">Change password</div>
-
-                        {{-- Current password --}}
-                        <label class="floating-label mb-6">
-                            <input type="password"
-                                   name="current_password"
-                                   placeholder="Current password"
-                                   class="input input-bordered @error('current_password') input-error @enderror"
-                                   required
-                                   minlength="8"
-                                   maxlength="255"
-                                   autocomplete="current-password">
-                            <span>Current password</span>
-                        </label>
-
-                        @error('current_password')
-                            <div class="label -mt-4 mb-2">
-                                <span class="label-text-alt text-error">{{ $message }}</span>
-                            </div>
-                        @enderror
-
-                        {{-- New password --}}
-                        <x-password-field />
-
-                        {{-- Confirm new password --}}
-                        <label class="floating-label mb-8">
-                            <input type="password"
-                                   name="password_confirmation"
-                                   placeholder="Confirm new password"
-                                   class="input input-bordered"
-                                   minlength="8"
-                                   maxlength="255"
-                                   autocomplete="new-password">
-                            <span>Confirm new password</span>
-                        </label>
-
                         {{-- Submit --}}
                         <div class="form-control">
                             <button type="submit" class="btn btn-primary btn-sm w-full">
