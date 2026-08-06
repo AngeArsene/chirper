@@ -25,7 +25,7 @@ class StoreChirpRequest extends FormRequest
     {
         return [
             'message' => ['required', 'string', 'max:255', 'min:5'],
-            'idempotency_key' => ['required', 'uuid', Rule::unique('chirps', 'idempotency_key')],
+            'idempotency_key' => ['required', 'uuid', 'unique:chirps'],
         ];
     }
 
