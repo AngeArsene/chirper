@@ -107,6 +107,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default User Password
+    |--------------------------------------------------------------------------
+    |
+    | This value is used as the default password when seeding users for
+    | local development and testing. It should never be relied on for
+    | any real user account outside the local environment.
+    |
+    | Must satisfy the app's password rules (see Password::defaults() in
+    | AppServiceProvider): min 8 characters, mixed case, letters, numbers,
+    | symbols and uncompromised.
+    |
+    */
+
+    'default_user_password' => env('DEFAULT_USER_PASSWORD', 'Passw0rd!23'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------
     |
