@@ -15,6 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(20)->hasChirps(5)->create();
+        User::factory()
+            ->hasChirps(5)
+            ->create([
+                'name' => config('app.default_user_name'),
+                'email' => config('app.default_user_email'),
+                'password' => config('app.default_user_password'),
+            ]);
+
+        User::factory(19)->hasChirps(5)->create();
     }
 }

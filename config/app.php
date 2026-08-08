@@ -107,6 +107,32 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default User Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is used as the default name when seeding users for
+    | local development and testing. It should never be relied on for
+    | any real user account outside the local environment.
+    |
+    */
+
+    'default_user_name' => env('DEFAULT_USER_NAME', 'Example User Name'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default User Email
+    |--------------------------------------------------------------------------
+    |
+    | This value is used as the default email when seeding users for
+    | local development and testing. It should never be relied on for
+    | any real user account outside the local environment.
+    |
+    */
+
+    'default_user_email' => env('DEFAULT_USER_EMAIL', 'example@email.test'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Default User Password
     |--------------------------------------------------------------------------
     |
