@@ -1,7 +1,9 @@
+@props(['placeholder' => 'Password'])
+
 <label class="floating-label mb-2">
     <input type="password"
            name="password"
-           placeholder="••••••••"
+           placeholder="{{ __($placeholder ?? 'Password') }}"
            class="input input-bordered @error('password') input-error @enderror"
            minLength="8"
            maxLength="255"

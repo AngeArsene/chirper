@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes'.DIRECTORY_SEPARATOR.'auth.php'));
 
             Route::middleware(['web', 'auth.only'])
-                ->name('profile.')
+                ->prefix('profile')->name('profile.')
                 ->controller(UserProfileController::class)
                 ->group(base_path('routes'.DIRECTORY_SEPARATOR.'profile.php'));
         },
