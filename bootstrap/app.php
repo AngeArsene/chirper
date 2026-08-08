@@ -5,6 +5,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\EnsureUserIsAuthenticated;
 use App\Http\Middleware\EnsureUserIsGuest;
+use App\Http\Middleware\EnsureUserIsUnconfirmed;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -26,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->controller(UserProfileController::class)
                 ->group(base_path('routes'.DIRECTORY_SEPARATOR.'profile.php'));
 
-            Route::middleware(['web', 'auth.only'])
+            Route::middleware(['web', 'auth.only', 'unconfirmed.only'])
                 ->prefix('password')->name('password.')
                 ->group(function (): void {
                     Route::view('confirm', 'auth.passwords.confirm')
@@ -41,6 +42,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'guest.only' => EnsureUserIsGuest::class,
             'auth.only' => EnsureUserIsAuthenticated::class,
+            'unconfirmed.only' => EnsureUserIsUnconfirmed::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
