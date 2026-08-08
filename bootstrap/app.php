@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\EnsureUserIsAuthenticated;
 use App\Http\Middleware\EnsureUserIsGuest;
@@ -24,6 +25,16 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('profile')->name('profile.')
                 ->controller(UserProfileController::class)
                 ->group(base_path('routes'.DIRECTORY_SEPARATOR.'profile.php'));
+
+            Route::middleware(['web', 'auth.only'])
+                ->prefix('password')->name('password.')
+                ->group(function (): void {
+                    Route::view('confirm', 'auth.passwords.confirm')
+                        ->name('confirm');
+
+                    Route::post('verify', [PasswordController::class, 'verify'])
+                        ->name('verify');
+                });
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

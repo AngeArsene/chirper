@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\UserPasswordUpdate;
+use App\Http\Controllers\PasswordController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'profile.show')->name('show');
@@ -11,7 +11,7 @@ Route::match(['PUT', 'PATCH'], '/', 'update')
     ->name('update')
     ->middleware('password.confirm');
 
-Route::match(['PUT', 'PATCH'], 'password/update', UserPasswordUpdate::class)
+Route::match(['PUT', 'PATCH'], 'password/update', [PasswordController::class, 'update'])
     ->name('password.update');
 
 Route::delete('/', 'destroy')->name('destroy');
