@@ -12,7 +12,8 @@ This repository is a small Laravel web application. Authenticated users can publ
 - The home page is a paginated chirp feed served by `ChirpController@index` and authorized through `ChirpPolicy@viewAll`.
 - Authenticated POST, PUT/PATCH, and DELETE chirp actions are defined as a resource route with `auth.only` authorization middleware and throttling settings for store/update/delete.
 - Registration, login, and logout are handled through `AuthController` and the `auth` route file.
-- Profile editing, password confirmation, and account removal are routed through `UserProfileController` and the `profile` route file.
+- Profile editing and account removal are routed through `UserProfileController` and the `profile` route file.
+- [app/Http/Controllers/PasswordController.php](app/Http/Controllers/PasswordController.php) updates the user's password and checks the current password during confirmation. You can find its routes in [bootstrap/app.php](bootstrap/app.php).
 - Middleware aliases expose `guest.only` and `auth.only` custom guard behavior through `EnsureUserIsGuest` and `EnsureUserIsAuthenticated`.
 - The schema includes a users table, sessions table, password reset tokens, and a `chirps` table with a nullable unique `idempotency_key` column added in a later migration.
 
@@ -23,20 +24,20 @@ app/
 ├── Enums/ # AppRouteNameToAction enum for route-action labels
 ├── Exceptions/ # RouteNotNamedException and ViewResolutionException
 ├── Http/
-│   ├── Controllers/ # AuthController, ChirpController, UserProfileController
+│   ├── Controllers/ # AuthController, ChirpController, PasswordController, UserProfileController
 │   └── Middleware/ # EnsureUserIsGuest, EnsureUserIsAuthenticated
 ├── Models/ # User and Chirp Eloquent models
 └── Policies/ # ChirpPolicy authorization rules
 bootstrap/
-└── app.php # route registration, middleware aliases, exception wiring
+└── app.php # route registration, middleware aliases, password-confirm route wiring
 database/
 ├── migrations/ # users, password reset, sessions, and chirps schema
-└── seeders/ # DatabaseSeeder for the seeded default user and sample data
+└── seeders/ # DatabaseSeeder default-user seeding logic
 routes/
 ├── web.php # home feed and authenticated chirp resource routes
 ├── auth.php # sign-in/sign-up/logout endpoints
-└── profile.php # profile view/edit/delete endpoints
-.env.example # default SQLite-like config and seeded account env keys
+└── profile.php # profile view/edit/delete and password-update endpoints
+.env.example # SQLite default settings plus DEFAULT_USER_* keys
 composer.json
 package.json
 ```
