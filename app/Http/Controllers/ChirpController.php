@@ -22,6 +22,11 @@ class ChirpController extends Controller
         $this->authorize('viewAll', Chirp::class);
 
         $chirps = Chirp::with('user:id,name,email')
+            ->withCount('likes')
+            ->withExists([
+                'likes as liked_by_current_user' => fn($query) =>
+                $query->where('user_id', auth()?->id()),
+            ])
             ->latest('updated_at')
             ->paginate(10);
 

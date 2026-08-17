@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ChirpLike;
-use Illuminate\Http\Request;
+use App\Models\Chirp;
+use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
 
 class ChirpLikeController extends Controller
 {
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function __invoke(Chirp $chirp, #[CurrentUser] User $user)
     {
-        //
-    }
+        $deleted = $chirp->likes()->where('user_id', $user->id)->delete();
 
+        if (! $deleted) {
+            $chirp->likes()->create(['user_id' => $user->id]);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ChirpLike $chirpLike)
-    {
-        //
+        return back();
     }
 }
