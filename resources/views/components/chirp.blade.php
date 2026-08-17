@@ -57,6 +57,8 @@
                 <p class="mt-1">
                     {{ $chirp->message }}
                 </p>
+
+                <x-engagement :chirp="$chirp" />
             </div>
         </div>
     </div>
