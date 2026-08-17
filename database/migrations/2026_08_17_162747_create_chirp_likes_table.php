@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('chirp_likes', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('chirp_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->timestamps();
+
+            $table->unique(['chirp_id', 'user_id']);
         });
     }
 
