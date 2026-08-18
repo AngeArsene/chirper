@@ -14,7 +14,7 @@ class ChirpLikeController extends Controller
     public function __invoke(Request $request, Chirp $chirp, #[CurrentUser] User $user): RedirectResponse
     {
         /**
-         * @var array{0: string, 1: string} $result
+         * @var array{0: 'success'|'error', 1: string} $result
          */
         $result = [];
 
@@ -31,6 +31,14 @@ class ChirpLikeController extends Controller
         return back()->with(...$result);
     }
 
+    /**
+     * Like a chirp.
+     *
+     * @param Chirp $chirp
+     * @param User $user
+     * @return array{0: 'success'|'error', 1: string} $result
+     * @throws UniqueConstraintViolationException
+     */
     private function like(Chirp $chirp, User $user): array
     {
         try {
@@ -41,6 +49,13 @@ class ChirpLikeController extends Controller
         }
     }
 
+    /**
+     * Unlike a chirp.
+     *
+     * @param Chirp $chirp
+     * @param User $user
+     * @return array{0: 'success'|'error', 1: string}
+     */
     private function unlike(Chirp $chirp, User $user): array
     {
         if (! $this->isLiked($chirp, $user)) {
@@ -51,6 +66,13 @@ class ChirpLikeController extends Controller
         return ['success', 'You unliked this chirp.'];
     }
 
+    /**
+     * Check if a user has liked a chirp.
+     *
+     * @param Chirp $chirp
+     * @param User $user
+     * @return bool
+     */
     private function isLiked(Chirp $chirp, User $user): bool
     {
         return $chirp->likes()->where('user_id', $user->id)->exists();
