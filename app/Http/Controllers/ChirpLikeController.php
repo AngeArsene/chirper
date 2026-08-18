@@ -16,17 +16,11 @@ class ChirpLikeController extends Controller
         /**
          * @var array{0: 'success'|'error', 1: string} $result
          */
-        $result = [];
-
-        switch ($request->method()) {
-            case 'POST':
-                $result = $this->like($chirp, $user);
-                break;
-
-            case 'DELETE':
-                $result = $this->unlike($chirp, $user);
-                break;
-        }
+        $result = match ($request->method()) {
+            'POST' => $this->like($chirp, $user),
+            'DELETE' => $this->unlike($chirp, $user),
+            default => abort(405, 'Method not allowed'),
+        };
 
         return back()->with(...$result);
     }
@@ -34,10 +28,7 @@ class ChirpLikeController extends Controller
     /**
      * Like a chirp.
      *
-     * @param Chirp $chirp
-     * @param User $user
-     * @return array{0: 'success'|'error', 1: string} $result
-     * @throws UniqueConstraintViolationException
+     * @return array{0: 'success'|'error', 1: string}
      */
     private function like(Chirp $chirp, User $user): array
     {
@@ -52,9 +43,7 @@ class ChirpLikeController extends Controller
     /**
      * Unlike a chirp.
      *
-     * @param Chirp $chirp
-     * @param User $user
-     * @return array{0: 'success'|'error', 1: string} $result
+     * @return array{0: 'success'|'error', 1: string}
      */
     private function unlike(Chirp $chirp, User $user): array
     {
@@ -69,9 +58,7 @@ class ChirpLikeController extends Controller
     /**
      * Check if a user has liked a chirp.
      *
-     * @param Chirp $chirp
-     * @param User $user
-     * @return bool $isLiked
+     * @return bool
      */
     private function isLiked(Chirp $chirp, User $user): bool
     {
