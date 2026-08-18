@@ -54,7 +54,7 @@ class ChirpLikeController extends Controller
      *
      * @param Chirp $chirp
      * @param User $user
-     * @return array{0: 'success'|'error', 1: string}
+     * @return array{0: 'success'|'error', 1: string} $result
      */
     private function unlike(Chirp $chirp, User $user): array
     {
@@ -71,7 +71,7 @@ class ChirpLikeController extends Controller
      *
      * @param Chirp $chirp
      * @param User $user
-     * @return bool
+     * @return bool $isLiked
      */
     private function isLiked(Chirp $chirp, User $user): bool
     {
