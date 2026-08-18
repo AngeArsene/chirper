@@ -7,6 +7,7 @@ enum AppRouteNameToAction: string
     case SignUp = 'auth.sign-up';
     case SignIn = 'auth.sign-in';
 
+    case Like = 'chirps.like';
     case Edit = 'chirps.edit';
     case Store = 'chirps.store';
     case Update = 'chirps.update';
@@ -20,6 +21,7 @@ enum AppRouteNameToAction: string
             self::SignUp => 'register',
             self::SignIn => 'login',
 
+            self::Like => 'like or unlike a chirp',
             self::Edit => 'edit a chirp',
             self::Store => 'create a chirp',
             self::Update => 'update a chirp',
