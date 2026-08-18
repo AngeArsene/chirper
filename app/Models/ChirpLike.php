@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['user_id', 'chirp_id'])]
 class ChirpLike extends Model
 {
+    const UPDATED_AT = null;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
