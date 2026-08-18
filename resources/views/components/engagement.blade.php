@@ -13,7 +13,7 @@
     </a>
 
     {{-- Like --}}
-    <x-engagement-like :chirp="$chirp" />
+    <x-like-button :chirp="$chirp" />
 
     {{-- Bookmark --}}
     <form method="POST" action="" class="ml-auto">

@@ -13,7 +13,6 @@ Route::resource('chirps', ChirpController::class)
     ->middlewareFor('update', 'throttle:5,1')
     ->middlewareFor('destroy', 'throttle:3,1');
 
-
 Route::match(['post', 'delete'], '/chirps/{chirp}/like', ChirpLikeController::class)
-    ->middleware(['auth.only', 'throttle:4,1'])
+    ->middleware(['auth.only', 'throttle:16,1'])
     ->name('chirps.like');
