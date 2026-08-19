@@ -28,4 +28,9 @@ class Chirp extends Model
     {
         return $this->hasMany(ChirpLike::class);
     }
+
+    public function isLikedBy(User $user): bool
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
 }

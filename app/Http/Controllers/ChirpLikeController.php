@@ -47,21 +47,11 @@ class ChirpLikeController extends Controller
      */
     private function unlike(Chirp $chirp, User $user): array
     {
-        if (! $this->isLiked($chirp, $user)) {
+        if (! $chirp->isLikedBy($user)) {
             return ['error', 'You have not liked this chirp yet.'];
         }
 
         $chirp->likes()->where('user_id', $user->id)->delete();
         return ['success', 'You unliked this chirp.'];
-    }
-
-    /**
-     * Check if a user has liked a chirp.
-     *
-     * @return bool
-     */
-    private function isLiked(Chirp $chirp, User $user): bool
-    {
-        return $chirp->likes()->where('user_id', $user->id)->exists();
     }
 }
