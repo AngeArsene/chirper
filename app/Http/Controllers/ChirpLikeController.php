@@ -52,6 +52,6 @@ class ChirpLikeController extends Controller
         }
 
         $chirp->likes()->where('user_id', $user->id)->delete();
-        return ['success', 'You unliked this chirp.'];
+        return ['success', 'You removed your like from this chirp.'];
     }
 }
