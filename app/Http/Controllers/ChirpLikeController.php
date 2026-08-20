@@ -33,9 +33,10 @@ class ChirpLikeController extends Controller
     private function like(Chirp $chirp, User $user): array
     {
         try {
-            $chirp->likes()->create(['user_id' => $user->id]);
+            $user->likeChirp($chirp);
             return ['success', 'You liked this chirp.'];
-        } catch (UniqueConstraintViolationException $e) {
+
+        } catch (UniqueConstraintViolationException $_e) {
             return ['error', 'You already liked this chirp.'];
         }
     }
@@ -47,11 +48,11 @@ class ChirpLikeController extends Controller
      */
     private function unlike(Chirp $chirp, User $user): array
     {
-        if (! $chirp->isLikedBy($user)) {
+        if (! $user->hasLikedChirp($chirp)) {
             return ['error', 'You have not liked this chirp yet.'];
         }
 
-        $chirp->likes()->where('user_id', $user->id)->delete();
+        $user->unlikeChirp($chirp);
         return ['success', 'You removed your like from this chirp.'];
     }
 }
