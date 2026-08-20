@@ -30,6 +30,7 @@ class ChirpController extends Controller
                 fn($query) => $query->where('user_id', Auth::id())
             ])
             ->latest('updated_at')
+            ->orderByDesc('likes_count')
             ->paginate(10);
 
         return $this->resolve_view(compact('chirps'));
