@@ -7,7 +7,7 @@ use App\Models\User;
 
 class ChirpPolicy
 {
-    public function viewAll(?User $user): bool
+    public function viewAll(?User $_user): bool
     {
         return true;
     }
@@ -15,7 +15,7 @@ class ChirpPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $_user): bool
     {
         return true;
     }

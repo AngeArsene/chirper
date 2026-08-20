@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreChirpRequest;
 use App\Http\Requests\UpdateChirpRequest;
 use App\Models\Chirp;
+use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +38,9 @@ class ChirpController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreChirpRequest $request): RedirectResponse
+    public function store(StoreChirpRequest $request, #[CurrentUser] User $user): RedirectResponse
     {
-        Auth::user()->chirps()->create($request->validated());
+        $user->chirps()->create($request->validated());
 
         return to_route('chirps.index')
             ->with('success', 'Your chirp has been posted!');
