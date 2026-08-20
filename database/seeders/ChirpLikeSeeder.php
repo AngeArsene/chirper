@@ -18,9 +18,7 @@ class ChirpLikeSeeder extends Seeder
         Chirp::each(function (Chirp $chirp) use ($users) {
             $count = random_int(0, $users->count());
 
-            if ($count === 0) {
-                return;
-            }
+            if ($count === 0) return;
 
             $randomUsers = $users->random($count);
 
