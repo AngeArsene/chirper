@@ -10,7 +10,9 @@ use Illuminate\View\Component;
 class LikeButton extends Component
 {
     public bool $isLiked;
+
     public string $method;
+
     public string $textColor;
 
     /**

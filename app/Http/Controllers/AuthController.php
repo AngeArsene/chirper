@@ -55,6 +55,12 @@ class AuthController extends Controller
             ->onlyInput('email');
     }
 
+    /**
+     * Log out the currently authenticated user.
+     *
+     * @param  Request  $request  The current HTTP request.
+     * @return RedirectResponse Redirect to the chirps index with a success message.
+     */
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasswordVerifyRequest;
 use App\Http\Requests\UserPasswordUpdateRequest;
+use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -21,28 +22,15 @@ class PasswordController extends Controller
      *
      * @throws ValidationException If the incoming request payload fails the `UserPasswordUpdateRequest` rules.
      */
-    public function update(UserPasswordUpdateRequest $request): RedirectResponse
+    public function update(UserPasswordUpdateRequest $request, #[CurrentUser] User $user): RedirectResponse
     {
-        $request->user()->update([
-            'password' => $request->validated('password'),
-        ]);
+        $user->update(['password' => $request->validated('password')]);
 
         return redirect()->route('profile.edit')->with('success', 'Password updated successfully.');
     }
 
-    public function verify(Request $request): RedirectResponse
+    public function verify(PasswordVerifyRequest $request): RedirectResponse
     {
-        $request->validate(
-            [
-                'password' => ['required', 'string', Password::defaults(), 'current_password'],
-            ],
-            [
-                'password.required' => 'Please enter your password.',
-                'password.string' => 'The password must be a valid string.',
-                'password.current_password' => 'The password you entered is incorrect.',
-            ]
-        );
-
         $request->session()->put('auth.password_confirmed_at', time());
 
         return redirect()->intended(route('profile.edit'));

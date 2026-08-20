@@ -59,7 +59,7 @@ class User extends Authenticatable
      * Get the chirp likes owned by the user.
      *
      * @return HasMany<ChirpLike>
-    */
+     */
     public function chirpLikes(): HasMany
     {
         return $this->hasMany(ChirpLike::class);
@@ -67,8 +67,6 @@ class User extends Authenticatable
 
     /**
      * Like a chirp.
-     *
-     * @return void
      */
     public function likeChirp(Chirp $chirp): void
     {
@@ -77,8 +75,6 @@ class User extends Authenticatable
 
     /**
      * Unlike a chirp.
-     *
-     * @return void
      */
     public function unlikeChirp(Chirp $chirp): void
     {
@@ -87,8 +83,6 @@ class User extends Authenticatable
 
     /**
      * Check if the user has liked a chirp.
-     *
-     * @return bool
      */
     public function hasLikedChirp(Chirp $chirp): bool
     {

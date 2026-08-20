@@ -9,8 +9,19 @@ use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Handles liking and unliking chirps for authenticated users.
+ */
 class ChirpLikeController extends Controller
 {
+    /**
+     * Handle the like or unlike action for a chirp based on the HTTP method.
+     *
+     * @param  Request  $request  The current HTTP request.
+     * @param  Chirp  $chirp  The chirp to be liked or unliked.
+     * @param  User  $user  The currently authenticated user.
+     * @return RedirectResponse Redirect back with a success or error message.
+     */
     public function __invoke(Request $request, Chirp $chirp, #[CurrentUser] User $user): RedirectResponse
     {
         /**
@@ -34,6 +45,7 @@ class ChirpLikeController extends Controller
     {
         try {
             $user->likeChirp($chirp);
+
             return ['success', 'You liked this chirp.'];
 
         } catch (UniqueConstraintViolationException $_e) {
@@ -53,6 +65,7 @@ class ChirpLikeController extends Controller
         }
 
         $user->unlikeChirp($chirp);
+
         return ['success', 'You removed your like from this chirp.'];
     }
 }
