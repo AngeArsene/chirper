@@ -24,10 +24,8 @@ class ChirpLikeSeeder extends Seeder
 
             $randomUsers = $users->random($count);
 
-            $randomUsers->each(function (User $user) use ($chirp) {
-                $chirp->likes()->create([
-                    'user_id' => $user->id,
-                ]);
+            $randomUsers->each(function (User $randomUser) use ($chirp) {
+                $randomUser->likeChirp($chirp);
             });
         });
     }
