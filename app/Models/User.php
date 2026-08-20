@@ -45,26 +45,51 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Get the chirps owned by the user.
+     *
+     * @return HasMany<Chirp>
+     */
     public function chirps(): HasMany
     {
         return $this->hasMany(Chirp::class);
     }
 
+    /**
+     * Get the chirp likes owned by the user.
+     *
+     * @return HasMany<ChirpLike>
+    */
     public function chirpLikes(): HasMany
     {
         return $this->hasMany(ChirpLike::class);
     }
 
+    /**
+     * Like a chirp.
+     *
+     * @return void
+     */
     public function likeChirp(Chirp $chirp): void
     {
         $this->chirpLikes()->create(['chirp_id' => $chirp->id]);
     }
 
+    /**
+     * Unlike a chirp.
+     *
+     * @return void
+     */
     public function unlikeChirp(Chirp $chirp): void
     {
         $this->chirpLikes()->where('chirp_id', $chirp->id)->delete();
     }
 
+    /**
+     * Check if the user has liked a chirp.
+     *
+     * @return bool
+     */
     public function hasLikedChirp(Chirp $chirp): bool
     {
         return $this->chirpLikes()->where('chirp_id', $chirp->id)->exists();

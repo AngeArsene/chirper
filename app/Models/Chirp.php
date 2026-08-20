@@ -19,11 +19,21 @@ use Illuminate\Support\Carbon;
 #[Fillable(['message', 'idempotency_key'])]
 class Chirp extends Model
 {
+    /**
+     * Get the user that owns the chirp.
+     *
+     * @return BelongsTo<User>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the chirp likes owned by the chirp.
+     *
+     * @return HasMany<ChirpLike>
+     */
     public function likes(): HasMany
     {
         return $this->hasMany(ChirpLike::class);

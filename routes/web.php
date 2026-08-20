@@ -4,8 +4,10 @@ use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ChirpLikeController;
 use Illuminate\Support\Facades\Route;
 
+// Home page route
 Route::get('/', [ChirpController::class, 'index'])->name('chirps.index');
 
+// Chirp resource routes
 Route::resource('chirps', ChirpController::class)
     ->except('index', 'create', 'show')
     ->middleware('auth.only')
@@ -13,6 +15,7 @@ Route::resource('chirps', ChirpController::class)
     ->middlewareFor('update', 'throttle:5,1')
     ->middlewareFor('destroy', 'throttle:3,1');
 
+// Chirp like/unlike routes
 Route::match(['post', 'delete'], '/chirps/{chirp}/like', ChirpLikeController::class)
     ->middleware(['auth.only', 'throttle:16,1'])
     ->name('chirps.like');
