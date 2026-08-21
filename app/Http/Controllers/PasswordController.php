@@ -29,6 +29,14 @@ class PasswordController extends Controller
         return redirect()->route('profile.edit')->with('success', 'Password updated successfully.');
     }
 
+    /**
+     * Verifies the authenticated user's password and returns to the profile edit view.
+     *
+     * @param  PasswordVerifyRequest  $request  A validated password verification request.
+     * @return RedirectResponse Redirects to the profile edit page if the password is verified.
+     *
+     * @throws ValidationException If the incoming request payload fails the `PasswordVerifyRequest` rules.
+     */
     public function verify(PasswordVerifyRequest $request): RedirectResponse
     {
         $request->session()->put('auth.password_confirmed_at', time());
