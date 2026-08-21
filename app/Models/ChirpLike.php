@@ -17,11 +17,21 @@ class ChirpLike extends Model
 {
     const UPDATED_AT = null;
 
+    /**
+     * Get the user that owns the chirp like.
+     *
+     * @return BelongsTo<User>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the chirp that owns the chirp like.
+     *
+     * @return BelongsTo<Chirp>
+     */
     public function chirp(): BelongsTo
     {
         return $this->belongsTo(Chirp::class);
