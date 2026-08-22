@@ -66,6 +66,7 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the chirp bookmarks by user.
      *
      * @return HasMany<ChirpBookmark>
      */
@@ -81,6 +82,23 @@ class User extends Authenticatable
     {
         $this->chirpBookmarks()->create(['chirp_id' => $chirp->id]);
     }
+
+    /**
+     * Unbookmark a chirp.
+     */
+    public function unbookmarkChirp(Chirp $chirp): void
+    {
+        $this->chirpBookmarks()->where('chirp_id', $chirp->id)->delete();
+    }
+
+    /**
+     * Check if the user has bookmarked a chirp.
+     */
+    public function hasBookmarkedChirp(Chirp $chirp): bool
+    {
+        return $this->chirpBookmarks()->where('chirp_id', $chirp->id)->exists();
+    }
+
     /**
      * Like a chirp.
      */
