@@ -3,7 +3,7 @@
 @forelse ($chirps as $chirp)
     <x-chirp :chirp="$chirp" />
 @empty
-    <x-empty-state message="No chirps yet. Be the first to post one!" />
+    <x-empty-state message="No bookmarks yet — tap the bookmark icon on any chirp to save it here.!" />
 @endforelse
 
 @if ($chirps instanceof \Illuminate\Pagination\AbstractPaginator && $chirps->hasPages())

@@ -6,7 +6,7 @@ use App\Models\Chirp;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class ChirpLikeSeeder extends Seeder
+class ChirpBookmarkSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,7 +25,7 @@ class ChirpLikeSeeder extends Seeder
             $randomUsers = $users->random($count);
 
             $randomUsers->each(function (User $randomUser) use ($chirp) {
-                $randomUser->likeChirp($chirp);
+                $randomUser->bookmarkChirp($chirp);
             });
         });
     }

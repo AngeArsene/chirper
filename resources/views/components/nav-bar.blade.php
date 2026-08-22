@@ -29,14 +29,22 @@
     </div>
     <div class="navbar-end gap-2">
         @auth
-            <a href="{{ route('profile.show') }}" class="btn btn-ghost btn-sm">{{ Auth::user()->name }}</a>
+            <a href="{{ route('chirps.bookmarks') }}"
+                class="btn {{ request()->routeIs('chirps.bookmarks') ? 'btn-primary' : 'btn-ghost' }} btn-sm">
+                {{ __('Bookmarks') }}
+            </a>
+            <a href="{{ route('profile.show') }}"
+                class="btn {{ request()->routeIs('profile.show') ? 'btn-primary' : 'btn-ghost' }} btn-sm">
+                {{ Auth::user()->name }}
+            </a>
+
             <form method="POST" action="{{ route('auth.logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-primary btn-sm">Logout</button>
+                <button type="submit" class="btn btn-primary btn-sm">{{ __('Logout') }}</button>
             </form>
         @else
-            <a href="{{ route('auth.sign-in') }}" class="btn btn-ghost btn-sm">Sign In</a>
-            <a href="{{ route('auth.sign-up') }}" class="btn btn-primary btn-sm">Sign Up</a>
+            <a href="{{ route('auth.sign-in') }}" class="btn btn-ghost btn-sm">{{ __('Sign In') }}</a>
+            <a href="{{ route('auth.sign-up') }}" class="btn btn-primary btn-sm">{{ __('Sign Up') }}</a>
         @endauth
     </div>
 </nav>

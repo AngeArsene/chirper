@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChirpBookmarkController;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ChirpLikeController;
 use Illuminate\Support\Facades\Route;
@@ -19,3 +20,12 @@ Route::resource('chirps', ChirpController::class)
 Route::match(['post', 'delete'], '/chirps/{chirp}/like', ChirpLikeController::class)
     ->middleware(['auth.only', 'throttle:16,1'])
     ->name('chirps.like');
+
+// Chirp bookmarks routes
+Route::middleware(['auth.only', 'throttle:16,1'])
+    ->prefix('chirps')->name('chirps.')
+    ->controller(ChirpBookmarkController::class)
+    ->group(function (): void {
+        Route::get('/bookmarks', 'index')->name('bookmarks');
+        Route::match(['post', 'delete'], '/{chirp}/bookmarks', 'toggle')->name('bookmark');
+    });
