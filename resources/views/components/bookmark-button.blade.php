@@ -1,4 +1,4 @@
-<form method="POST" action="{{ $action }}" class="ml-auto">
+<form method="POST" action="{{ route('chirps.bookmark', $chirp) }}" class="ml-auto">
     @csrf
     @method($method)
 

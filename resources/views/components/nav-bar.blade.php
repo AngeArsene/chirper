@@ -29,8 +29,8 @@
     </div>
     <div class="navbar-end gap-2">
         @auth
-            <a href="{{ route('bookmarks.index') }}"
-                class="btn {{ request()->routeIs('bookmarks.index') ? 'btn-primary' : 'btn-ghost' }} btn-sm">
+            <a href="{{ route('chirps.bookmarks') }}"
+                class="btn {{ request()->routeIs('chirps.bookmarks') ? 'btn-primary' : 'btn-ghost' }} btn-sm">
                 {{ __('Bookmarks') }}
             </a>
             <a href="{{ route('profile.show') }}"
