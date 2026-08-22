@@ -13,8 +13,6 @@ class BookmarkButton extends Component
 
     public string $method;
 
-    public string $action;
-
     public string $textColor;
 
     /**
@@ -25,8 +23,6 @@ class BookmarkButton extends Component
     ) {
         $this->isBookmarked = $chirp->bookmarked_by_current_user;
         $this->method = $this->isBookmarked ? 'DELETE' : 'POST';
-
-        $this->action = $this->isBookmarked ? route('bookmarks.destroy', $chirp) : route('bookmarks.store', $chirp);
         $this->textColor = $this->isBookmarked ? 'text-primary' : 'text-base-content/60 hover:text-primary';
     }
 
