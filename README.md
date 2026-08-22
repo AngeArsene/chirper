@@ -5,6 +5,7 @@ A Laravel 13 microblogging application built around Blade views, Tailwind CSS v4
 ## What the app does
 
 This repository is a small Laravel web application. Authenticated users can publish short messages to a paginated home feed, edit or delete their own chirps, and update their profile details. The middleware and policy layer protect the authenticated-only pages and authorize ownership-sensitive actions. Users can also like or unlike chirps, and the home feed ranks posts by how much engagement they receive.
+Users can also save chirps to a personal bookmarks page and remove those bookmarks later.
 
 ## Features
 
@@ -19,6 +20,8 @@ This repository is a small Laravel web application. Authenticated users can publ
 - `ChirpController@index` now loads `likes_count` and `liked_by_current_user` metadata.
 - Authenticated users can like and unlike a chirp through `ChirpLikeController` and the `chirps.like` route, using `POST` and `DELETE` requests with `auth.only` and `throttle:16,1`.
 - The schema adds the `chirp_likes` table with `user_id`, `chirp_id`, and `created_at`, plus a unique pair constraint to prevent duplicate likes; `ChirpLikeSeeder` and `UserSeeder` populate sample engagement data for local development.
+- Authenticated users can bookmark and unbookmark a chirp through `ChirpBookmarkController` and the `chirps.bookmark` route, using `POST` and `DELETE` requests with `auth.only` and `throttle:16,1`; `ChirpBookmarkController@index` serves the paginated bookmarks view.
+- The schema adds the `chirp_bookmarks` table with `user_id`, `chirp_id`, and `created_at`, plus a unique `chirp_id`/`user_id` pair constraint; `ChirpBookmarkSeeder` and `ChirpBookmarkFactory` support sample bookmark data for local development and tests.
 
 ## Project structure
 
@@ -27,23 +30,24 @@ app/
 ├── Enums/ # AppRouteNameToAction enum for route-action labels
 ├── Exceptions/ # RouteNotNamedException and ViewResolutionException
 ├── Http/
-│   ├── Controllers/ # AuthController, ChirpController, ChirpLikeController, PasswordController, UserProfileController
+│   ├── Controllers/ # AuthController, ChirpBookmarkController, ChirpController, ChirpLikeController, PasswordController, UserProfileController
 │   └── Middleware/ # EnsureUserIsGuest, EnsureUserIsAuthenticated
-├── Models/ # User, Chirp, and ChirpLike Eloquent models
+├── Models/ # User, Chirp, ChirpBookmark, and ChirpLike Eloquent models
 ├── Policies/ # ChirpPolicy authorization rules
 └── View/
-    └── Components/ # LikeButton component
+    └── Components/ # BookmarkButton and LikeButton components
 bootstrap/
 └── app.php # route registration, middleware aliases, password-confirm route wiring
 database/
-├── migrations/ # users, password reset, sessions, chirps, and chirp_likes schema
-├── seeders/ # DatabaseSeeder, UserSeeder, and ChirpLikeSeeder local data setup
-└── factories/ # UserFactory, ChirpFactory, and ChirpLikeFactory
+├── migrations/ # users, password reset, sessions, chirps, chirp_likes, and chirp_bookmarks schema
+├── seeders/ # DatabaseSeeder, UserSeeder, ChirpLikeSeeder, and ChirpBookmarkSeeder local data setup
+└── factories/ # UserFactory, ChirpFactory, ChirpLikeFactory, and ChirpBookmarkFactory
 resources/
 └── views/
-    └── components/ # like-button and engagement UI partials
+    ├── chirps/ # bookmarks.blade.php bookmarked chirps view
+    └── components/ # bookmark-button, like-button, and engagement UI partials
 routes/
-├── web.php # home feed, authenticated chirp resource routes, and chirp like/unlike endpoints
+├── web.php # home feed, authenticated chirp resource routes, and chirp like/bookmark endpoints
 ├── auth.php # sign-in/sign-up/logout endpoints
 └── profile.php # profile view/edit/delete and password-update endpoints
 .env.example # SQLite default settings plus DEFAULT_USER_* keys
@@ -99,4 +103,4 @@ This repository currently has PHPUnit-based tests under [tests/Feature/ChirpTest
 
 ## Status
 
-_Last synced with commit fa2f03b35974be1f7474b178d3bf02364feb0267 (2026-08-21)_
+_Last synced with commit c2b8cbea4375bc4e575c3cd2e705731eaf9e31cb (2026-08-22)_
