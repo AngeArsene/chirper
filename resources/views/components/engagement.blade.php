@@ -15,6 +15,8 @@
     {{-- Like --}}
     <x-like-button :chirp="$chirp" />
 
-    {{-- Bookmark --}}
-    <x-bookmark-button :chirp="$chirp" />
+    @auth
+        {{-- Bookmark --}}
+        <x-bookmark-button :chirp="$chirp" />
+    @endauth
 </div>
