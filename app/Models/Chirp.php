@@ -38,4 +38,13 @@ class Chirp extends Model
     {
         return $this->hasMany(ChirpLike::class);
     }
+
+    /**
+     *
+     * @return HasMany<ChirpBookmark>
+     */
+    public function bookmarks(): HasMany
+    {
+        return $this->hasMany(ChirpBookmark::class);
+    }
 }

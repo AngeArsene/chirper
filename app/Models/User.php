@@ -66,6 +66,22 @@ class User extends Authenticatable
     }
 
     /**
+     *
+     * @return HasMany<ChirpBookmark>
+     */
+    public function chirpBookmarks(): HasMany
+    {
+        return $this->hasMany(ChirpBookmark::class);
+    }
+
+    /**
+     * Bookmark a chirp.
+     */
+    public function bookmarkChirp(Chirp $chirp): void
+    {
+        $this->chirpBookmarks()->create(['chirp_id' => $chirp->id]);
+    }
+    /**
      * Like a chirp.
      */
     public function likeChirp(Chirp $chirp): void
