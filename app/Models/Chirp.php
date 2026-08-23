@@ -40,7 +40,6 @@ class Chirp extends Model
     }
 
     /**
-     *
      * @return HasMany<ChirpBookmark>
      */
     public function bookmarks(): HasMany

@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Chirp;
 use App\Models\ChirpBookmark;
 use App\Models\User;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\UniqueConstraintViolationException;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +18,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class ChirpBookmarkController extends Controller
 {
-    use AuthorizesRequests;
-
     /**
      * Display the authenticated user's bookmarked chirps with engagement data.
      *
@@ -83,7 +79,6 @@ class ChirpBookmarkController extends Controller
      *
      * @param  Chirp  $chirp  The chirp to bookmark.
      * @param  User  $user  The user who owns the bookmark.
-     *
      * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
      */
     private function bookmark(Chirp $chirp, User $user): array
@@ -92,7 +87,6 @@ class ChirpBookmarkController extends Controller
             $user->bookmarkChirp($chirp);
 
             return ['success', 'You bookmarked this chirp.'];
-
         } catch (UniqueConstraintViolationException $_e) {
             return ['error', 'You already bookmarked this chirp.'];
         }
@@ -103,7 +97,6 @@ class ChirpBookmarkController extends Controller
      *
      * @param  Chirp  $chirp  The chirp to unbookmark.
      * @param  User  $user  The user whose bookmark should be removed.
-     *
      * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
      */
     private function unbookmark(Chirp $chirp, User $user): array

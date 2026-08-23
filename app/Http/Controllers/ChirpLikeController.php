@@ -20,7 +20,6 @@ class ChirpLikeController extends Controller
      * @param  Request  $request  The current HTTP request.
      * @param  Chirp  $chirp  The chirp to be liked or unliked.
      * @param  User  $user  The currently authenticated user.
-     *
      * @return RedirectResponse Redirect back with a success or error message.
      */
     public function __invoke(Request $request, Chirp $chirp, #[CurrentUser] User $user): RedirectResponse

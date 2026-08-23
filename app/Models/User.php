@@ -89,7 +89,7 @@ class User extends Authenticatable
         return $this->chirpLikes()->where('chirp_id', $chirp->id)->exists();
     }
 
-     /**
+    /**
      * Get the chirp bookmarks by user.
      *
      * @return HasMany<ChirpBookmark>
