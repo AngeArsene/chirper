@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chirp;
-use App\Models\ChirpBookmark;
 use App\Models\User;
+use App\Pipelines\WhereUserHasRelation;
+use App\Pipelines\WithBookmarkedAtColumn;
+use App\Pipelines\WithChirpAuthor;
+use App\Pipelines\WithEngagementCount;
+use App\Pipelines\WithUserEngagementFlag;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -25,26 +29,17 @@ class ChirpBookmarkController extends Controller
      */
     public function index(): View
     {
-        $chirps = Chirp::whereHas('bookmarks', function ($query) {
-            $query->where('user_id', Auth::id());
-        })
-            ->with('user:id,name,email')
-            ->withCount('likes')
-            ->withExists([
-                'likes as liked_by_current_user' => fn ($query) => $query->where('user_id', Auth::id()),
+        $chirps = Pipeline::send(Chirp::query())
+            ->through([
+                new WithChirpAuthor,
+                new WithBookmarkedAtColumn,
+                new WithEngagementCount('likes'),
+                new WhereUserHasRelation('bookmarks'),
+                new WithUserEngagementFlag('likes', 'liked'),
+                new WithUserEngagementFlag('bookmarks', 'bookmarked'),
             ])
-            ->withExists([
-                'bookmarks as bookmarked_by_current_user' => fn ($query) => $query->where('user_id', Auth::id()),
-            ])
-            ->addSelect([
-                'bookmarked_at' => ChirpBookmark::select('created_at')
-                    ->whereColumn('chirp_id', 'chirps.id')
-                    ->where('user_id', Auth::id())
-                    ->latest()
-                    ->limit(1),
-            ])
-            ->withCasts(['bookmarked_at' => 'datetime'])
-            ->orderByDesc('bookmarked_at')
+            ->thenReturn()
+            ->latest('bookmarked_at')
             ->paginate(10);
 
         return $this->resolve_view(compact('chirps'));
