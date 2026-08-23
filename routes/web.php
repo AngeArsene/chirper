@@ -29,6 +29,6 @@ Route::middleware('auth.only')
         Route::get('/bookmarks', 'index')->name('bookmarks');
 
         Route::match(['post', 'delete'], '/{chirp}/bookmarks', 'toggle')
-        ->name('bookmark')
-        ->middleware('throttle:16,1');
+            ->name('bookmark')
+            ->middleware('throttle:16,1');
     });
