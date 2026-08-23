@@ -22,10 +22,13 @@ Route::match(['post', 'delete'], '/chirps/{chirp}/like', ChirpLikeController::cl
     ->name('chirps.like');
 
 // Chirp bookmarks routes
-Route::middleware(['auth.only', 'throttle:16,1'])
+Route::middleware('auth.only')
     ->prefix('chirps')->name('chirps.')
     ->controller(ChirpBookmarkController::class)
     ->group(function (): void {
         Route::get('/bookmarks', 'index')->name('bookmarks');
-        Route::match(['post', 'delete'], '/{chirp}/bookmarks', 'toggle')->name('bookmark');
+
+        Route::match(['post', 'delete'], '/{chirp}/bookmarks', 'toggle')
+        ->name('bookmark')
+        ->middleware('throttle:16,1');
     });
