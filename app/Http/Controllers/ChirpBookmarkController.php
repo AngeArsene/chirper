@@ -26,13 +26,9 @@ class ChirpBookmarkController extends Controller
      * Display the authenticated user's bookmarked chirps with engagement data.
      *
      * @return View The rendered bookmarked chirps view.
-     *
-     * @throws AuthorizationException If viewing bookmarked chirps is not permitted.
      */
     public function index(): View
     {
-        $this->authorize('viewAll', Chirp::class);
-
         $chirps = Chirp::whereHas('bookmarks', function ($query) {
             $query->where('user_id', Auth::id());
         })
