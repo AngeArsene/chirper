@@ -36,17 +36,15 @@ class ChirpController extends Controller
     {
         $this->authorize('viewAll', Chirp::class);
 
-        $pipes = [
-            new WithEngagementCount('likes'),
-            ...(Auth::check() ? [
-                new WithChirpAuthor,
-                new WithUserEngagementFlag('likes', 'liked'),
-                new WithUserEngagementFlag('bookmarks', 'bookmarked'),
-            ] : []),
-        ];
-
         $chirps = Pipeline::send(Chirp::query())
-            ->through($pipes)
+            ->through([
+                new WithEngagementCount('likes'),
+                ...(Auth::check() ? [
+                    new WithChirpAuthor,
+                    new WithUserEngagementFlag('likes', 'liked'),
+                    new WithUserEngagementFlag('bookmarks', 'bookmarked'),
+                ] : []),
+            ])
             ->thenReturn()
             ->latest('updated_at')
             ->paginate(10);
