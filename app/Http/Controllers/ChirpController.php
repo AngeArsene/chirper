@@ -36,16 +36,14 @@ class ChirpController extends Controller
     {
         $this->authorize('viewAll', Chirp::class);
 
-        $pipes = array_merge(
-            [
-                new WithEngagementCount('likes'),
-            ],
-            ! is_null(Auth::user()) ? [
+        $pipes = [
+            new WithEngagementCount('likes'),
+            ...(Auth::check() ? [
                 new WithChirpAuthor,
                 new WithUserEngagementFlag('likes', 'liked'),
                 new WithUserEngagementFlag('bookmarks', 'bookmarked'),
-            ] : []
-        );
+            ] : []),
+        ];
 
         $chirps = Pipeline::send(Chirp::query())
             ->through($pipes)
