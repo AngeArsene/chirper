@@ -2,7 +2,7 @@
 
 <x-layouts.main>
      <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold mt-8">Bookmarks</h1>
+        <h1 class="text-3xl font-bold mt-8">{{ __('Bookmarks') }}</h1>
 
         <div class="space-y-4 mt-8">
 
