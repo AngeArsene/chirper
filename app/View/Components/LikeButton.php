@@ -21,7 +21,7 @@ class LikeButton extends Component
     public function __construct(
         public Chirp $chirp,
     ) {
-        $this->isLiked = $chirp->liked_by_current_user;
+        $this->isLiked = $chirp->liked_by_current_user ?? false;
         $this->method = $this->isLiked ? 'DELETE' : 'POST';
         $this->textColor = $this->isLiked ? 'text-error' : 'text-base-content/60 hover:text-error';
     }
