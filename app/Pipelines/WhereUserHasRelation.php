@@ -20,7 +20,7 @@ class WhereUserHasRelation
     /**
      * Invoke the class instance.
      */
-    public function __invoke(Builder $query, Closure $next): mixed
+    public function __invoke(Builder $query, Closure $next): Builder
     {
         $query->whereHas($this->relation, function ($query) {
             $query->where('user_id', Auth::id());

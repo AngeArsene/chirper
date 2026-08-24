@@ -19,7 +19,7 @@ class WithEngagementCount
     /**
      * Invoke the class instance.
      */
-    public function __invoke(Builder $query, Closure $next): mixed
+    public function __invoke(Builder $query, Closure $next): Builder
     {
         $query->withCount($this->relation);
 

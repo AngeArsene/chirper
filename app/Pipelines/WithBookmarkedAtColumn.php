@@ -10,17 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class WithBookmarkedAtColumn
 {
     /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Invoke the class instance.
      */
-    public function __invoke(Builder $query, Closure $next): mixed
+    public function __invoke(Builder $query, Closure $next): Builder
     {
         $query->addSelect([
             'bookmarked_at' => ChirpBookmark::select('created_at')
