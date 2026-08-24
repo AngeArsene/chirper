@@ -13,6 +13,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -35,13 +36,19 @@ class ChirpController extends Controller
     {
         $this->authorize('viewAll', Chirp::class);
 
-        $chirps = Pipeline::send(Chirp::query())
-            ->through([
-                new WithChirpAuthor,
+        $pipes = array_merge(
+            [
                 new WithEngagementCount('likes'),
+            ],
+            ! is_null(Auth::user()) ? [
+                new WithChirpAuthor,
                 new WithUserEngagementFlag('likes', 'liked'),
-                new WithUserEngagementFlag('bookmarks', 'bookmarked'),
-            ])
+                new WithUserEngagementFlag('bookmarks', 'bookmarked')
+            ] : []
+        );
+
+        $chirps = Pipeline::send(Chirp::query())
+            ->through($pipes)
             ->thenReturn()
             ->latest('updated_at')
             ->paginate(10);
