@@ -43,7 +43,7 @@ class ChirpController extends Controller
             ! is_null(Auth::user()) ? [
                 new WithChirpAuthor,
                 new WithUserEngagementFlag('likes', 'liked'),
-                new WithUserEngagementFlag('bookmarks', 'bookmarked')
+                new WithUserEngagementFlag('bookmarks', 'bookmarked'),
             ] : []
         );
 
