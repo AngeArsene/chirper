@@ -24,7 +24,7 @@ class WithUserEngagementFlag
     public function __invoke(Builder $query, Closure $next): Builder
     {
         $query->withExists([
-            "{$this->relation} as {$this->pastTenseVerb}_by_current_user" => fn ($query) => $query->where('user_id', Auth::id()),
+            "{$this->relation} as {$this->pastTenseVerb}_by_current_user" => fn ($query) => $query->whereBelongsTo(Auth::user()),
         ]);
 
         return $next($query);
