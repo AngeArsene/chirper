@@ -38,9 +38,9 @@ class ChirpController extends Controller
 
         $chirps = Pipeline::send(Chirp::query())
             ->through([
+                new WithChirpAuthor,
                 new WithEngagementCount('likes'),
                 ...(Auth::check() ? [
-                    new WithChirpAuthor,
                     new WithUserEngagementFlag('likes', 'liked'),
                     new WithUserEngagementFlag('bookmarks', 'bookmarked'),
                 ] : []),
