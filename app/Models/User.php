@@ -78,7 +78,7 @@ class User extends Authenticatable
      */
     public function unlikeChirp(Chirp $chirp): void
     {
-        $this->chirpLikes()->where('chirp_id', $chirp->id)->delete();
+        $this->chirpLikes()->whereBelongsTo($chirp)->delete();
     }
 
     /**
@@ -86,7 +86,7 @@ class User extends Authenticatable
      */
     public function hasLikedChirp(Chirp $chirp): bool
     {
-        return $this->chirpLikes()->where('chirp_id', $chirp->id)->exists();
+        return $this->chirpLikes()->whereBelongsTo($chirp)->exists();
     }
 
     /**
@@ -112,7 +112,7 @@ class User extends Authenticatable
      */
     public function unbookmarkChirp(Chirp $chirp): void
     {
-        $this->chirpBookmarks()->where('chirp_id', $chirp->id)->delete();
+        $this->chirpBookmarks()->whereBelongsTo($chirp)->delete();
     }
 
     /**
@@ -120,6 +120,6 @@ class User extends Authenticatable
      */
     public function hasBookmarkedChirp(Chirp $chirp): bool
     {
-        return $this->chirpBookmarks()->where('chirp_id', $chirp->id)->exists();
+        return $this->chirpBookmarks()->whereBelongsTo($chirp)->exists();
     }
 }
