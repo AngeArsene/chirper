@@ -19,8 +19,6 @@ trait TogglesChirpEngagement
     abstract private function detach(User $user, Chirp $chirp): void;
 
     /**
-     *
-     *
      * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
      */
     private function toggleEngagement(Request $request, Chirp $chirp, User $user): array
@@ -33,10 +31,6 @@ trait TogglesChirpEngagement
     }
 
     /**
-     *
-     *
-     * @param  User  $user
-     * @param  Chirp  $chirp
      * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
      */
     private function attachEngagement(User $user, Chirp $chirp): array
@@ -51,10 +45,6 @@ trait TogglesChirpEngagement
     }
 
     /**
-     *
-     *
-     * @param  Chirp  $chirp
-     * @param  User  $user
      * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
      */
     private function detachEngagement(User $user, Chirp $chirp): array
