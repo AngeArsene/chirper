@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\TogglesChirpEngagement;
+use App\Enums\EngagementType;
 use App\Models\Chirp;
 use App\Models\User;
 use App\Pipelines\WhereUserHasRelation;
@@ -10,11 +12,11 @@ use App\Pipelines\WithChirpAuthor;
 use App\Pipelines\WithEngagementCount;
 use App\Pipelines\WithUserEngagementFlag;
 use Illuminate\Container\Attributes\CurrentUser;
-use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\View\View;
+use Override;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
@@ -22,6 +24,32 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class ChirpBookmarkController extends Controller
 {
+    use TogglesChirpEngagement;
+
+    #[Override]
+    private function type(): EngagementType
+    {
+        return EngagementType::Bookmark;
+    }
+
+    #[Override]
+    private function has(User $user, Chirp $chirp): bool
+    {
+        return $user->hasBookmarkedChirp($chirp);
+    }
+
+    #[Override]
+    private function attach(User $user, Chirp $chirp): void
+    {
+        $user->bookmarkChirp($chirp);
+    }
+
+    #[Override]
+    private function detach(User $user, Chirp $chirp): void
+    {
+        $user->unbookmarkChirp($chirp);
+    }
+
     /**
      * Display the authenticated user's bookmarked chirps with engagement data.
      *
@@ -57,51 +85,6 @@ class ChirpBookmarkController extends Controller
      */
     public function toggle(Request $request, Chirp $chirp, #[CurrentUser] User $user): RedirectResponse
     {
-        /**
-         * @var array{0: 'success'|'error', 1: string} $result
-         */
-        $result = match ($request->method()) {
-            'POST' => $this->bookmark($chirp, $user),
-            'DELETE' => $this->unbookmark($chirp, $user),
-            default => abort(405, 'Method not allowed'),
-        };
-
-        return back()->with(...$result);
-    }
-
-    /**
-     * Create a bookmark for a chirp unless the user already has one.
-     *
-     * @param  Chirp  $chirp  The chirp to bookmark.
-     * @param  User  $user  The user who owns the bookmark.
-     * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
-     */
-    private function bookmark(Chirp $chirp, User $user): array
-    {
-        try {
-            $user->bookmarkChirp($chirp);
-
-            return ['success', 'You bookmarked this chirp.'];
-        } catch (UniqueConstraintViolationException $_e) {
-            return ['error', 'You already bookmarked this chirp.'];
-        }
-    }
-
-    /**
-     * Remove the user's bookmark from a chirp when one exists.
-     *
-     * @param  Chirp  $chirp  The chirp to unbookmark.
-     * @param  User  $user  The user whose bookmark should be removed.
-     * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
-     */
-    private function unbookmark(Chirp $chirp, User $user): array
-    {
-        if (! $user->hasBookmarkedChirp($chirp)) {
-            return ['error', 'You have not bookmarked this chirp yet.'];
-        }
-
-        $user->unbookmarkChirp($chirp);
-
-        return ['success', 'You unbookmarked this chirp.'];
+        return back()->with(...$this->toggleEngagement($request, $chirp, $user));
     }
 }
