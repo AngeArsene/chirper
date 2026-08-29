@@ -22,7 +22,7 @@ class WithEngagementCount
      */
     public function __invoke(Builder $query, Closure $next): Builder
     {
-        $query->withCount($this->engagement->plural());
+        $query->withCount($this->engagement->relation());
 
         return $next($query);
     }

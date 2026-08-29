@@ -24,7 +24,7 @@ class WithUserEngagementFlag
     public function __invoke(Builder $query, Closure $next): Builder
     {
         $query->withExists([
-            "{$this->engagement->plural()} as {$this->engagement->pastTense()}_by_current_user"
+            "{$this->engagement->relation()} as {$this->engagement->pastTense()}_by_current_user"
             => fn($query) => $query->whereBelongsTo(Auth::user()),
         ]);
 

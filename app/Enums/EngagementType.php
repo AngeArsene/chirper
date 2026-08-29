@@ -7,7 +7,7 @@ enum EngagementType: string
     case Like = 'like';
     case Bookmark = 'bookmark';
 
-    public function plural(): string
+    public function relation(): string
     {
         return match ($this) {
             self::Like => 'likes',

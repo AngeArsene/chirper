@@ -23,7 +23,7 @@ class WhereUserHasRelation
      */
     public function __invoke(Builder $query, Closure $next): Builder
     {
-        $query->whereHas($this->engagement->plural(), function ($query) {
+        $query->whereHas($this->engagement->relation(), function ($query) {
             $query->whereBelongsTo(Auth::user());
         });
 
