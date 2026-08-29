@@ -18,24 +18,48 @@ class ChirpLikeController extends Controller
 {
     use TogglesChirpEngagement;
 
+    /**
+     * Returns the engagement type represented by this controller.
+     *
+     * @return EngagementType The like-specific engagement enum value.
+     */
     #[Override]
     private function type(): EngagementType
     {
         return EngagementType::Like;
     }
 
+    /**
+     * Checks whether the user already has a like record for the chirp.
+     *
+     * @param  User  $user  Authenticated user whose engagement state is being inspected.
+     * @param  Chirp  $chirp  Chirp being evaluated.
+     * @return bool True when the user has already liked the chirp; otherwise, false.
+     */
     #[Override]
     private function has(User $user, Chirp $chirp): bool
     {
         return $user->hasLikedChirp($chirp);
     }
 
+    /**
+     * Creates a like relationship between the user and the chirp.
+     *
+     * @param  User  $user  Authenticated user creating the like.
+     * @param  Chirp  $chirp  Chirp that will receive the like.
+     */
     #[Override]
     private function attach(User $user, Chirp $chirp): void
     {
         $user->likeChirp($chirp);
     }
 
+    /**
+     * Removes the like relationship between the user and the chirp.
+     *
+     * @param  User  $user  Authenticated user removing the like.
+     * @param  Chirp  $chirp  Chirp from which the like should be removed.
+     */
     #[Override]
     private function detach(User $user, Chirp $chirp): void
     {
