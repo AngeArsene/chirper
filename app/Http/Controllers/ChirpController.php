@@ -69,8 +69,7 @@ class ChirpController extends Controller
     {
         $user->chirps()->create($request->validated());
 
-        return to_route('chirps.index')
-            ->with('success', 'Your chirp has been posted!');
+        return to_route('chirps.index')->with('success', 'Your chirp has been posted!');
     }
 
     /**

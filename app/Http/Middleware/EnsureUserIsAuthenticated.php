@@ -19,8 +19,9 @@ class EnsureUserIsAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::guest()) {
-            $action = AppRouteNameToAction::tryFrom(Route::currentRouteName())?->label() ??
-                'perform this action on';
+            $action = AppRouteNameToAction::tryFrom(Route::currentRouteName())
+                ?->label()
+                ?? 'perform this action';
 
             return redirect()
                 ->guest(route('auth.sign-in'))
