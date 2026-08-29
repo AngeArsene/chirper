@@ -24,8 +24,8 @@ trait TogglesChirpEngagement
     private function toggleEngagement(Request $request, Chirp $chirp, User $user): array
     {
         return match ($request->method()) {
-            'POST' => $this->attachEngagement($user, $chirp),
-            'DELETE' => $this->detachEngagement($user, $chirp),
+            'POST' => $this->runAttach($user, $chirp),
+            'DELETE' => $this->runDetach($user, $chirp),
             default => abort(405, 'Method not allowed'),
         };
     }
@@ -33,7 +33,7 @@ trait TogglesChirpEngagement
     /**
      * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
      */
-    private function attachEngagement(User $user, Chirp $chirp): array
+    private function runAttach(User $user, Chirp $chirp): array
     {
         try {
             $this->attach($user, $chirp);
@@ -47,7 +47,7 @@ trait TogglesChirpEngagement
     /**
      * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
      */
-    private function detachEngagement(User $user, Chirp $chirp): array
+    private function runDetach(User $user, Chirp $chirp): array
     {
         if (! $this->has($user, $chirp)) {
             return ['error', "You have not {$this->type()->pastTense()} this chirp yet."];
