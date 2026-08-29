@@ -2,6 +2,7 @@
 
 namespace App\Pipelines;
 
+use App\Enums\EngagementType;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -11,7 +12,7 @@ class WithEngagementCount
      * Create a new class instance.
      */
     public function __construct(
-        private string $relation,
+        private EngagementType $engagement,
     ) {
         //
     }
@@ -21,7 +22,7 @@ class WithEngagementCount
      */
     public function __invoke(Builder $query, Closure $next): Builder
     {
-        $query->withCount($this->relation);
+        $query->withCount($this->engagement->plural());
 
         return $next($query);
     }

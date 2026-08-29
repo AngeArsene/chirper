@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\EngagementType;
 use App\Http\Requests\StoreChirpRequest;
 use App\Http\Requests\UpdateChirpRequest;
 use App\Models\Chirp;
@@ -39,10 +40,10 @@ class ChirpController extends Controller
         $chirps = Pipeline::send(Chirp::query())
             ->through([
                 new WithChirpAuthor,
-                new WithEngagementCount('likes'),
+                new WithEngagementCount(EngagementType::Like),
                 ...(Auth::check() ? [
-                    new WithUserEngagementFlag('likes', 'liked'),
-                    new WithUserEngagementFlag('bookmarks', 'bookmarked'),
+                    new WithUserEngagementFlag(EngagementType::Like),
+                    new WithUserEngagementFlag(EngagementType::Bookmark),
                 ] : []),
             ])
             ->thenReturn()

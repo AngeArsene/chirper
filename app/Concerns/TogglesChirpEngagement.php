@@ -38,9 +38,9 @@ trait TogglesChirpEngagement
         try {
             $this->attach($user, $chirp);
 
-            return ['success', "You {$this->type()->pastTenseVerb()} this chirp."];
+            return ['success', "You {$this->type()->pastTense()} this chirp."];
         } catch (UniqueConstraintViolationException) {
-            return ['error', "You already {$this->type()->pastTenseVerb()} this chirp."];
+            return ['error', "You already {$this->type()->pastTense()} this chirp."];
         }
     }
 
@@ -50,11 +50,11 @@ trait TogglesChirpEngagement
     private function detachEngagement(User $user, Chirp $chirp): array
     {
         if (! $this->has($user, $chirp)) {
-            return ['error', "You have not {$this->type()->pastTenseVerb()} this chirp yet."];
+            return ['error', "You have not {$this->type()->pastTense()} this chirp yet."];
         }
 
         $this->detach($user, $chirp);
 
-        return ['success', "You un{$this->type()->pastTenseVerb()} this chirp."];
+        return ['success', "You un{$this->type()->pastTense()} this chirp."];
     }
 }

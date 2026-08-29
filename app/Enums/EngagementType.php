@@ -7,7 +7,15 @@ enum EngagementType: string
     case Like = 'like';
     case Bookmark = 'bookmark';
 
-    public function pastTenseVerb(): string
+    public function plural(): string
+    {
+        return match ($this) {
+            self::Like => 'likes',
+            self::Bookmark => 'bookmarks',
+        };
+    }
+
+    public function pastTense(): string
     {
         return match ($this) {
             self::Like => 'liked',

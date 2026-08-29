@@ -2,6 +2,7 @@
 
 namespace App\Pipelines;
 
+use App\Enums\EngagementType;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ class WhereUserHasRelation
      * Create a new class instance.
      */
     public function __construct(
-        private string $relation,
+        private EngagementType $engagement,
     ) {
         //
     }
@@ -22,7 +23,7 @@ class WhereUserHasRelation
      */
     public function __invoke(Builder $query, Closure $next): Builder
     {
-        $query->whereHas($this->relation, function ($query) {
+        $query->whereHas($this->engagement->plural(), function ($query) {
             $query->whereBelongsTo(Auth::user());
         });
 

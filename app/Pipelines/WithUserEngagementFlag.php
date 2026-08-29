@@ -2,6 +2,7 @@
 
 namespace App\Pipelines;
 
+use App\Enums\EngagementType;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -12,8 +13,7 @@ class WithUserEngagementFlag
      * Create a new class instance.
      */
     public function __construct(
-        private string $relation,
-        private string $pastTenseVerb,
+        private EngagementType $engagement,
     ) {
         //
     }
@@ -24,7 +24,8 @@ class WithUserEngagementFlag
     public function __invoke(Builder $query, Closure $next): Builder
     {
         $query->withExists([
-            "{$this->relation} as {$this->pastTenseVerb}_by_current_user" => fn ($query) => $query->whereBelongsTo(Auth::user()),
+            "{$this->engagement->plural()} as {$this->engagement->pastTense()}_by_current_user"
+            => fn($query) => $query->whereBelongsTo(Auth::user()),
         ]);
 
         return $next($query);
