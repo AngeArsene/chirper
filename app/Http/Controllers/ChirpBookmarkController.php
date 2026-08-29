@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\View\View;
 use Override;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Handles listing, bookmarking, and unbookmarking chirps for authenticated users.
@@ -26,24 +25,48 @@ class ChirpBookmarkController extends Controller
 {
     use TogglesChirpEngagement;
 
+    /**
+     * Returns the engagement type represented by this controller.
+     *
+     * @return EngagementType The bookmark-specific engagement enum value.
+     */
     #[Override]
     private function type(): EngagementType
     {
         return EngagementType::Bookmark;
     }
 
+    /**
+     * Checks whether the user already has a bookmark for the chirp.
+     *
+     * @param  User  $user  Authenticated user whose bookmark state is evaluated.
+     * @param  Chirp  $chirp  Chirp being checked.
+     * @return bool True when the user has already bookmarked the chirp; otherwise, false.
+     */
     #[Override]
     private function has(User $user, Chirp $chirp): bool
     {
         return $user->hasBookmarkedChirp($chirp);
     }
 
+    /**
+     * Creates a bookmark relationship between the user and the chirp.
+     *
+     * @param  User  $user  Authenticated user creating the bookmark.
+     * @param  Chirp  $chirp  Chirp that receives the bookmark.
+     */
     #[Override]
     private function attach(User $user, Chirp $chirp): void
     {
         $user->bookmarkChirp($chirp);
     }
 
+    /**
+     * Removes the bookmark relationship between the user and the chirp.
+     *
+     * @param  User  $user  Authenticated user removing the bookmark.
+     * @param  Chirp  $chirp  Chirp from which the bookmark should be removed.
+     */
     #[Override]
     private function detach(User $user, Chirp $chirp): void
     {
@@ -51,9 +74,9 @@ class ChirpBookmarkController extends Controller
     }
 
     /**
-     * Display the authenticated user's bookmarked chirps with engagement data.
+     * Lists the authenticated user's bookmarked chirps with author and engagement metadata.
      *
-     * @return View The rendered bookmarked chirps view.
+     * @return View The rendered view containing the paginated bookmarks list.
      */
     public function index(): View
     {
@@ -80,8 +103,6 @@ class ChirpBookmarkController extends Controller
      * @param  Chirp  $chirp  The chirp to bookmark or unbookmark, resolved from the route.
      * @param  User  $user  The currently authenticated user.
      * @return RedirectResponse A redirect back to the previous page with an operation result message.
-     *
-     * @throws HttpException If the request method is not POST or DELETE.
      */
     public function toggle(Request $request, Chirp $chirp, #[CurrentUser] User $user): RedirectResponse
     {
