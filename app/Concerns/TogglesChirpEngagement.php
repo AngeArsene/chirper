@@ -7,19 +7,55 @@ use App\Models\Chirp;
 use App\Models\User;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
+/**
+ * Provides the shared request-to-flash-message flow for chirp engagement toggles.
+ *
+ * The trait centralizes the POST/DELETE decision tree so engagement
+ * controllers can share the same semantics while remaining type-specific.
+ */
 trait TogglesChirpEngagement
 {
+    /**
+     * Returns the engagement type handled by the concrete controller.
+     *
+     * @return EngagementType The specific engagement variant such as a like or bookmark.
+     */
     abstract private function type(): EngagementType;
 
+    /**
+     * Checks whether the current user already has the engagement for the chirp.
+     *
+     * @param  User  $user  Authenticated user whose engagement state is being checked.
+     * @param  Chirp  $chirp  Chirp under evaluation.
+     * @return bool True when the engagement already exists; otherwise, false.
+     */
     abstract private function has(User $user, Chirp $chirp): bool;
 
+    /**
+     * Persists a new engagement record for the user and chirp.
+     *
+     * @param  User  $user  Authenticated user creating the engagement.
+     * @param  Chirp  $chirp  Chirp receiving the engagement.
+     */
     abstract private function attach(User $user, Chirp $chirp): void;
 
+    /**
+     * Removes the engagement record between the user and the chirp.
+     *
+     * @param  User  $user  Authenticated user removing the engagement.
+     * @param  Chirp  $chirp  Chirp from which the engagement should be removed.
+     */
     abstract private function detach(User $user, Chirp $chirp): void;
 
     /**
-     * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
+     * Routes the request method to the appropriate engagement action.
+     *
+     * @param  Request  $request  Incoming HTTP request containing the verb that determines the action.
+     * @param  Chirp  $chirp  Chirp being acted on.
+     * @param  User  $user  Authenticated user performing the action.
+     * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
      */
     private function toggleEngagement(Request $request, Chirp $chirp, User $user): array
     {
@@ -31,7 +67,11 @@ trait TogglesChirpEngagement
     }
 
     /**
-     * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
+     * Attempts to attach an engagement and translates duplicate inserts into a friendly flash message.
+     *
+     * @param  User  $user  Authenticated user creating the engagement.
+     * @param  Chirp  $chirp  Chirp receiving the engagement.
+     * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
      */
     private function runAttach(User $user, Chirp $chirp): array
     {
@@ -45,7 +85,11 @@ trait TogglesChirpEngagement
     }
 
     /**
-     * @return array{0: 'success'|'error', 1: string} A flash-message key and its user-facing message.
+     * Removes an engagement only when it exists and returns a human-readable result for the UI.
+     *
+     * @param  User  $user  Authenticated user removing the engagement.
+     * @param  Chirp  $chirp  Chirp from which the engagement should be removed.
+     * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
      */
     private function runDetach(User $user, Chirp $chirp): array
     {
