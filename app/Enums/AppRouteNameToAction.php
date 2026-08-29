@@ -21,7 +21,7 @@ enum AppRouteNameToAction: string
             self::SignUp => 'register',
             self::SignIn => 'login',
 
-            self::Like => 'like or unlike a chirp',
+            self::Like => 'like a chirp',
             self::Edit => 'edit a chirp',
             self::Store => 'create a chirp',
             self::Update => 'update a chirp',
