@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserAndChirpSeeder::class,
             ChirpLikeSeeder::class,
             ChirpBookmarkSeeder::class,
+            ChirpCommentSeeder::class,
         ]);
     }
 }
