@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Chirp;
 use App\Models\ChirpComment;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ChirpCommentSeeder extends Seeder

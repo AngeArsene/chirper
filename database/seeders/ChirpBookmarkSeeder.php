@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Chirp;
+use App\Models\ChirpBookmark;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -24,9 +25,12 @@ class ChirpBookmarkSeeder extends Seeder
 
             $randomUsers = $users->random($count);
 
-            $randomUsers->each(function (User $randomUser) use ($chirp) {
-                $randomUser->chirpBookmarks()->create(['chirp_id' => $chirp->id]);
-            });
+            $randomUsers->each(
+                fn(User $randomUser) => ChirpBookmark::factory()
+                    ->for($randomUser)
+                    ->for($chirp)
+                    ->create()
+            );
         });
     }
 }
