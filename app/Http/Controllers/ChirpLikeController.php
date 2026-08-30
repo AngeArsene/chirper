@@ -38,7 +38,7 @@ class ChirpLikeController extends Controller
     #[Override]
     private function attach(User $user, Chirp $chirp): void
     {
-        $user->likeChirp($chirp);
+        $user->chirpLikes()->create(['chirp_id' => $chirp->id]);
     }
 
     /**
@@ -50,7 +50,7 @@ class ChirpLikeController extends Controller
     #[Override]
     private function detach(User $user, Chirp $chirp): void
     {
-        $user->unlikeChirp($chirp);
+        $user->chirpLikes()->whereBelongsTo($chirp)->delete();
     }
 
     /**

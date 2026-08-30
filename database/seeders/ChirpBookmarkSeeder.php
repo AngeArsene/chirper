@@ -25,7 +25,7 @@ class ChirpBookmarkSeeder extends Seeder
             $randomUsers = $users->random($count);
 
             $randomUsers->each(function (User $randomUser) use ($chirp) {
-                $randomUser->bookmarkChirp($chirp);
+                $randomUser->chirpBookmarks()->create(['chirp_id' => $chirp->id]);
             });
         });
     }

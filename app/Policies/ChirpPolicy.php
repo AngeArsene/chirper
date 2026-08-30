@@ -65,7 +65,7 @@ class ChirpPolicy
      */
     public function like(User $user, Chirp $chirp): bool
     {
-        return ! $user->hasLikedChirp($chirp);
+        return ! $user->chirpLikes()->whereBelongsTo($chirp)->exists();
     }
 
     /**
@@ -77,6 +77,6 @@ class ChirpPolicy
      */
     public function bookmark(User $user, Chirp $chirp): bool
     {
-        return ! $user->hasBookmarkedChirp($chirp);
+        return ! $user->chirpBookmarks()->whereBelongsTo($chirp)->exists();
     }
 }

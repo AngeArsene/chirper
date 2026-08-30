@@ -66,30 +66,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Like a chirp.
-     */
-    public function likeChirp(Chirp $chirp): void
-    {
-        $this->chirpLikes()->create(['chirp_id' => $chirp->id]);
-    }
-
-    /**
-     * Unlike a chirp.
-     */
-    public function unlikeChirp(Chirp $chirp): void
-    {
-        $this->chirpLikes()->whereBelongsTo($chirp)->delete();
-    }
-
-    /**
-     * Check if the user has liked a chirp.
-     */
-    public function hasLikedChirp(Chirp $chirp): bool
-    {
-        return $this->chirpLikes()->whereBelongsTo($chirp)->exists();
-    }
-
-    /**
      * Get the chirp bookmarks by user.
      *
      * @return HasMany<ChirpBookmark>
@@ -97,29 +73,5 @@ class User extends Authenticatable
     public function chirpBookmarks(): HasMany
     {
         return $this->hasMany(ChirpBookmark::class);
-    }
-
-    /**
-     * Bookmark a chirp.
-     */
-    public function bookmarkChirp(Chirp $chirp): void
-    {
-        $this->chirpBookmarks()->create(['chirp_id' => $chirp->id]);
-    }
-
-    /**
-     * Unbookmark a chirp.
-     */
-    public function unbookmarkChirp(Chirp $chirp): void
-    {
-        $this->chirpBookmarks()->whereBelongsTo($chirp)->delete();
-    }
-
-    /**
-     * Check if the user has bookmarked a chirp.
-     */
-    public function hasBookmarkedChirp(Chirp $chirp): bool
-    {
-        return $this->chirpBookmarks()->whereBelongsTo($chirp)->exists();
     }
 }

@@ -45,7 +45,7 @@ class ChirpBookmarkController extends Controller
     #[Override]
     private function attach(User $user, Chirp $chirp): void
     {
-        $user->bookmarkChirp($chirp);
+        $user->chirpBookmarks()->create(['chirp_id' => $chirp->id]);
     }
 
     /**
@@ -57,7 +57,7 @@ class ChirpBookmarkController extends Controller
     #[Override]
     private function detach(User $user, Chirp $chirp): void
     {
-        $user->unbookmarkChirp($chirp);
+        $user->chirpBookmarks()->whereBelongsTo($chirp)->delete();
     }
 
     /**
