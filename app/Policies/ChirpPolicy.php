@@ -77,6 +77,6 @@ class ChirpPolicy
      */
     public function bookmark(User $user, Chirp $chirp): bool
     {
-        return $user->hasBookmarkedChirp($chirp);
+        return ! $user->hasBookmarkedChirp($chirp);
     }
 }

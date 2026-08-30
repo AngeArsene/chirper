@@ -7,7 +7,6 @@ use App\Models\Chirp;
 use App\Models\User;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 /**
  * Provides the shared request-to-flash-message flow for chirp engagement toggles.
