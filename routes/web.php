@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChirpBookmarkController;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ChirpLikeController;
+use App\Models\ChirpComment;
 use Illuminate\Support\Facades\Route;
 
 // Home page route
@@ -32,3 +33,8 @@ Route::middleware('auth.only')
             ->name('bookmark')
             ->middleware('throttle:16,1');
     });
+
+// Chirp comments routes
+Route::resource('chirps.comments', ChirpComment::class)
+    ->except(['create', 'show'])
+    ->middleware('auth.only');
