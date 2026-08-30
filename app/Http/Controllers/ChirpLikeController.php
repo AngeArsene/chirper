@@ -30,19 +30,6 @@ class ChirpLikeController extends Controller
     }
 
     /**
-     * Checks whether the user already has a like record for the chirp.
-     *
-     * @param  User  $user  Authenticated user whose engagement state is being inspected.
-     * @param  Chirp  $chirp  Chirp being evaluated.
-     * @return bool True when the user has already liked the chirp; otherwise, false.
-     */
-    #[Override]
-    private function has(User $user, Chirp $chirp): bool
-    {
-        return $user->hasLikedChirp($chirp);
-    }
-
-    /**
      * Creates a like relationship between the user and the chirp.
      *
      * @param  User  $user  Authenticated user creating the like.

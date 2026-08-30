@@ -37,19 +37,6 @@ class ChirpBookmarkController extends Controller
     }
 
     /**
-     * Checks whether the user already has a bookmark for the chirp.
-     *
-     * @param  User  $user  Authenticated user whose bookmark state is evaluated.
-     * @param  Chirp  $chirp  Chirp being checked.
-     * @return bool True when the user has already bookmarked the chirp; otherwise, false.
-     */
-    #[Override]
-    private function has(User $user, Chirp $chirp): bool
-    {
-        return $user->hasBookmarkedChirp($chirp);
-    }
-
-    /**
      * Creates a bookmark relationship between the user and the chirp.
      *
      * @param  User  $user  Authenticated user creating the bookmark.

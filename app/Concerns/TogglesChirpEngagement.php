@@ -25,15 +25,6 @@ trait TogglesChirpEngagement
     abstract private function type(): EngagementType;
 
     /**
-     * Checks whether the current user already has the engagement for the chirp.
-     *
-     * @param  User  $user  Authenticated user whose engagement state is being checked.
-     * @param  Chirp  $chirp  Chirp under evaluation.
-     * @return bool True when the engagement already exists; otherwise, false.
-     */
-    abstract private function has(User $user, Chirp $chirp): bool;
-
-    /**
      * Persists a new engagement record for the user and chirp.
      *
      * @param  User  $user  Authenticated user creating the engagement.
@@ -93,7 +84,7 @@ trait TogglesChirpEngagement
      */
     private function runDetach(User $user, Chirp $chirp): array
     {
-        if (! $this->has($user, $chirp)) {
+        if ($user->can($this->type()->value, $chirp)) {
             return ['error', "You have not {$this->type()->pastTense()} this chirp yet."];
         }
 
