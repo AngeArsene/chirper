@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'chirp_id', 'message'])]
+#[Fillable(['user_id', 'chirp_id', 'message', 'idempotency_key'])]
 class ChirpComment extends Model
 {
     /** @use HasFactory<\Database\Factories\ChirpCommentFactory> */
