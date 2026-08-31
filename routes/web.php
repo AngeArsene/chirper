@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\ChirpBookmarkController;
+use App\Http\Controllers\ChirpCommentController;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ChirpLikeController;
-use App\Models\ChirpComment;
 use Illuminate\Support\Facades\Route;
 
 // Home page route
@@ -35,6 +35,6 @@ Route::middleware('auth.only')
     });
 
 // Chirp comments routes
-Route::resource('chirps.comments', ChirpComment::class)
+Route::resource('chirps.comments', ChirpCommentController::class)
     ->except(['create', 'show'])
     ->middleware('auth.only');
