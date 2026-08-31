@@ -41,6 +41,7 @@ class ChirpController extends Controller
             ->through([
                 new WithChirpAuthor,
                 new WithEngagementCount(EngagementType::Like),
+                new WithEngagementCount(EngagementType::Comment),
                 ...(Auth::check() ? [
                     new WithUserEngagementFlag(EngagementType::Like),
                     new WithUserEngagementFlag(EngagementType::Bookmark),

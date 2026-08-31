@@ -72,6 +72,7 @@ class ChirpBookmarkController extends Controller
                 new WithChirpAuthor,
                 new WithBookmarkedAtColumn,
                 new WithEngagementCount(EngagementType::Like),
+                new WithEngagementCount(EngagementType::Comment),
                 new WithUserEngagementFlag(EngagementType::Like),
                 new WhereUserHasRelation(EngagementType::Bookmark),
                 new WithUserEngagementFlag(EngagementType::Bookmark),
