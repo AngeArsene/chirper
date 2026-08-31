@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Contracts\Messageable;
 use App\Models\Chirp;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -19,9 +20,9 @@ class BookmarkButton extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public Chirp $chirp,
+        public Messageable $message,
     ) {
-        $this->isBookmarked = $chirp->bookmarked_by_current_user;
+        $this->isBookmarked = $this->message->bookmarked_by_current_user;
         $this->method = $this->isBookmarked ? 'DELETE' : 'POST';
         $this->textColor = $this->isBookmarked ? 'text-primary' : 'text-base-content/60 hover:text-primary';
     }

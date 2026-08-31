@@ -3,28 +3,22 @@
 namespace App\View\Components;
 
 use App\Contracts\Messageable;
+use App\Enums\MessageableType;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class LikeButton extends Component
+class Message extends Component
 {
-    public bool $isLiked;
-
-    public string $method;
-
-    public string $textColor;
-
     /**
      * Create a new component instance.
      */
     public function __construct(
         public Messageable $message,
+        public MessageableType $for,
         public string $baseRouteName,
     ) {
-        $this->isLiked = $this->message->liked_by_current_user ?? false;
-        $this->method = $this->isLiked ? 'DELETE' : 'POST';
-        $this->textColor = $this->isLiked ? 'text-error' : 'text-base-content/60 hover:text-error';
+        //
     }
 
     /**
@@ -32,6 +26,6 @@ class LikeButton extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.like-button');
+        return view('components.message');
     }
 }

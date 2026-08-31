@@ -8,7 +8,12 @@
 
         <div class="space-y-4 mt-8">
 
-            <x-feed :chirps=$chirps />
+            <x-feed
+                :messages="$chirps"
+                :for="\App\Enums\MessageableType::Chirp"
+                baseRouteName="chirps"
+                emptyStateMessage="No chirps yet — be the first to share something."
+            />
 
         </div>
     </div>

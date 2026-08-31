@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('chirps.like', $chirp) }}">
+<form method="POST" action="{{ route("$baseRouteName.like", $message) }}">
     @csrf
     @method($method)
 
@@ -8,6 +8,6 @@
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 14c1.5-1.5 3-3.34 3-5.5A5.5 5.5 0 0 0 12 5a5.5 5.5 0 0 0-10 3.5c0 2.16 1.5 4 3 5.5l7 7z" />
         </svg>
-        <span class="text-xs font-medium tabular-nums">{{ $chirp->likes_count }}</span>
+        <span class="text-xs font-medium tabular-nums">{{ $message->likes_count }}</span>
     </button>
 </form>
