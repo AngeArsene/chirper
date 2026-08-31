@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\Messageable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property-read User $user
  */
 #[Fillable(['message', 'idempotency_key'])]
-class Chirp extends Model
+class Chirp extends Model implements Messageable
 {
     /**
      * Get the user that owns the chirp.
