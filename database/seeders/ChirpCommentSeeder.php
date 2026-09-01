@@ -23,10 +23,10 @@ class ChirpCommentSeeder extends Seeder
                 return;
             }
 
-            $randomUsers = collect()->times($count, fn() => $users->random());
+            $randomUsers = collect()->times($count, fn () => $users->random());
 
             $randomUsers->each(
-                fn(User $randomUser) => ChirpComment::factory()
+                fn (User $randomUser) => ChirpComment::factory()
                     ->for($chirp)
                     ->for($randomUser)
                     ->create()

@@ -26,7 +26,7 @@ class ChirpLikeSeeder extends Seeder
             $randomUsers = $users->random($count);
 
             $randomUsers->each(
-                fn(User $randomUser) => ChirpLike::factory()
+                fn (User $randomUser) => ChirpLike::factory()
                     ->for($randomUser)
                     ->for($chirp)
                     ->create()
