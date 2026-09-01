@@ -71,11 +71,9 @@ class ChirpBookmarkController extends Controller
             ->through([
                 new WithChirpAuthor,
                 new WithBookmarkedAtColumn,
-                new WithEngagementCount(EngagementType::Like),
-                new WithEngagementCount(EngagementType::Comment),
-                new WithUserEngagementFlag(EngagementType::Like),
                 new WhereUserHasRelation(EngagementType::Bookmark),
-                new WithUserEngagementFlag(EngagementType::Bookmark),
+                new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
+                new WithUserEngagementFlag(EngagementType::Like, EngagementType::Bookmark),
             ])
             ->thenReturn()
             ->latest('bookmarked_at')

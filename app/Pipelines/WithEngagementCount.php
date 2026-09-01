@@ -5,16 +5,21 @@ namespace App\Pipelines;
 use App\Enums\EngagementType;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
+use InvalidArgumentException;
 
 class WithEngagementCount
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct(
-        private EngagementType $engagement,
-    ) {
-        //
+    private array $engagements;
+
+    public function __construct(EngagementType ...$engagements)
+    {
+        if (empty($engagements)) {
+            throw new InvalidArgumentException(
+                'At least one EngagementType must be provided to '.static::class.'.'
+            );
+        }
+
+        $this->engagements = $engagements;
     }
 
     /**
@@ -22,7 +27,7 @@ class WithEngagementCount
      */
     public function __invoke(Builder $query, Closure $next): Builder
     {
-        $query->withCount($this->engagement->relation());
+        $query->withCount(array_map(fn ($engagement) => $engagement->relation(), $this->engagements));
 
         return $next($query);
     }
