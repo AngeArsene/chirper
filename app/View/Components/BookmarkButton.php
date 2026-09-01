@@ -3,7 +3,6 @@
 namespace App\View\Components;
 
 use App\Contracts\Messageable;
-use App\Models\Chirp;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;

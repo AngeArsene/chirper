@@ -2,13 +2,17 @@
 
 <x-layouts.main>
     <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold mt-8">{{ __('Comments') }}</h1>
+        <h1 class="text-3xl font-bold mt-8">{{ __('Comments for : ') }}</h1>
 
-        <x-message
-            :message="$chirp"
-            :for="\App\Enums\MessageableType::Chirp"
-            base_route_name="chirps"
-        />
+        <div class="card bg-base-100 shadow mt-8">
+            <x-message
+                :message="$chirp"
+                :for="\App\Enums\MessageableType::Chirp"
+                baseRouteName="chirps"
+            />
+        </div>
+
+        <div class="divider">{{ __('Comments Feed : ') }}</div>
 
         <div class="space-y-4 mt-8">
 

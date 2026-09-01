@@ -1,7 +1,7 @@
 @props(['chirps'])
 
 <x-layouts.main>
-     <div class="max-w-2xl mx-auto">
+    <div class="max-w-2xl mx-auto">
         <h1 class="text-3xl font-bold mt-8">{{ __('Latest Chirps') }}</h1>
 
         <x-chirp-form />
