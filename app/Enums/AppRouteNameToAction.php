@@ -8,6 +8,8 @@ enum AppRouteNameToAction: string
     case SignIn = 'auth.sign-in';
 
     case Like = 'chirps.like';
+    case Comment = 'chirps.comments.index';
+
     case Edit = 'chirps.edit';
     case Store = 'chirps.store';
     case Update = 'chirps.update';
@@ -22,6 +24,8 @@ enum AppRouteNameToAction: string
             self::SignIn => 'login',
 
             self::Like => 'like a chirp',
+            self::Comment => 'comment on a chirp',
+
             self::Edit => 'edit a chirp',
             self::Store => 'create a chirp',
             self::Update => 'update a chirp',
