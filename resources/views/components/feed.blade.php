@@ -1,8 +1,9 @@
 @forelse ($messages as $massage)
     <x-message
         :message="$massage"
-        :for="\App\Enums\MessageableType::Chirp"
-        baseRouteName="chirps"
+        :for="$for"
+        :baseRouteName="$baseRouteName"
+        :parent="$parent"
     />
 @empty
     <x-empty-state :message="$emptyStateMessage" />

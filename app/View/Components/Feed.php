@@ -20,6 +20,7 @@ class Feed extends Component
         public MessageableType $for,
         public string $baseRouteName,
         public string $emptyStateMessage,
+        public ?Messageable $parent = null,
     ) {
         //
     }

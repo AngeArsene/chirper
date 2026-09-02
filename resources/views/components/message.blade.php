@@ -33,13 +33,13 @@
 
                     <div class="flex gap-1">
                         @can('update', $message)
-                            <a href="{{ route("$baseRouteName.edit", $message) }}" class="btn btn-ghost btn-xs">
+                            <a href="{{ $editRouteName }}" class="btn btn-ghost btn-xs">
                                 {{ __('Edit') }}
                             </a>
                         @endcan
 
                         @can('delete', $message)
-                            <form method="POST" action="{{ route("$baseRouteName.destroy", $message) }}">
+                            <form method="POST" action="{{ $deleteRouteName }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
