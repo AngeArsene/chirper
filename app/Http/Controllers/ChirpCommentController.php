@@ -61,24 +61,37 @@ class ChirpCommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ChirpComment $chirpComment)
+    public function edit(Chirp $chirp, ChirpComment $comment)
     {
-        //
+        $this->authorize('update', $comment);
+
+        return $this->resolve_view(compact('chirp', 'comment'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateChirpCommentRequest $request, ChirpComment $chirpComment)
+    public function update(UpdateChirpCommentRequest $request, Chirp $chirp, ChirpComment $comment)
     {
-        //
+        $comment->update($request->validated());
+
+        return redirect()->route('chirps.comments.index', $chirp)->with('success', 'Comment updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ChirpComment $chirpComment)
+    public function destroy(Chirp $chirp, ChirpComment $comment): RedirectResponse
     {
-        //
+        $this->authorize('delete', $comment);
+
+        $comment->delete();
+
+        return back()->with('success', 'Comment deleted successfully.');
+    }
+
+    public function like()
+    {
+        // to be implemented
     }
 }
