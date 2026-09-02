@@ -6,8 +6,10 @@
         <x-comment-button :message="$message" />
     @endisset
 
-    {{-- Like --}}
-    <x-like-button :message="$message" :baseRouteName="$baseRouteName" />
+    @isset($message->likes_count)
+        {{-- Like --}}
+        <x-like-button :message="$message" :baseRouteName="$baseRouteName" />
+    @endisset
 
     @isset($message->bookmarked_by_current_user)
         {{-- Bookmark --}}
