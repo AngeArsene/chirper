@@ -27,6 +27,7 @@
                 :for="\App\Enums\MessageableType::Comment"
                 baseRouteName="chirps.comments"
                 emptyStateMessage="No comments yet — be the first to share what you think"
+                :parent="$chirp"
             />
 
         </div>
