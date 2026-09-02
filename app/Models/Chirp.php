@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
+ * Represents a short user-authored message published to the timeline.
+ *
  * @property-read int $id
  * @property-read string $message
  * @property-read string|null $idempotency_key
@@ -23,7 +25,7 @@ class Chirp extends Model implements Messageable
     /**
      * Get the user that owns the chirp.
      *
-     * @return BelongsTo<User>
+     * @return BelongsTo<User, $this> The user who authored the chirp.
      */
     public function user(): BelongsTo
     {
@@ -33,7 +35,7 @@ class Chirp extends Model implements Messageable
     /**
      * Get the chirp likes owned by the chirp.
      *
-     * @return HasMany<ChirpLike>
+     * @return HasMany<ChirpLike, $this>
      */
     public function likes(): HasMany
     {
@@ -43,13 +45,18 @@ class Chirp extends Model implements Messageable
     /**
      * Get the bookmarks belonging to this chirp.
      *
-     * @return HasMany<ChirpBookmark>
+     * @return HasMany<ChirpBookmark, $this>
      */
     public function bookmarks(): HasMany
     {
         return $this->hasMany(ChirpBookmark::class);
     }
 
+    /**
+     * Resolve the comments attached to the chirp.
+     *
+     * @return HasMany<ChirpComment, $this>
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(ChirpComment::class);
