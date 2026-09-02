@@ -1,12 +1,12 @@
 <div class="card bg-base-100 shadow mt-8">
     <div class="card-body">
-        <form method="POST" action="{{ route('chirps.store') }}">
+        <form method="POST" action="{{ $actionRoute }}">
             @csrf
             @method('POST')
             <div class="form-control w-full">
                 <textarea
                     name="message"
-                    placeholder="What's on your mind?"
+                    placeholder="{{ __($for->placeholder()) }}"
                     class="textarea textarea-bordered w-full resize-none @error('message') textarea-error @enderror"
                     rows="4"
                     maxLength="255"
@@ -36,7 +36,7 @@
                 @enderror
 
                 <button type="submit" class="btn btn-primary btn-sm ml-auto">
-                    {{ __('Chirp') }}
+                    {{ __($for->value) }}
                 </button>
             </div>
         </form>
