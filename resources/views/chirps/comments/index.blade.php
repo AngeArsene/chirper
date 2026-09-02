@@ -12,6 +12,12 @@
             />
         </div>
 
+        <x-message-form
+            :for="\App\Enums\MessageableType::Comment"
+            baseRouteName="chirps.comments"
+            :parent="$chirp"
+        />
+
         <div class="divider">{{ __('Comments Feed : ') }}</div>
 
         <div class="space-y-4 mt-8">
