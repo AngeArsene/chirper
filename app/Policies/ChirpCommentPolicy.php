@@ -56,4 +56,16 @@ class ChirpCommentPolicy
     {
         return $chirpComment->user->is($user);
     }
+
+    /**
+     * Allow a user to like a comment if they haven't already.
+     *
+     * @param User $user The authenticated user attempting to like the comment.
+     * @param ChirpComment $chirpComment The comment being liked.
+     * @return bool True when the user has not previously liked the comment.
+     */
+    public function like(User $user, ChirpComment $chirpComment): bool
+    {
+        return ! $user->chirpCommentLikes()->whereBelongsTo($chirpComment)->exists();
+    }
 }
