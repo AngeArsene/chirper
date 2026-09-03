@@ -24,7 +24,7 @@ class ChirpCommentLikeSeeder extends Seeder
             }
 
             $users->random($count)->each(
-                fn(User $randomUser) => ChirpCommentLike::factory()
+                fn (User $randomUser) => ChirpCommentLike::factory()
                     ->for($randomUser)
                     ->for($comment)
                     ->create()

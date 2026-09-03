@@ -11,6 +11,7 @@ use Illuminate\View\Component;
 class Message extends Component
 {
     public string $editRouteName;
+
     public string $deleteRouteName;
 
     /**

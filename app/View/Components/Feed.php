@@ -3,7 +3,6 @@
 namespace App\View\Components;
 
 use App\Contracts\Messageable;
-use App\Enums\MessageableType;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\AbstractPaginator;

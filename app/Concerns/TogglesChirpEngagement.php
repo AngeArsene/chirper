@@ -27,7 +27,7 @@ trait TogglesChirpEngagement
      * Persists a new engagement record for the user and message.
      *
      * @param  User  $user  Authenticated user creating the engagement.
-     * @param  Messageable  $message Message receiving the engagement.
+     * @param  Messageable  $message  Message receiving the engagement.
      */
     abstract private function attach(User $user, Messageable $message): void;
 
@@ -35,7 +35,7 @@ trait TogglesChirpEngagement
      * Removes the engagement record between the user and the chirp.
      *
      * @param  User  $user  Authenticated user removing the engagement.
-     * @param  Messageable  $message Message from which the engagement should be removed.
+     * @param  Messageable  $message  Message from which the engagement should be removed.
      */
     abstract private function detach(User $user, Messageable $message): void;
 
@@ -60,7 +60,7 @@ trait TogglesChirpEngagement
      * Attempts to attach an engagement and translates duplicate inserts into a friendly flash message.
      *
      * @param  User  $user  Authenticated user creating the engagement.
-     * @param  Messageable  $message Message receiving the engagement.
+     * @param  Messageable  $message  Message receiving the engagement.
      * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
      */
     private function runAttach(User $user, Messageable $message): array

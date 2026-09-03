@@ -11,7 +11,7 @@ use Illuminate\View\Component;
 class LikeButton extends Component
 {
     /**
-     * @var Messageable|array<Messageable> $actionArgs
+     * @var Messageable|array<Messageable>
      */
     public Messageable|array $actionArgs;
 
@@ -20,7 +20,6 @@ class LikeButton extends Component
     public string $method;
 
     public string $textColor;
-
 
     /**
      * Create a new component instance.

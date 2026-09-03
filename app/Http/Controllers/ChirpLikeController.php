@@ -34,7 +34,7 @@ class ChirpLikeController extends Controller
      * Creates a like relationship between the user and the chirp.
      *
      * @param  User  $user  Authenticated user creating the like.
-     * @param  Messageable $message Chirp that will receive the like.
+     * @param  Messageable  $message  Chirp that will receive the like.
      */
     #[Override]
     private function attach(User $user, Messageable $message): void

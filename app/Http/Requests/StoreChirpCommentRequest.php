@@ -13,7 +13,7 @@ class StoreChirpCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->can('create', ChirpComment::class) ?? false;;
+        return $this->user()?->can('create', ChirpComment::class) ?? false;
     }
 
     /**

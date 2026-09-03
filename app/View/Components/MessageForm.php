@@ -11,6 +11,7 @@ use Illuminate\View\Component;
 class MessageForm extends Component
 {
     public string $actionRoute;
+
     /**
      * Create a new component instance.
      */
