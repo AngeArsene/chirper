@@ -17,7 +17,6 @@ class Feed extends Component
      */
     public function __construct(
         public Collection|AbstractPaginator $messages,
-        public MessageableType $for,
         public string $baseRouteName,
         public string $emptyStateMessage,
         public ?Messageable $parent = null,

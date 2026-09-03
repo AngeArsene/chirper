@@ -18,16 +18,15 @@ class Message extends Component
      */
     public function __construct(
         public Messageable $message,
-        public MessageableType $for,
         public string $baseRouteName,
         public ?Messageable $parent = null,
     ) {
-        $this->editRouteName = match ($this->for) {
+        $this->editRouteName = match ($this->message->type()) {
             MessageableType::Chirp => route("{$this->baseRouteName}.edit", $this->message),
             MessageableType::Comment => route("{$this->baseRouteName}.edit", [$this->parent, $this->message]),
         };
 
-        $this->deleteRouteName = match ($this->for) {
+        $this->deleteRouteName = match ($this->message->type()) {
             MessageableType::Chirp => route("{$this->baseRouteName}.destroy", $this->message),
             MessageableType::Comment => route("{$this->baseRouteName}.destroy", [$this->parent, $this->message]),
         };

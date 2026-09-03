@@ -1,7 +1,6 @@
 @forelse ($messages as $massage)
     <x-message
         :message="$massage"
-        :for="$for"
         :baseRouteName="$baseRouteName"
         :parent="$parent"
     />

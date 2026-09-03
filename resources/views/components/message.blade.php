@@ -43,7 +43,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                    onclick="return confirm('Are you sure you want to delete this {{ $for->value }}?')"
+                                    onclick="return confirm('Are you sure you want to delete this {{ $message->type()->value }}?')"
                                     class="btn btn-ghost btn-xs text-error">
                                     {{ __('Delete') }}
                                 </button>
