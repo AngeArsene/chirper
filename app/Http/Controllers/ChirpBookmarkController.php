@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Concerns\TogglesChirpEngagement;
+use App\Contracts\Messageable;
 use App\Enums\EngagementType;
 use App\Models\Chirp;
 use App\Models\User;
@@ -40,24 +41,24 @@ class ChirpBookmarkController extends Controller
      * Creates a bookmark relationship between the user and the chirp.
      *
      * @param  User  $user  Authenticated user creating the bookmark.
-     * @param  Chirp  $chirp  Chirp that receives the bookmark.
+     * @param  Messageable  $message  Chirp that receives the bookmark.
      */
     #[Override]
-    private function attach(User $user, Chirp $chirp): void
+    private function attach(User $user, Messageable $message): void
     {
-        $user->chirpBookmarks()->create(['chirp_id' => $chirp->id]);
+        $user->chirpBookmarks()->create(['chirp_id' => $message->id]);
     }
 
     /**
      * Removes the bookmark relationship between the user and the chirp.
      *
      * @param  User  $user  Authenticated user removing the bookmark.
-     * @param  Chirp  $chirp  Chirp from which the bookmark should be removed.
+     * @param  Messageable  $message  Chirp from which the bookmark should be removed.
      */
     #[Override]
-    private function detach(User $user, Chirp $chirp): void
+    private function detach(User $user, Messageable $message): void
     {
-        $user->chirpBookmarks()->whereBelongsTo($chirp)->delete();
+        $user->chirpBookmarks()->whereBelongsTo($message)->delete();
     }
 
     /**

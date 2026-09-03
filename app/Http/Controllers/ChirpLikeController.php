@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Concerns\TogglesChirpEngagement;
+use App\Contracts\Messageable;
 use App\Enums\EngagementType;
 use App\Models\Chirp;
 use App\Models\User;
@@ -33,24 +34,24 @@ class ChirpLikeController extends Controller
      * Creates a like relationship between the user and the chirp.
      *
      * @param  User  $user  Authenticated user creating the like.
-     * @param  Chirp  $chirp  Chirp that will receive the like.
+     * @param  Messageable $message Chirp that will receive the like.
      */
     #[Override]
-    private function attach(User $user, Chirp $chirp): void
+    private function attach(User $user, Messageable $message): void
     {
-        $user->chirpLikes()->create(['chirp_id' => $chirp->id]);
+        $user->chirpLikes()->create(['chirp_id' => $message->id]);
     }
 
     /**
      * Removes the like relationship between the user and the chirp.
      *
      * @param  User  $user  Authenticated user removing the like.
-     * @param  Chirp  $chirp  Chirp from which the like should be removed.
+     * @param  Messageable  $message  Chirp from which the like should be removed.
      */
     #[Override]
-    private function detach(User $user, Chirp $chirp): void
+    private function detach(User $user, Messageable $message): void
     {
-        $user->chirpLikes()->whereBelongsTo($chirp)->delete();
+        $user->chirpLikes()->whereBelongsTo($message)->delete();
     }
 
     /**
