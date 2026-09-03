@@ -13,7 +13,6 @@
 
             <x-feed
                 :messages="$chirps"
-                :for="\App\Enums\MessageableType::Chirp"
                 baseRouteName="chirps"
                 emptyStateMessage="No chirps yet — be the first to share something."
             />

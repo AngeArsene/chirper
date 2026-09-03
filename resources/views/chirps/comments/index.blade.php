@@ -7,7 +7,6 @@
         <div class="card bg-base-100 shadow mt-8">
             <x-message
                 :message="$chirp"
-                :for="\App\Enums\MessageableType::Chirp"
                 baseRouteName="chirps"
             />
         </div>
@@ -24,7 +23,6 @@
 
             <x-feed
                 :messages="$comments"
-                :for="\App\Enums\MessageableType::Comment"
                 baseRouteName="chirps.comments"
                 emptyStateMessage="No comments yet — be the first to share what you think"
                 :parent="$chirp"
