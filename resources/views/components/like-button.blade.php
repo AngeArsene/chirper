@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route("$baseRouteName.like", $message) }}">
+<form method="POST" action="{{ route("$baseRouteName.like", $actionArgs) }}">
     @csrf
     @method($method)
 

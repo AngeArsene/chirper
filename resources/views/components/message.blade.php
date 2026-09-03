@@ -56,7 +56,7 @@
                     {{ $message->message }}
                 </p>
 
-                <x-engagement :message="$message" :baseRouteName="$baseRouteName" />
+                <x-engagement :message="$message" :baseRouteName="$baseRouteName" :parent="$parent" />
             </div>
         </div>
     </div>
