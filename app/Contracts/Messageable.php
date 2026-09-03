@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
+use App\Enums\MessageableType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -9,6 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 interface Messageable
 {
+    /**
+     * Get the type of messageable entity.
+     *
+     * @return MessageableType The type of messageable entity.
+     */
+    public function type(): MessageableType;
+
     /**
      * Resolve the user who authored the message.
      *
