@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChirpBookmarkController;
 use App\Http\Controllers\ChirpCommentController;
+use App\Http\Controllers\ChirpCommentLikeController;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ChirpLikeController;
 use Illuminate\Support\Facades\Route;
@@ -38,3 +39,6 @@ Route::middleware('auth.only')
 Route::resource('chirps.comments', ChirpCommentController::class)
     ->except(['create', 'show'])
     ->middleware('auth.only');
+
+Route::match(['post', 'delete'], 'chirps/{chirp}/comments/{comment}/like', ChirpCommentLikeController::class)
+    ->name('chirps.comments.like');
