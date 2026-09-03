@@ -86,4 +86,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(ChirpComment::class);
     }
+
+    /**
+     * Resolve the likes on comments authored by the user.
+     *
+     * @return HasMany<ChirpCommentLike, $this> The user's likes on chirp comments.
+     */
+    public function chirpCommentLikes(): HasMany
+    {
+        return $this->hasMany(ChirpCommentLike::class);
+    }
 }
