@@ -17,16 +17,19 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function (): void {
+            // Auth Routes
             Route::middleware(['web', 'guest.only'])
                 ->prefix('auth')->name('auth.')
                 ->controller(AuthController::class)
                 ->group(base_path('routes'.DIRECTORY_SEPARATOR.'auth.php'));
 
+            // Profile Routes
             Route::middleware(['web', 'auth.only'])
                 ->prefix('profile')->name('profile.')
                 ->controller(UserProfileController::class)
                 ->group(base_path('routes'.DIRECTORY_SEPARATOR.'profile.php'));
 
+            // Password Routes
             Route::middleware(['web', 'auth.only', 'unconfirmed.only'])
                 ->prefix('password')->name('password.')
                 ->group(function (): void {
