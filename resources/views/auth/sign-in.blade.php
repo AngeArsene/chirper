@@ -23,7 +23,7 @@
                         </label>
                         @error('email')
                             <div class="label -mt-4 mb-2">
-                                <span class="label-text-alt text-error">{{ $message }}</span>
+                                <span class="label-text-alt text-error">{{ __($message) }}</span>
                             </div>
                         @enderror
 
