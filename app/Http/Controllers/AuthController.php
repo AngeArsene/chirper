@@ -26,8 +26,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return to_route('chirps.index')
-            ->with('success', 'Account created successfully!');
+        return to_route('chirps.index')->with('success', 'Account created successfully!');
     }
 
     /**
