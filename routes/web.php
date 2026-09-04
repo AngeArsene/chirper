@@ -30,7 +30,7 @@ Route::middleware('auth.only')
     ->group(function (): void {
         Route::get('/bookmarks', 'index')->name('bookmarks');
 
-        Route::match(['post', 'delete'], '/{chirp}/bookmarks', 'toggle')
+        Route::match(['post', 'delete'], '/{chirp}/bookmark', 'toggle')
             ->name('bookmark')
             ->middleware('throttle:16,1');
     });
