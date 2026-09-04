@@ -43,7 +43,7 @@ class AuthController extends Controller
         // Attempt to log in
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             // Regenerate session for security
-            $request->session()->regenerate();
+            $request->session()->regenerate(destroy: true);
 
             // Redirect to intended page or home
             return redirect()->intended('/')->with('success', 'Welcome back! '.Auth::user()->name);
