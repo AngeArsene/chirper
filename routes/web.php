@@ -42,4 +42,5 @@ Route::resource('chirps.comments', ChirpCommentController::class)
 
 // Chirp comment like/unlike routes
 Route::match(['post', 'delete'], 'chirps/{chirp}/comments/{comment}/like', ChirpCommentLikeController::class)
-    ->name('chirps.comments.like');
+    ->name('chirps.comments.like')
+    ->middleware(['auth.only', 'throttle:16,1']);
