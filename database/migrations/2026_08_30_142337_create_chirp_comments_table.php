@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('chirp_comments', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('chirp_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-
             $table->string('message');
-
             $table->timestamps();
         });
     }
