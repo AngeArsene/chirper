@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Concerns\TogglesChirpEngagement;
+use App\Concerns\TogglesEngagement;
 use App\Contracts\Messageable;
 use App\Enums\EngagementType;
 use App\Models\Chirp;
@@ -15,7 +15,7 @@ use Override;
 
 class ChirpCommentLikeController extends Controller
 {
-    use TogglesChirpEngagement;
+    use TogglesEngagement;
 
     /**
      * Returns the engagement type represented by this controller.

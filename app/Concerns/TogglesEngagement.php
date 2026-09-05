@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
  * The trait centralizes the POST/DELETE decision tree so engagement
  * controllers can share the same semantics while remaining type-specific.
  */
-trait TogglesChirpEngagement
+trait TogglesEngagement
 {
     /**
      * Returns the engagement type handled by the concrete controller.
