@@ -25,7 +25,7 @@ class StoreChirpCommentRequest extends FormRequest
     {
         return [
             'message' => ['required', 'string', 'max:255', 'min:5'],
-            'idempotency_key' => ['required', 'uuid', 'unique:chirps'],
+            'idempotency_key' => ['required', 'uuid', 'unique:chirp_comments'],
         ];
     }
 
