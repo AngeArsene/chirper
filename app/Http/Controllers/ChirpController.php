@@ -39,11 +39,17 @@ class ChirpController extends Controller
 
         $pipes = [
             new WithAuthor,
-            new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
+            new WithEngagementCount(
+                EngagementType::Like,
+                EngagementType::Comment
+            ),
         ];
 
         if (Auth::check()) {
-            $pipes[] = new WithUserEngagementFlag(EngagementType::Like, EngagementType::Bookmark);
+            $pipes[] = new WithUserEngagementFlag(
+                EngagementType::Like,
+                EngagementType::Bookmark
+            );
         }
 
         $chirps = Pipeline::send(Chirp::query())
