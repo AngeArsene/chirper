@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('chirp_comment_likes', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('chirp_comment_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-
             $table->timestamp('created_at');
-
             $table->unique(['chirp_comment_id', 'user_id']);
         });
     }
