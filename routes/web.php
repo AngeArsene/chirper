@@ -1,13 +1,46 @@
 <?php
 
+use App\Http\Controllers\ChirpBookmarkController;
+use App\Http\Controllers\ChirpCommentController;
+use App\Http\Controllers\ChirpCommentLikeController;
 use App\Http\Controllers\ChirpController;
+use App\Http\Controllers\ChirpLikeController;
 use Illuminate\Support\Facades\Route;
 
+// Home page route
 Route::get('/', [ChirpController::class, 'index'])->name('chirps.index');
 
+// Chirp resource routes
 Route::resource('chirps', ChirpController::class)
     ->except('index', 'create', 'show')
     ->middleware('auth.only')
     ->middlewareFor('store', 'throttle:4,1')
     ->middlewareFor('update', 'throttle:5,1')
     ->middlewareFor('destroy', 'throttle:3,1');
+
+// Chirp like/unlike routes
+Route::match(['post', 'delete'], '/chirps/{chirp}/like', ChirpLikeController::class)
+    ->middleware(['auth.only', 'throttle:16,1'])
+    ->name('chirps.like');
+
+// Chirp bookmarks routes
+Route::middleware('auth.only')
+    ->prefix('chirps')->name('chirps.')
+    ->controller(ChirpBookmarkController::class)
+    ->group(function (): void {
+        Route::get('/bookmarks', 'index')->name('bookmarks');
+
+        Route::match(['post', 'delete'], '/{chirp}/bookmark', 'toggle')
+            ->name('bookmark')
+            ->middleware('throttle:16,1');
+    });
+
+// Chirp comments routes
+Route::resource('chirps.comments', ChirpCommentController::class)
+    ->except(['create', 'show'])
+    ->middleware('auth.only');
+
+// Chirp comment like/unlike routes
+Route::match(['post', 'delete'], 'chirps/{chirp}/comments/{comment}/like', ChirpCommentLikeController::class)
+    ->name('chirps.comments.like')
+    ->middleware(['auth.only', 'throttle:16,1']);

@@ -18,9 +18,10 @@ class ChirpFactory extends Factory
     public function definition(): array
     {
         $created_at = $updated_at = fake()->dateTimeBetween('-1 week', 'now');
+        $charCount = random_int(10, 255);
 
         return [
-            'message' => fake()->realText(150),
+            'message' => fake()->realText($charCount),
             'idempotency_key' => fake()->unique()->uuid(),
             'created_at' => $created_at,
             'updated_at' => $updated_at,

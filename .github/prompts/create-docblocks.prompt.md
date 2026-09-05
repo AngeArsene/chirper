@@ -12,11 +12,10 @@ You're a senior software engineer with deep expertise in writing clean, maintain
 1. Review the entire file and identify every class, method, and function
 2. For each one, generate a doc block in the appropriate format for the language (e.g. PHPDoc, JSDoc, Python docstrings)
 3. Each doc block must include:
-   - **Description**: A brief, clear explanation of what it does (not just restating the name)
+   - **Description**: A brief, clear explanation of what it does (not just restating the name) one line summary with followed by no detailed paragraph Example : 'Resolve the chirp this comment belongs to.'
    - **Parameters**: Each parameter with its type and a meaningful description
    - **Return**: The return type and what it represents
-   - **Exceptions/Errors**: Any thrown exceptions or errors, with conditions that trigger them
-   - **Example**: A concise usage example where it adds clarity (avoid trivial ones)
+   - **Exceptions/Errors**: Any thrown exceptions or errors, with conditions that trigger them which is found in the code (do not infer or imagine)
 
 ## Guidelines
 
@@ -32,7 +31,7 @@ You're a senior software engineer with deep expertise in writing clean, maintain
 - Follow the language-appropriate standard: PHPDoc for PHP, JSDoc for JavaScript/TypeScript, docstrings (Google or NumPy style) for Python, etc.
 - Use correct types including generics, unions, and nullables where applicable (e.g. `string|null`, `array<string, mixed>`)
 - Preserve existing doc blocks if they are already accurate — only update what needs improving
-- Ensure all `@throws` tags match actual exceptions in the code
+- Ensure all `@throws` tags match actual exceptions in the code block do not imagine or infer
 
 ### What NOT to include
 

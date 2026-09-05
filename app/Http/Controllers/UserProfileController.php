@@ -4,15 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserProfileUpdateRequest;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
+/**
+ * Manages authenticated users' profile updates and account deletion.
+ */
 class UserProfileController extends Controller
 {
     /**
-     * Update the specified resource in storage.
+     * Update the authenticated user's profile and reset email verification when needed.
+     *
+     * @param  UserProfileUpdateRequest  $request  The request containing validated profile fields.
+     * @param  User  $profile  The authenticated profile being updated.
+     * @return RedirectResponse A redirect to the profile page with a success message.
+     *
+     * @throws AuthorizationException If the request is not authorized.
+     * @throws ValidationException If the name or email fails validation.
      */
     public function update(UserProfileUpdateRequest $request, #[CurrentUser] User $profile): RedirectResponse
     {
@@ -31,9 +44,15 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Log out the authenticated user and permanently delete their account.
+     *
+     * @param  Request  $request  The current request whose session must be invalidated.
+     * @param  User  $profile  The authenticated profile to delete.
+     * @return RedirectResponse A redirect to the chirp feed with a success message.
+     *
+     * @throws AuthenticationException If no authenticated user is available.
      */
-    public function destroy(HttpRequest $request, #[CurrentUser] User $profile): RedirectResponse
+    public function destroy(Request $request, #[CurrentUser] User $profile): RedirectResponse
     {
         Auth::logout();
 

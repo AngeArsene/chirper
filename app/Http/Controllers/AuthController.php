@@ -26,8 +26,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return to_route('chirps.index')
-            ->with('success', 'Account created successfully!');
+        return to_route('chirps.index')->with('success', 'Account created successfully!');
     }
 
     /**
@@ -43,7 +42,7 @@ class AuthController extends Controller
         // Attempt to log in
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             // Regenerate session for security
-            $request->session()->regenerate();
+            $request->session()->regenerate(destroy: true);
 
             // Redirect to intended page or home
             return redirect()->intended('/')->with('success', 'Welcome back! '.Auth::user()->name);
@@ -55,6 +54,12 @@ class AuthController extends Controller
             ->onlyInput('email');
     }
 
+    /**
+     * Log out the currently authenticated user.
+     *
+     * @param  Request  $request  The current HTTP request.
+     * @return RedirectResponse Redirect to the chirps index with a success message.
+     */
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();

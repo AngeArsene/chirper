@@ -21,8 +21,8 @@ class EnsureUserIsUnconfirmed
 
         $is_from_confirmation = url()->previous() === route('profile.edit') || url()->previous() === route('password.confirm');
 
-        if ($is_confirmed || !$is_from_confirmation) {
-            return redirect()->back()->with(
+        if ($is_confirmed || ! $is_from_confirmation) {
+            return back()->with(
                 'error',
                 'You have either already confirmed your password or you do not need to confirm it yet.'
             );

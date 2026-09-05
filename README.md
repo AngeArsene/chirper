@@ -4,7 +4,7 @@ A Laravel 13 microblogging application built around Blade views, Tailwind CSS v4
 
 ## What the app does
 
-This repository is a small Laravel web application. Authenticated users can publish short messages to a paginated home feed, edit or delete their own chirps, and update their profile details. The middleware and policy layer protect the authenticated-only pages and authorize ownership-sensitive actions.
+This repository is a small Laravel web application. Authenticated users can publish short messages to a paginated home feed, edit or delete their own chirps, and update their profile details. The middleware and policy layer protect the authenticated-only pages and authorize ownership-sensitive actions. Users can also like or unlike chirps, and the home feed ranks posts by how much engagement they receive. Users can also save chirps to a personal bookmarks page and remove those bookmarks later. Users can also reply to chirps and like individual comments in those conversations.
 
 ## Features
 
@@ -16,25 +16,41 @@ This repository is a small Laravel web application. Authenticated users can publ
 - [app/Http/Controllers/PasswordController.php](app/Http/Controllers/PasswordController.php) updates the user's password and checks the current password during confirmation. You can find its routes in [bootstrap/app.php](bootstrap/app.php).
 - Middleware aliases expose `guest.only` and `auth.only` custom guard behavior through `EnsureUserIsGuest` and `EnsureUserIsAuthenticated`.
 - The schema includes a users table, sessions table, password reset tokens, and a `chirps` table with a nullable unique `idempotency_key` column added in a later migration.
+- `ChirpController@index` now loads `likes_count` and `liked_by_current_user` metadata.
+- Authenticated users can like and unlike a chirp through `ChirpLikeController` and the `chirps.like` route, using `POST` and `DELETE` requests with `auth.only` and `throttle:16,1`.
+- The schema adds the `chirp_likes` table with `user_id`, `chirp_id`, and `created_at`, plus a unique pair constraint to prevent duplicate likes; `ChirpLikeSeeder` and `UserSeeder` populate sample engagement data for local development.
+- `ChirpCommentController` serves paginated comment threads on a chirp, and `ChirpCommentPolicy` restricts comment edits and deletions to the owning user while permitting like actions only once per user.
+- Authenticated users can add, edit, and delete comments on a chirp through the `chirps.comments` resource routes, and `ChirpCommentLikeController` and the `chirps.comments.like` endpoint let them like or unlike any individual comment.
+- The schema adds the `chirp_comments` table with `user_id`, `chirp_id`, `message`, and timestamps, and the `chirp_comment_likes` table with a unique `chirp_comment_id`/`user_id` pair to prevent duplicate likes; `ChirpCommentSeeder` and `ChirpCommentLikeSeeder` support local development examples.
+- Authenticated users can bookmark and unbookmark a chirp through `ChirpBookmarkController` and the `chirps.bookmark` route, using `POST` and `DELETE` requests with `auth.only` and `throttle:16,1`; `ChirpBookmarkController@index` serves the paginated bookmarks view.
+- The schema adds the `chirp_bookmarks` table with `user_id`, `chirp_id`, and `created_at`, plus a unique `chirp_id`/`user_id` pair constraint; `ChirpBookmarkSeeder` and `ChirpBookmarkFactory` support sample bookmark data for local development and tests.
 
 ## Project structure
 
 ```text
 app/
-├── Enums/ # AppRouteNameToAction enum for route-action labels
+├── Contracts/ # Messageable contract for message-like models
+├── Enums/ # EngagementType, MessageableType, and AppRouteNameToAction enums
 ├── Exceptions/ # RouteNotNamedException and ViewResolutionException
 ├── Http/
-│   ├── Controllers/ # AuthController, ChirpController, PasswordController, UserProfileController
+│   ├── Controllers/ # AuthController, ChirpBookmarkController, ChirpCommentController, ChirpCommentLikeController, ChirpController, ChirpLikeController, PasswordController, UserProfileController
 │   └── Middleware/ # EnsureUserIsGuest, EnsureUserIsAuthenticated
-├── Models/ # User and Chirp Eloquent models
-└── Policies/ # ChirpPolicy authorization rules
+├── Models/ # User, Chirp, ChirpBookmark, ChirpComment, ChirpCommentLike, and ChirpLike Eloquent models
+├── Policies/ # ChirpCommentPolicy and ChirpPolicy authorization rules
+└── View/
+    └── Components/ # BookmarkButton, CommentButton, LikeButton, and engagement UI components
 bootstrap/
 └── app.php # route registration, middleware aliases, password-confirm route wiring
 database/
-├── migrations/ # users, password reset, sessions, and chirps schema
-└── seeders/ # DatabaseSeeder default-user seeding logic
+├── migrations/ # users, password reset, sessions, chirps, chirp_comments, chirp_likes, chirp_bookmarks, and chirp_comment_likes schema
+├── seeders/ # DatabaseSeeder, UserSeeder, ChirpCommentSeeder, ChirpCommentLikeSeeder, ChirpLikeSeeder, and ChirpBookmarkSeeder local data setup
+└── factories/ # UserFactory, ChirpFactory, ChirpCommentFactory, ChirpCommentLikeFactory, ChirpLikeFactory, and ChirpBookmarkFactory
+resources/
+└── views/
+    ├── chirps/ # bookmarks.blade.php, comments/index.blade.php, and comments/edit.blade.php
+    └── components/ # bookmark-button, comment-button, like-button, and engagement UI partials
 routes/
-├── web.php # home feed and authenticated chirp resource routes
+├── web.php # home feed, authenticated chirp resource routes, chirp like/bookmark endpoints, and comment routes
 ├── auth.php # sign-in/sign-up/logout endpoints
 └── profile.php # profile view/edit/delete and password-update endpoints
 .env.example # SQLite default settings plus DEFAULT_USER_* keys
@@ -47,12 +63,13 @@ package.json
 ### Quick start
 
 ```bash
+git clone https://github.com/AngeArsene/chirper.git && cd chirper
 composer run setup
 ```
 
 The `setup` Composer script installs dependencies, creates `.env` from `.env.example` when missing, generates the app key, runs migrations, installs frontend dependencies with `npm install --ignore-scripts`, and builds assets with `npm run build`.
 
-After the setup script completes, configure the seeded default user before running the seed step:
+After the setup script completes, and before running the database migrations and seeders, set the required seeded default-user values in `.env`:
 
 ```bash
 DEFAULT_USER_NAME="Example User Name"
@@ -62,12 +79,17 @@ DEFAULT_USER_PASSWORD="some-secure-password"
 
 Those keys are consumed by the seeder in [database/seeders/DatabaseSeeder.php](database/seeders/DatabaseSeeder.php) and are exposed through [config/app.php](config/app.php) as the default user credentials for local development. The seeded default-user password must satisfy the runtime password policy defined in [app/Providers/AppServiceProvider.php](app/Providers/AppServiceProvider.php): `Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()`.
 
+Now run migrations and seed the database:
+
 ```bash
-php artisan db:seed
-composer run dev
+php artisan migrate --seed
 ```
 
-`composer run dev` starts the Laravel server, queue worker, and Vite dev server together.
+Finally run `composer run dev` to starts the Laravel server, queue worker, and Vite dev server together.
+
+```bash
+composer run dev
+```
 
 ### Manual steps
 
@@ -80,31 +102,8 @@ npm run build
 php artisan migrate
 ```
 
-Before seeding, set the required seeded default-user values in `.env`:
-
-```bash
-DEFAULT_USER_NAME="Example User Name"
-DEFAULT_USER_EMAIL="some-valide@email.test"
-DEFAULT_USER_PASSWORD="some-secure-password"
-```
-
-The chosen `DEFAULT_USER_PASSWORD` must satisfy the same validation policy as the registration and login validation rules, namely `Password::default()` with the default password rules set in [app/Providers/AppServiceProvider.php](app/Providers/AppServiceProvider.php): minimum 8 characters, mixed case, letters, numbers, symbols, and uncompromised password checks.
-
-```bash
-php artisan db:seed
-php artisan serve
-```
-
-## Usage
-
-```bash
-php artisan serve
-php artisan test
-vendor/bin/pint --dirty --format agent
-```
-
 This repository currently has PHPUnit-based tests under [tests/Feature/ChirpTest.php](tests/Feature/ChirpTest.php) and related feature coverage. The package manifest does not declare Pest as a development dependency, so `pest` is not a currently supported command in this app layout.
 
 ## Status
 
-_Last synced with commit cde3b08c86fe6923c62007cb88aa1e956770d2c5 (2026-08-08)_
+_Last synced with commit a30c972edcecbac01937ad7b0bd6abc11012c185 (2026-09-04)_

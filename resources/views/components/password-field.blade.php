@@ -3,7 +3,7 @@
 <label class="floating-label mb-2">
     <input type="password"
            name="password"
-           placeholder="{{ __($placeholder ?? 'Password') }}"
+           placeholder="{{ __($placeholder) }}"
            class="input input-bordered @error('password') input-error @enderror"
            minLength="8"
            maxLength="255"
@@ -16,7 +16,7 @@
     </div>
 @else
     <div class="mb-4 p-3 bg-base-200 rounded text-sm space-y-1">
-        <p class="font-semibold text-xs uppercase text-base-content opacity-70">Password Requirements:</p>
+        <p class="font-semibold text-xs uppercase text-base-content opacity-70">{{ __('Password Requirements:') }}</p>
         <ul class="list-disc list-inside space-y-1 text-xs text-base-content opacity-80">
             <li>{{ __('At least 8 characters') }}</li>
             <li>{{ __('Mixed case letters (uppercase & lowercase)') }}</li>

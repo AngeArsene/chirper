@@ -14,6 +14,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 
 /**
+ * Authenticated user model with profile data and chirp engagement relationships.
+ *
  * @property-read int $id
  * @property string $name
  * @property string $email
@@ -45,8 +47,53 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Get the chirps owned by the user.
+     *
+     * @return HasMany<Chirp, $this> The user's authored chirps.
+     */
     public function chirps(): HasMany
     {
         return $this->hasMany(Chirp::class);
+    }
+
+    /**
+     * Get the chirp likes owned by the user.
+     *
+     * @return HasMany<ChirpLike, $this> The user's chirp likes.
+     */
+    public function chirpLikes(): HasMany
+    {
+        return $this->hasMany(ChirpLike::class);
+    }
+
+    /**
+     * Get the chirp bookmarks by user.
+     *
+     * @return HasMany<ChirpBookmark, $this> The user's chirp bookmarks.
+     */
+    public function chirpBookmarks(): HasMany
+    {
+        return $this->hasMany(ChirpBookmark::class);
+    }
+
+    /**
+     * Resolve the comments authored by the user.
+     *
+     * @return HasMany<ChirpComment, $this> The user's authored chirp comments.
+     */
+    public function chirpComments(): HasMany
+    {
+        return $this->hasMany(ChirpComment::class);
+    }
+
+    /**
+     * Resolve the likes on comments authored by the user.
+     *
+     * @return HasMany<ChirpCommentLike, $this> The user's likes on chirp comments.
+     */
+    public function chirpCommentLikes(): HasMany
+    {
+        return $this->hasMany(ChirpCommentLike::class);
     }
 }

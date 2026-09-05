@@ -1,0 +1,34 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Chirp;
+use App\Models\ChirpLike;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
+class ChirpLikeSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $users = User::all();
+
+        Chirp::each(function (Chirp $chirp) use ($users) {
+            $count = random_int(0, $users->count());
+
+            if ($count === 0) {
+                return;
+            }
+
+            $users->random($count)->each(
+                fn (User $randomUser) => ChirpLike::factory()
+                    ->for($randomUser)
+                    ->for($chirp)
+                    ->create()
+            );
+        });
+    }
+}
