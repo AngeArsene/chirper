@@ -2,26 +2,11 @@
 
 namespace App\Pipelines;
 
-use App\Enums\EngagementType;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
-use InvalidArgumentException;
 
-class WithEngagementCount
+class WithEngagementCount extends EngagementPipeline
 {
-    private array $engagements;
-
-    public function __construct(EngagementType ...$engagements)
-    {
-        if (empty($engagements)) {
-            throw new InvalidArgumentException(
-                'At least one EngagementType must be provided to '.static::class.'.'
-            );
-        }
-
-        $this->engagements = $engagements;
-    }
-
     /**
      * Invoke the class instance.
      */

@@ -2,30 +2,12 @@
 
 namespace App\Pipelines;
 
-use App\Enums\EngagementType;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use InvalidArgumentException;
 
-class WithUserEngagementFlag
+class WithUserEngagementFlag extends EngagementPipeline
 {
-    private array $engagements;
-
-    /**
-     * Create a new class instance.
-     */
-    public function __construct(EngagementType ...$engagements)
-    {
-        if (empty($engagements)) {
-            throw new InvalidArgumentException(
-                'At least one EngagementType must be provided to '.static::class.'.'
-            );
-        }
-
-        $this->engagements = $engagements;
-    }
-
     /**
      * Invoke the class instance.
      */
