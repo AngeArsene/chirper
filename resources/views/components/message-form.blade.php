@@ -30,7 +30,7 @@
 
             <div class="card-actions justify-between mt-4">
                 @error('idempotency_key')
-                    <a href="/" class="btn btn-ghost btn-sm">
+                    <a href="" class="btn btn-ghost btn-sm">
                             {{ __('Cancel') }}
                     </a>
                 @enderror
