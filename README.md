@@ -14,11 +14,11 @@ This repository is a small Laravel web application. Authenticated users can publ
 - Registration, login, and logout are handled through `AuthController` and the `auth` route file.
 - Profile editing and account removal are routed through `UserProfileController` and the `profile` route file.
 - [app/Http/Controllers/PasswordController.php](app/Http/Controllers/PasswordController.php) updates the user's password and checks the current password during confirmation. You can find its routes in [bootstrap/app.php](bootstrap/app.php).
-- Middleware aliases expose `guest.only` and `auth.only` custom guard behavior through `EnsureUserIsGuest` and `EnsureUserIsAuthenticated`.
+- Middleware aliases expose `guest.only`, `auth.only`, and `unconfirmed.only` custom guard behavior through `EnsureUserIsGuest`, `EnsureUserIsAuthenticated`, and `EnsureUserIsUnconfirmed`.
 - The schema includes a users table, sessions table, password reset tokens, and a `chirps` table with a nullable unique `idempotency_key` column added in a later migration.
 - `ChirpController@index` now loads `likes_count` and `liked_by_current_user` metadata.
 - Authenticated users can like and unlike a chirp through `ChirpLikeController` and the `chirps.like` route, using `POST` and `DELETE` requests with `auth.only` and `throttle:16,1`.
-- The schema adds the `chirp_likes` table with `user_id`, `chirp_id`, and `created_at`, plus a unique pair constraint to prevent duplicate likes; `ChirpLikeSeeder` and `UserSeeder` populate sample engagement data for local development.
+- The schema adds the `chirp_likes` table with `user_id`, `chirp_id`, and `created_at`, plus a unique pair constraint to prevent duplicate likes; `ChirpLikeSeeder` and `UserAndChirpSeeder` populate sample engagement data for local development.
 - `ChirpCommentController` serves paginated comment threads on a chirp, and `ChirpCommentPolicy` restricts comment edits and deletions to the owning user while permitting like actions only once per user.
 - Authenticated users can add, edit, and delete comments on a chirp through the `chirps.comments` resource routes, and `ChirpCommentLikeController` and the `chirps.comments.like` endpoint let them like or unlike any individual comment.
 - The schema adds the `chirp_comments` table with `user_id`, `chirp_id`, `message`, and timestamps, and the `chirp_comment_likes` table with a unique `chirp_comment_id`/`user_id` pair to prevent duplicate likes; `ChirpCommentSeeder` and `ChirpCommentLikeSeeder` support local development examples.
@@ -29,26 +29,29 @@ This repository is a small Laravel web application. Authenticated users can publ
 
 ```text
 app/
+├── Concerns/ # TogglesEngagement trait for engagement actions
 ├── Contracts/ # Messageable contract for message-like models
 ├── Enums/ # EngagementType, MessageableType, and AppRouteNameToAction enums
 ├── Exceptions/ # RouteNotNamedException and ViewResolutionException
 ├── Http/
 │   ├── Controllers/ # AuthController, ChirpBookmarkController, ChirpCommentController, ChirpCommentLikeController, ChirpController, ChirpLikeController, PasswordController, UserProfileController
-│   └── Middleware/ # EnsureUserIsGuest, EnsureUserIsAuthenticated
+│   ├── Middleware/ # EnsureUserIsGuest, EnsureUserIsAuthenticated, EnsureUserIsUnconfirmed
+│   └── Requests/ # PasswordVerifyRequest, StoreChirpCommentRequest, UpdateChirpCommentRequest
 ├── Models/ # User, Chirp, ChirpBookmark, ChirpComment, ChirpCommentLike, and ChirpLike Eloquent models
+├── Pipelines/ # EngagementPipeline and engagement query pipeline stages
 ├── Policies/ # ChirpCommentPolicy and ChirpPolicy authorization rules
 └── View/
-    └── Components/ # BookmarkButton, CommentButton, LikeButton, and engagement UI components
+    └── Components/ # BookmarkButton, Feed, LikeButton, Message, and MessageForm components
 bootstrap/
 └── app.php # route registration, middleware aliases, password-confirm route wiring
 database/
 ├── migrations/ # users, password reset, sessions, chirps, chirp_comments, chirp_likes, chirp_bookmarks, and chirp_comment_likes schema
-├── seeders/ # DatabaseSeeder, UserSeeder, ChirpCommentSeeder, ChirpCommentLikeSeeder, ChirpLikeSeeder, and ChirpBookmarkSeeder local data setup
+├── seeders/ # DatabaseSeeder, UserAndChirpSeeder, ChirpCommentSeeder, ChirpCommentLikeSeeder, ChirpLikeSeeder, and ChirpBookmarkSeeder local data setup
 └── factories/ # UserFactory, ChirpFactory, ChirpCommentFactory, ChirpCommentLikeFactory, ChirpLikeFactory, and ChirpBookmarkFactory
 resources/
 └── views/
     ├── chirps/ # bookmarks.blade.php, comments/index.blade.php, and comments/edit.blade.php
-    └── components/ # bookmark-button, comment-button, like-button, and engagement UI partials
+    └── components/ # bookmark-button, comment-button, engagement, feed, like-button, message-form, and message partials
 routes/
 ├── web.php # home feed, authenticated chirp resource routes, chirp like/bookmark endpoints, and comment routes
 ├── auth.php # sign-in/sign-up/logout endpoints
@@ -106,4 +109,4 @@ This repository currently has PHPUnit-based tests under [tests/Feature/ChirpTest
 
 ## Status
 
-_Last synced with commit a30c972edcecbac01937ad7b0bd6abc11012c185 (2026-09-04)_
+_Last synced with commit 18a7d40dbd40aa6bb6a29e237bbf2932006c0197 (2026-09-05)_
