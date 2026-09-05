@@ -32,7 +32,7 @@ trait TogglesEngagement
     abstract private function attach(User $user, Messageable $message): void;
 
     /**
-     * Removes the engagement record between the user and the chirp.
+     * Removes the engagement record between the user and the message.
      *
      * @param  User  $user  Authenticated user removing the engagement.
      * @param  Messageable  $message  Message from which the engagement should be removed.
