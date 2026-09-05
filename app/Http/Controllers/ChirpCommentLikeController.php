@@ -57,6 +57,8 @@ class ChirpCommentLikeController extends Controller
      */
     public function __invoke(Request $request, Chirp $chirp, ChirpComment $comment, #[CurrentUser] User $user): RedirectResponse
     {
+        abort_unless($comment->chirp_id === $chirp->id, 404);
+
         return back()->with(...$this->toggleEngagement($request, $comment, $user));
     }
 }

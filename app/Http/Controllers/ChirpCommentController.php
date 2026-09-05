@@ -95,6 +95,8 @@ class ChirpCommentController extends Controller
      */
     public function edit(Chirp $chirp, ChirpComment $comment): View
     {
+        abort_unless($comment->chirp_id === $chirp->id, 404);
+
         $this->authorize('update', $comment);
 
         return $this->resolve_view(compact('chirp', 'comment'));
@@ -128,6 +130,8 @@ class ChirpCommentController extends Controller
      */
     public function destroy(Chirp $chirp, ChirpComment $comment): RedirectResponse
     {
+        abort_unless($comment->chirp_id === $chirp->id, 404);
+
         $this->authorize('delete', $comment);
 
         $comment->delete();

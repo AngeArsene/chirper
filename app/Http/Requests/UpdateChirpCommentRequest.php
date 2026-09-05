@@ -13,7 +13,10 @@ class UpdateChirpCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->can('update', $this->route('comment')) ?? false;
+        $comment = $this->route('comment');
+        $chirp = $this->route('chirp');
+
+        return $comment->chirp_id === $chirp->id && $this->user()?->can('update', $comment) ?? false;
     }
 
     /**
