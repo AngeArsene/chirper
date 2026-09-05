@@ -5,7 +5,7 @@ namespace App\Pipelines;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
-class WithChirpAuthor
+class WithAuthor
 {
     /**
      * Invoke the class instance.

@@ -8,8 +8,8 @@ use App\Enums\EngagementType;
 use App\Models\Chirp;
 use App\Models\User;
 use App\Pipelines\WhereUserHasRelation;
+use App\Pipelines\WithAuthor;
 use App\Pipelines\WithBookmarkedAtColumn;
-use App\Pipelines\WithChirpAuthor;
 use App\Pipelines\WithEngagementCount;
 use App\Pipelines\WithUserEngagementFlag;
 use Illuminate\Container\Attributes\CurrentUser;
@@ -70,7 +70,7 @@ class ChirpBookmarkController extends Controller
     {
         $chirps = Pipeline::send(Chirp::query())
             ->through([
-                new WithChirpAuthor,
+                new WithAuthor,
                 new WithBookmarkedAtColumn,
                 new WhereUserHasRelation(EngagementType::Bookmark),
                 new WithEngagementCount(EngagementType::Like, EngagementType::Comment),

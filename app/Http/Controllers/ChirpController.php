@@ -7,7 +7,7 @@ use App\Http\Requests\StoreChirpRequest;
 use App\Http\Requests\UpdateChirpRequest;
 use App\Models\Chirp;
 use App\Models\User;
-use App\Pipelines\WithChirpAuthor;
+use App\Pipelines\WithAuthor;
 use App\Pipelines\WithEngagementCount;
 use App\Pipelines\WithUserEngagementFlag;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -38,7 +38,7 @@ class ChirpController extends Controller
         $this->authorize('viewAll', Chirp::class);
 
         $pipes = [
-            new WithChirpAuthor,
+            new WithAuthor,
             new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
         ];
 

@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateChirpCommentRequest;
 use App\Models\Chirp;
 use App\Models\ChirpComment;
 use App\Models\User;
-use App\Pipelines\WithChirpAuthor;
+use App\Pipelines\WithAuthor;
 use App\Pipelines\WithEngagementCount;
 use App\Pipelines\WithUserEngagementFlag;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -43,7 +43,7 @@ class ChirpCommentController extends Controller
 
         $chirp = Pipeline::send(Chirp::where('id', $request->route('chirp')))
             ->through([
-                new WithChirpAuthor,
+                new WithAuthor,
                 new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
                 new WithUserEngagementFlag(EngagementType::Like, EngagementType::Bookmark),
             ])
@@ -52,7 +52,7 @@ class ChirpCommentController extends Controller
 
         $comments = Pipeline::send(ChirpComment::query())
             ->through([
-                new WithChirpAuthor,
+                new WithAuthor,
                 new WithEngagementCount(EngagementType::Like),
                 new WithUserEngagementFlag(EngagementType::Like),
             ])
