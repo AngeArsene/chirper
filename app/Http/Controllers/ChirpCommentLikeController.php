@@ -62,7 +62,6 @@ class ChirpCommentLikeController extends Controller
      * @param  Chirp  $chirp  The chirp associated with the comment.
      * @param  ChirpComment  $comment  The comment to be liked or unliked.
      * @param  User  $user  The currently authenticated user.
-     * @return RedirectResponse
      */
     public function __invoke(Request $request, Chirp $chirp, ChirpComment $comment, #[CurrentUser] User $user): RedirectResponse
     {
