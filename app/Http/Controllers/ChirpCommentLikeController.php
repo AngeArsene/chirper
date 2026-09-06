@@ -52,7 +52,7 @@ class ChirpCommentLikeController extends Controller
     #[Override]
     private function detach(User $user, Messageable $message): void
     {
-        $user->chirpCommentLikes()->where('chirp_comment_id', $message->id)->delete();
+        $user->chirpCommentLikes()->whereBelongsTo($message)->delete();
     }
 
     /**
