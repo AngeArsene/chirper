@@ -38,9 +38,11 @@ Route::middleware('auth.only')
 // Chirp comments routes
 Route::resource('chirps.comments', ChirpCommentController::class)
     ->except(['create', 'show'])
-    ->middleware('auth.only');
+    ->middleware('auth.only')
+    ->scoped();
 
 // Chirp comment like/unlike routes
 Route::match(['post', 'delete'], 'chirps/{chirp}/comments/{comment}/like', ChirpCommentLikeController::class)
     ->name('chirps.comments.like')
-    ->middleware(['auth.only', 'throttle:16,1']);
+    ->middleware(['auth.only', 'throttle:16,1'])
+    ->scopeBindings();
