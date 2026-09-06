@@ -7,6 +7,7 @@ use App\Enums\EngagementType;
 use App\Models\User;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Provides the shared request-to-flash-message flow for chirp engagement toggles.
@@ -80,10 +81,19 @@ trait TogglesEngagement
      * @param  User  $user  Authenticated user removing the engagement.
      * @param  Messageable  $message  Message from which the engagement should be removed.
      * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
+     *
+     * @throws \LogicException If the policy method for the engagement type is not defined on the message.
      */
     private function runDetach(User $user, Messageable $message): array
     {
-        if ($user->can($this->type()->value, $message)) {
+        $ability = $this->type()->value;
+        $policy = Gate::getPolicyFor($message);
+
+        if (is_null($policy) || ! method_exists($policy, $ability)) {
+            throw new \LogicException("No policy method defined for {$ability} on " . get_class($message));
+        }
+
+        if ($user->can($ability, $message)) {
             return ['error', "You have not {$this->type()->pastTense()} this {$message->type()->value} yet."];
         }
 
