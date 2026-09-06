@@ -90,7 +90,7 @@ trait TogglesEngagement
         $policy = Gate::getPolicyFor($message);
 
         if (is_null($policy) || ! method_exists($policy, $ability)) {
-            throw new \LogicException("No policy method defined for {$ability} on " . get_class($message));
+            throw new \LogicException("No policy method defined for {$ability} on ".get_class($message));
         }
 
         if ($user->can($ability, $message)) {
