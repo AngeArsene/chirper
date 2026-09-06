@@ -31,10 +31,10 @@ class ChirpLikeController extends Controller
     }
 
     /**
-     * Creates a like relationship between the user and the chirp.
+     * Creates a like relationship between the user and the message.
      *
      * @param  User  $user  Authenticated user creating the like.
-     * @param  Messageable  $message  Chirp that will receive the like.
+     * @param  Messageable  $message  Message that will receive the like.
      */
     #[Override]
     private function attach(User $user, Messageable $message): void
@@ -43,10 +43,10 @@ class ChirpLikeController extends Controller
     }
 
     /**
-     * Removes the like relationship between the user and the chirp.
+     * Removes the like relationship between the user and the message.
      *
      * @param  User  $user  Authenticated user removing the like.
-     * @param  Messageable  $message  Chirp from which the like should be removed.
+     * @param  Messageable  $message  Message from which the like should be removed.
      */
     #[Override]
     private function detach(User $user, Messageable $message): void
