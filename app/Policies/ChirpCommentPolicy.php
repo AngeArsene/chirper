@@ -65,6 +65,6 @@ class ChirpCommentPolicy
      */
     public function like(User $user, ChirpComment $chirpComment): bool
     {
-        return ! $user->chirpCommentLikes()->whereBelongsTo($chirpComment)->exists();
+        return ! $chirpComment->likes()->whereBelongsTo($user)->exists();
     }
 }
