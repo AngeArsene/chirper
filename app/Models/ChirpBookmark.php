@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EngagementType;
 use Database\Factories\ChirpBookmarkFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +27,16 @@ class ChirpBookmark extends Model
     use HasFactory;
 
     const UPDATED_AT = null;
+
+    /**
+     * Get the type of engagement for this model.
+     *
+     * @return EngagementType The type of engagement for this model.
+     */
+    public function engagementType(): EngagementType
+    {
+        return EngagementType::Bookmark;
+    }
 
     /**
      * Get the user who saved the chirp.
