@@ -39,7 +39,7 @@ class ChirpLikeController extends Controller
     #[Override]
     private function attach(User $user, Messageable $message): void
     {
-        $user->chirpLikes()->create(['chirp_id' => $message->id]);
+        $message->likes()->create(['user_id' => $user->id]);
     }
 
     /**
@@ -51,7 +51,7 @@ class ChirpLikeController extends Controller
     #[Override]
     private function detach(User $user, Messageable $message): void
     {
-        $user->chirpLikes()->whereBelongsTo($message)->delete();
+        $message->likes()->whereBelongsTo($user)->delete();
     }
 
     /**
