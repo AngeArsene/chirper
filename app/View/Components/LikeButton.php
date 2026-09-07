@@ -33,7 +33,7 @@ class LikeButton extends Component
         $this->method = $this->isLiked ? 'DELETE' : 'POST';
         $this->textColor = $this->isLiked ? 'text-error' : 'text-base-content/60 hover:text-error';
 
-        $this->actionArgs = match ($this->message->type()) {
+        $this->actionArgs = match ($this->message->messageableType()) {
             MessageableType::Chirp => $this->message,
             MessageableType::Comment => [$this->parent, $this->message],
         };
