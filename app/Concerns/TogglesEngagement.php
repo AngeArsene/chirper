@@ -18,11 +18,11 @@ use Illuminate\Support\Facades\Gate;
 trait TogglesEngagement
 {
     /**
-     * Returns the engagement type handled by the concrete controller.
+     * Get the type of engagement for this model.
      *
-     * @return EngagementType The specific engagement variant such as a like or bookmark.
+     * @return EngagementType The type of engagement for this model.
      */
-    abstract private function type(): EngagementType;
+    abstract private function engagementType(): EngagementType;
 
     /**
      * Persists a new engagement record for the user and message.
@@ -69,9 +69,15 @@ trait TogglesEngagement
         try {
             $this->attach($user, $message);
 
-            return ['success', "You {$this->type()->pastTense()} this {$message->type()->value}."];
+            return [
+                'success',
+                "You {$this->engagementType()->pastTense()} this {$message->messageableType()->value}.",
+            ];
         } catch (UniqueConstraintViolationException) {
-            return ['error', "You already {$this->type()->pastTense()} this {$message->type()->value}."];
+            return [
+                'error',
+                "You have already {$this->engagementType()->pastTense()} this {$message->messageableType()->value}.",
+            ];
         }
     }
 
@@ -86,7 +92,7 @@ trait TogglesEngagement
      */
     private function runDetach(User $user, Messageable $message): array
     {
-        $ability = $this->type()->value;
+        $ability = $this->engagementType()->value;
         $policy = Gate::getPolicyFor($message);
 
         if (is_null($policy) || ! method_exists($policy, $ability)) {
@@ -94,11 +100,17 @@ trait TogglesEngagement
         }
 
         if ($user->can($ability, $message)) {
-            return ['error', "You have not {$this->type()->pastTense()} this {$message->type()->value} yet."];
+            return [
+                'error',
+                "You have not {$this->engagementType()->pastTense()} this {$message->messageableType()->value} yet.",
+            ];
         }
 
         $this->detach($user, $message);
 
-        return ['success', "You un{$this->type()->pastTense()} this {$message->type()->value}."];
+        return [
+            'success',
+            "You un{$this->engagementType()->pastTense()} this {$message->messageableType()->value}.",
+        ];
     }
 }
