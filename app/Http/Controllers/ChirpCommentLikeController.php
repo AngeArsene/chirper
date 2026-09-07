@@ -26,7 +26,7 @@ class ChirpCommentLikeController extends Controller
      * @return EngagementType The like-specific engagement enum value.
      */
     #[Override]
-    private function type(): EngagementType
+    private function engagementType(): EngagementType
     {
         return EngagementType::Like;
     }
