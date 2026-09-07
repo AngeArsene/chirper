@@ -16,10 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserAndChirpSeeder::class,
-            ChirpLikeSeeder::class,
-            ChirpBookmarkSeeder::class,
             ChirpCommentSeeder::class,
-            ChirpCommentLikeSeeder::class,
+            ChirpBookmarkSeeder::class,
+            LikeSeeder::class,
         ]);
     }
 }
