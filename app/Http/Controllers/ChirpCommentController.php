@@ -13,6 +13,7 @@ use App\Pipelines\WithEngagementCount;
 use App\Pipelines\WithUserEngagementFlag;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -41,25 +42,9 @@ class ChirpCommentController extends Controller
     {
         $this->authorize('viewAll', ChirpComment::class);
 
-        $chirp = Pipeline::send(Chirp::where('id', $request->route('chirp')))
-            ->through([
-                new WithAuthor,
-                new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
-                new WithUserEngagementFlag(EngagementType::Like, EngagementType::Bookmark),
-            ])
-            ->thenReturn()
-            ->firstOrFail();
+        $chirp = $this->getChirp(Chirp::query()->where('id', $request->route('chirp')));
 
-        $comments = Pipeline::send(ChirpComment::query())
-            ->through([
-                new WithAuthor,
-                new WithEngagementCount(EngagementType::Like),
-                new WithUserEngagementFlag(EngagementType::Like),
-            ])
-            ->thenReturn()
-            ->whereBelongsTo($chirp)
-            ->latest()
-            ->paginate(10);
+        $comments = $this->getComments(ChirpComment::query(), $chirp);
 
         return $this->resolve_view(compact('chirp', 'comments'));
     }
@@ -133,5 +118,44 @@ class ChirpCommentController extends Controller
         $comment->delete();
 
         return back()->with('success', 'Comment deleted successfully.');
+    }
+
+    /**
+     * Retrieve a chirp with the specified query.
+     *
+     * @param  Builder  $query  The query to use for retrieving the chirp.
+     * @return Chirp The retrieved chirp.
+     */
+    private function getChirp(Builder $query): Chirp
+    {
+        return Pipeline::send($query)
+            ->through([
+                new WithAuthor,
+                new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
+                new WithUserEngagementFlag(EngagementType::Like, EngagementType::Bookmark),
+            ])
+            ->thenReturn()
+            ->firstOrFail();
+    }
+
+    /**
+     * Retrieve comments for a given chirp with the specified query.
+     *
+     * @param  Builder  $query  The query to use for retrieving the comments.
+     * @param  Chirp  $chirp  The chirp for which to retrieve comments.
+     * @return mixed The retrieved comments.
+     */
+    private function getComments(Builder $query, Chirp $chirp): mixed
+    {
+        return Pipeline::send($query)
+            ->through([
+                new WithAuthor,
+                new WithEngagementCount(EngagementType::Like),
+                new WithUserEngagementFlag(EngagementType::Like),
+            ])
+            ->thenReturn()
+            ->whereBelongsTo($chirp)
+            ->latest()
+            ->paginate(10);
     }
 }
