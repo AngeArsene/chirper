@@ -58,16 +58,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the chirp likes owned by the user.
-     *
-     * @return HasMany<ChirpLike, $this> The user's chirp likes.
-     */
-    public function chirpLikes(): HasMany
-    {
-        return $this->hasMany(ChirpLike::class);
-    }
-
-    /**
      * Get the chirp bookmarks by user.
      *
      * @return HasMany<ChirpBookmark, $this> The user's chirp bookmarks.
@@ -88,12 +78,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Resolve the likes on comments authored by the user.
+     * Resolve the likes made by the user.
      *
-     * @return HasMany<ChirpCommentLike, $this> The user's likes on chirp comments.
+     * @return HasMany<Like, $this> The user's likes.
      */
-    public function chirpCommentLikes(): HasMany
+    public function likes(): HasMany
     {
-        return $this->hasMany(ChirpCommentLike::class);
+        return $this->hasMany(Like::class);
     }
 }

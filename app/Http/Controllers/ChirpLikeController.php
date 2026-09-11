@@ -25,7 +25,7 @@ class ChirpLikeController extends Controller
      * @return EngagementType The like-specific engagement enum value.
      */
     #[Override]
-    private function type(): EngagementType
+    private function engagementType(): EngagementType
     {
         return EngagementType::Like;
     }
@@ -39,7 +39,7 @@ class ChirpLikeController extends Controller
     #[Override]
     private function attach(User $user, Messageable $message): void
     {
-        $user->chirpLikes()->create(['chirp_id' => $message->id]);
+        $message->likes()->create(['user_id' => $user->id]);
     }
 
     /**
@@ -51,7 +51,7 @@ class ChirpLikeController extends Controller
     #[Override]
     private function detach(User $user, Messageable $message): void
     {
-        $user->chirpLikes()->whereBelongsTo($message)->delete();
+        $message->likes()->whereBelongsTo($user)->delete();
     }
 
     /**

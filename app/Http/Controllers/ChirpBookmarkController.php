@@ -33,7 +33,7 @@ class ChirpBookmarkController extends Controller
      * @return EngagementType The bookmark-specific engagement enum value.
      */
     #[Override]
-    private function type(): EngagementType
+    private function engagementType(): EngagementType
     {
         return EngagementType::Bookmark;
     }

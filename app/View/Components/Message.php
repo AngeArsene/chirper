@@ -22,12 +22,12 @@ class Message extends Component
         public string $baseRouteName,
         public ?Messageable $parent = null,
     ) {
-        $this->editRouteName = match ($this->message->type()) {
+        $this->editRouteName = match ($this->message->messageableType()) {
             MessageableType::Chirp => route("{$this->baseRouteName}.edit", $this->message),
             MessageableType::Comment => route("{$this->baseRouteName}.edit", [$this->parent, $this->message]),
         };
 
-        $this->deleteRouteName = match ($this->message->type()) {
+        $this->deleteRouteName = match ($this->message->messageableType()) {
             MessageableType::Chirp => route("{$this->baseRouteName}.destroy", $this->message),
             MessageableType::Comment => route("{$this->baseRouteName}.destroy", [$this->parent, $this->message]),
         };

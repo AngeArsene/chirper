@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\IsLikeable;
 use App\Contracts\Messageable;
 use App\Enums\MessageableType;
 use Database\Factories\ChirpCommentFactory;
@@ -9,7 +10,6 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -29,26 +29,16 @@ use Illuminate\Support\Carbon;
 class ChirpComment extends Model implements Messageable
 {
     /** @use HasFactory<ChirpCommentFactory> */
-    use HasFactory;
+    use HasFactory, IsLikeable;
 
     /**
      * Get the type of messageable entity.
      *
      * @return MessageableType The type of messageable entity.
      */
-    public function type(): MessageableType
+    public function messageableType(): MessageableType
     {
         return MessageableType::Comment;
-    }
-
-    /**
-     * Resolve the user who authored the comment.
-     *
-     * @return BelongsTo<User, $this>
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
     /**
@@ -59,15 +49,5 @@ class ChirpComment extends Model implements Messageable
     public function chirp(): BelongsTo
     {
         return $this->belongsTo(Chirp::class);
-    }
-
-    /**
-     * Resolve the likes associated with this comment.
-     *
-     * @return HasMany<ChirpCommentLike, $this>
-     */
-    public function likes(): HasMany
-    {
-        return $this->hasMany(ChirpCommentLike::class);
     }
 }

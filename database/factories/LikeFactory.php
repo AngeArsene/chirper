@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\ChirpCommentLike;
+use App\Models\Like;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<ChirpCommentLike>
+ * @extends Factory<Like>
  */
-class ChirpCommentLikeFactory extends Factory
+class LikeFactory extends Factory
 {
     /**
      * Define the model's default state.
