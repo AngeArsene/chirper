@@ -42,9 +42,9 @@ class ChirpCommentController extends Controller
     {
         $this->authorize('viewAll', ChirpComment::class);
 
-        $chirp = $this->getChirp(Chirp::query()->where('id', $request->route('chirp')));
+        $chirp = $this->getCommentsChirp(Chirp::query()->where('id', $request->route('chirp')));
 
-        $comments = $this->getComments(ChirpComment::query(), $chirp);
+        $comments = $this->getChirpComments(ChirpComment::query(), $chirp);
 
         return $this->resolve_view(compact('chirp', 'comments'));
     }
@@ -121,12 +121,12 @@ class ChirpCommentController extends Controller
     }
 
     /**
-     * Retrieve a chirp with the specified query.
+     * Retrieve the chirp associated with the comments for a given query.
      *
      * @param  Builder  $query  The query to use for retrieving the chirp.
      * @return Chirp The retrieved chirp.
      */
-    private function getChirp(Builder $query): Chirp
+    private function getCommentsChirp(Builder $query): Chirp
     {
         return Pipeline::send($query)
             ->through([
@@ -139,13 +139,13 @@ class ChirpCommentController extends Controller
     }
 
     /**
-     * Retrieve comments for a given chirp with the specified query.
+     * Retrieve the comments for a given chirp with author and engagement metadata.
      *
      * @param  Builder  $query  The query to use for retrieving the comments.
      * @param  Chirp  $chirp  The chirp for which to retrieve comments.
      * @return mixed The retrieved comments.
      */
-    private function getComments(Builder $query, Chirp $chirp): mixed
+    private function getChirpComments(Builder $query, Chirp $chirp): mixed
     {
         return Pipeline::send($query)
             ->through([
