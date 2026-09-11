@@ -29,7 +29,7 @@ class Main extends Component
     {
         $title = Str::of(Route::currentRouteName())
             ->replace(['.', '-'], ' ')
-            ->replace('index', 'home', false)
+            ->replace('index', 'feed', false)
             ->title();
 
         return $title.' - '.config('app.name');
