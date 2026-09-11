@@ -13,6 +13,7 @@ use App\Pipelines\WithBookmarkedAtColumn;
 use App\Pipelines\WithEngagementCount;
 use App\Pipelines\WithUserEngagementFlag;
 use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Pipeline;
@@ -68,17 +69,7 @@ class ChirpBookmarkController extends Controller
      */
     public function index(): View
     {
-        $chirps = Pipeline::send(Chirp::query())
-            ->through([
-                new WithAuthor,
-                new WithBookmarkedAtColumn,
-                new WhereUserHasRelation(EngagementType::Bookmark),
-                new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
-                new WithUserEngagementFlag(EngagementType::Like, EngagementType::Bookmark),
-            ])
-            ->thenReturn()
-            ->latest('bookmarked_at')
-            ->paginate(10);
+        $chirps = $this->getChirpsBookmarkedByCurrentUser(Chirp::query());
 
         return $this->resolve_view(compact('chirps'));
     }
@@ -94,5 +85,26 @@ class ChirpBookmarkController extends Controller
     public function toggle(Request $request, Chirp $chirp, #[CurrentUser] User $user): RedirectResponse
     {
         return back()->with(...$this->toggleEngagement($request, $chirp, $user));
+    }
+
+    /**
+     * Retrieve the authenticated user's bookmarked chirps with author and engagement metadata.
+     *
+     * @param  Builder  $query  The query to use for retrieving the bookmarked chirps.
+     * @return mixed The retrieved bookmarked chirps.
+     */
+    private function getChirpsBookmarkedByCurrentUser(Builder $query): mixed
+    {
+        return Pipeline::send($query)
+            ->through([
+                new WithAuthor,
+                new WithBookmarkedAtColumn,
+                new WhereUserHasRelation(EngagementType::Bookmark),
+                new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
+                new WithUserEngagementFlag(EngagementType::Like, EngagementType::Bookmark),
+            ])
+            ->thenReturn()
+            ->latest('bookmarked_at')
+            ->paginate(10);
     }
 }
