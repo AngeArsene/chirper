@@ -12,6 +12,7 @@ use App\Pipelines\WithEngagementCount;
 use App\Pipelines\WithUserEngagementFlag;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -37,23 +38,7 @@ class ChirpController extends Controller
     {
         $this->authorize('viewAll', Chirp::class);
 
-        $chirps = Pipeline::send(Chirp::query())
-            ->through([
-                new WithAuthor,
-                new WithEngagementCount(
-                    EngagementType::Like,
-                    EngagementType::Comment
-                ),
-                ...(Auth::check() ? [
-                    new WithUserEngagementFlag(
-                        EngagementType::Like,
-                        EngagementType::Bookmark
-                    ),
-                ] : []),
-            ])
-            ->thenReturn()
-            ->latest('updated_at')
-            ->paginate(10);
+        $chirps = $this->getChirps(Chirp::query());
 
         return $this->resolve_view(compact('chirps'));
     }
@@ -124,5 +109,30 @@ class ChirpController extends Controller
         $chirp->delete();
 
         return to_route('chirps.index')->with('success', 'Your chirp has been deleted!');
+    }
+
+    /**
+     * Retrieve the chirps with author and engagement metadata for a given query.
+     *
+     * @param  Builder  $query  The query to use for retrieving the chirps.
+     * @return mixed The retrieved chirps.
+     */
+    private function getChirps(Builder $query): mixed
+    {
+        return Pipeline::send($query)
+            ->through([
+                new WithAuthor,
+                new WithEngagementCount(
+                    EngagementType::Like, EngagementType::Comment
+                ),
+                ...(Auth::check() ? [
+                    new WithUserEngagementFlag(
+                        EngagementType::Like, EngagementType::Bookmark
+                    ),
+                ] : []),
+            ])
+            ->thenReturn()
+            ->latest('updated_at')
+            ->paginate(10);
     }
 }
