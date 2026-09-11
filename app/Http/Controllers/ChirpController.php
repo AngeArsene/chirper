@@ -122,13 +122,9 @@ class ChirpController extends Controller
         return Pipeline::send($query)
             ->through([
                 new WithAuthor,
-                new WithEngagementCount(
-                    EngagementType::Like, EngagementType::Comment
-                ),
+                new WithEngagementCount(EngagementType::Like, EngagementType::Comment),
                 ...(Auth::check() ? [
-                    new WithUserEngagementFlag(
-                        EngagementType::Like, EngagementType::Bookmark
-                    ),
+                    new WithUserEngagementFlag(EngagementType::Like, EngagementType::Bookmark),
                 ] : []),
             ])
             ->thenReturn()
