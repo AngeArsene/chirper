@@ -4,7 +4,7 @@ A Laravel 13 microblogging application built around Blade views, Tailwind CSS v4
 
 ## What the app does
 
-This repository is a small Laravel web application. Authenticated users can publish short messages to a paginated home feed, edit or delete their own chirps, and update their profile details. The middleware and policy layer protect the authenticated-only pages and authorize ownership-sensitive actions. Users can also like or unlike chirps, and the home feed ranks posts by how much engagement they receive. Users can also save chirps to a personal bookmarks page and remove those bookmarks later. Users can also reply to chirps and like individual comments in those conversations.
+This repository is a small Laravel web application. Authenticated users can publish short messages to a paginated home feed, edit or delete their own chirps, and update their profile details. The middleware and policy layer protect the authenticated-only pages and authorize ownership-sensitive actions. Users can also like or unlike chirps, and the home feed ranks posts by how much engagement they receive. Users can also save chirps to a personal bookmarks page and remove those bookmarks later. Users can also reply to chirps and like individual comments in those conversations. Users can now like and unlike both chirps and comment threads through the same shared engagement flow.
 
 ## Features
 
@@ -17,8 +17,8 @@ This repository is a small Laravel web application. Authenticated users can publ
 - Middleware aliases expose `guest.only`, `auth.only`, and `unconfirmed.only` custom guard behavior through `EnsureUserIsGuest`, `EnsureUserIsAuthenticated`, and `EnsureUserIsUnconfirmed`.
 - The schema includes a users table, sessions table, password reset tokens, and a `chirps` table with a nullable unique `idempotency_key` column added in a later migration.
 - `ChirpController@index` now loads `likes_count` and `liked_by_current_user` metadata.
+- The app uses a shared `Like` model, `Likeable` contract, `IsLikeable` trait, and `Messageable` interface so chirps and comments participate in the same polymorphic like flow; the `likes` table stores `user_id`, `likeable_id`, `likeable_type`, and a unique `user_id`/`likeable_id`/`likeable_type` constraint in a dedicated migration.
 - Authenticated users can like and unlike a chirp through `ChirpLikeController` and the `chirps.like` route, using `POST` and `DELETE` requests with `auth.only` and `throttle:16,1`.
-- The schema adds the `chirp_likes` table with `user_id`, `chirp_id`, and `created_at`, plus a unique pair constraint to prevent duplicate likes; `ChirpLikeSeeder` and `UserAndChirpSeeder` populate sample engagement data for local development.
 - `ChirpCommentController` serves paginated comment threads on a chirp, and `ChirpCommentPolicy` restricts comment edits and deletions to the owning user while permitting like actions only once per user.
 - Authenticated users can add, edit, and delete comments on a chirp through the `chirps.comments` resource routes, and `ChirpCommentLikeController` and the `chirps.comments.like` endpoint let them like or unlike any individual comment.
 - The schema adds the `chirp_comments` table with `user_id`, `chirp_id`, `message`, and timestamps, and the `chirp_comment_likes` table with a unique `chirp_comment_id`/`user_id` pair to prevent duplicate likes; `ChirpCommentSeeder` and `ChirpCommentLikeSeeder` support local development examples.
@@ -29,15 +29,15 @@ This repository is a small Laravel web application. Authenticated users can publ
 
 ```text
 app/
-├── Concerns/ # TogglesEngagement trait for engagement actions
-├── Contracts/ # Messageable contract for message-like models
+├── Concerns/ # TogglesEngagement and IsLikeable traits for engagement actions
+├── Contracts/ # Likeable and Messageable contracts for shared engagement behavior
 ├── Enums/ # EngagementType, MessageableType, and AppRouteNameToAction enums
 ├── Exceptions/ # RouteNotNamedException and ViewResolutionException
 ├── Http/
 │   ├── Controllers/ # AuthController, ChirpBookmarkController, ChirpCommentController, ChirpCommentLikeController, ChirpController, ChirpLikeController, PasswordController, UserProfileController
 │   ├── Middleware/ # EnsureUserIsGuest, EnsureUserIsAuthenticated, EnsureUserIsUnconfirmed
 │   └── Requests/ # PasswordVerifyRequest, StoreChirpCommentRequest, UpdateChirpCommentRequest
-├── Models/ # User, Chirp, ChirpBookmark, ChirpComment, ChirpCommentLike, and ChirpLike Eloquent models
+├── Models/ # User, Chirp, ChirpBookmark, ChirpComment, and Like Eloquent models
 ├── Pipelines/ # EngagementPipeline and engagement query pipeline stages
 ├── Policies/ # ChirpCommentPolicy and ChirpPolicy authorization rules
 └── View/
@@ -45,9 +45,9 @@ app/
 bootstrap/
 └── app.php # route registration, middleware aliases, password-confirm route wiring
 database/
-├── migrations/ # users, password reset, sessions, chirps, chirp_comments, chirp_likes, chirp_bookmarks, and chirp_comment_likes schema
-├── seeders/ # DatabaseSeeder, UserAndChirpSeeder, ChirpCommentSeeder, ChirpCommentLikeSeeder, ChirpLikeSeeder, and ChirpBookmarkSeeder local data setup
-└── factories/ # UserFactory, ChirpFactory, ChirpCommentFactory, ChirpCommentLikeFactory, ChirpLikeFactory, and ChirpBookmarkFactory
+├── migrations/ # users, password reset, sessions, chirps, chirp_comments, likes, chirp_bookmarks, and chirp_comment_likes schema
+├── seeders/ # DatabaseSeeder, UserAndChirpSeeder, LikeSeeder, ChirpCommentSeeder, and ChirpBookmarkSeeder local data setup
+└── factories/ # UserFactory, ChirpFactory, ChirpCommentFactory, LikeFactory, and ChirpBookmarkFactory
 resources/
 └── views/
     ├── chirps/ # bookmarks.blade.php, comments/index.blade.php, and comments/edit.blade.php
@@ -109,4 +109,4 @@ This repository currently has PHPUnit-based tests under [tests/Feature/ChirpTest
 
 ## Status
 
-_Last synced with commit 18a7d40dbd40aa6bb6a29e237bbf2932006c0197 (2026-09-05)_
+_Last synced with commit 6459886bc345aacdfea3288d36a253e029dcc4a0 (2026-09-11)_
