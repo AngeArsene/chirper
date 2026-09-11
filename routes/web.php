@@ -23,18 +23,6 @@ Route::match(['post', 'delete'], '/chirps/{chirp}/like', ChirpLikeController::cl
     ->middleware(['auth.only', 'throttle:16,1'])
     ->name('chirps.like');
 
-// Chirp bookmarks routes
-Route::middleware('auth.only')
-    ->prefix('chirps')->name('chirps.')
-    ->controller(ChirpBookmarkController::class)
-    ->group(function (): void {
-        Route::get('/bookmarks', 'index')->name('bookmarks');
-
-        Route::match(['post', 'delete'], '/{chirp}/bookmark', 'toggle')
-            ->name('bookmark')
-            ->middleware('throttle:16,1');
-    });
-
 // Chirp comments routes
 Route::resource('chirps.comments', ChirpCommentController::class)
     ->except(['create', 'show'])
@@ -46,3 +34,15 @@ Route::match(['post', 'delete'], 'chirps/{chirp}/comments/{comment}/like', Chirp
     ->name('chirps.comments.like')
     ->middleware(['auth.only', 'throttle:16,1'])
     ->scopeBindings();
+
+// Chirp bookmarks routes
+Route::middleware('auth.only')
+    ->prefix('chirps')->name('chirps.')
+    ->controller(ChirpBookmarkController::class)
+    ->group(function (): void {
+        Route::get('/bookmarks', 'index')->name('bookmarks');
+
+        Route::match(['post', 'delete'], '/{chirp}/bookmark', 'toggle')
+            ->name('bookmark')
+            ->middleware('throttle:16,1');
+    });
