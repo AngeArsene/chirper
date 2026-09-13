@@ -29,12 +29,12 @@ This repository is a small Laravel web application. Authenticated users can publ
 
 ```text
 app/
-├── Concerns/ # TogglesEngagement and IsLikeable traits for engagement actions
+├── Concerns/ # IsLikeable trait for engagement actions
 ├── Contracts/ # Likeable and Messageable contracts for shared engagement behavior
 ├── Enums/ # EngagementType, MessageableType, and AppRouteNameToAction enums
 ├── Exceptions/ # RouteNotNamedException and ViewResolutionException
 ├── Http/
-│   ├── Controllers/ # AuthController, ChirpBookmarkController, ChirpCommentController, ChirpCommentLikeController, ChirpController, ChirpLikeController, PasswordController, UserProfileController
+│   ├── Controllers/ # AuthController, ChirpBookmarkController, ChirpCommentController, ChirpCommentLikeController, ChirpController, ChirpLikeController, EngagementController, PasswordController, UserProfileController
 │   ├── Middleware/ # EnsureUserIsGuest, EnsureUserIsAuthenticated, EnsureUserIsUnconfirmed
 │   └── Requests/ # PasswordVerifyRequest, StoreChirpCommentRequest, UpdateChirpCommentRequest
 ├── Models/ # User, Chirp, ChirpBookmark, ChirpComment, and Like Eloquent models
@@ -109,4 +109,4 @@ This repository currently has PHPUnit-based tests under [tests/Feature/ChirpTest
 
 ## Status
 
-_Last synced with commit 6459886bc345aacdfea3288d36a253e029dcc4a0 (2026-09-11)_
+_Last synced with commit af225965ab5e10e28df0301520c7f7fba2f2b92d (2026-09-13)_

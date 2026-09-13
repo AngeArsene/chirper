@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Concerns\TogglesEngagement;
 use App\Contracts\Messageable;
 use App\Enums\EngagementType;
 use App\Models\Chirp;
@@ -16,17 +15,15 @@ use Override;
 /**
  * Handles liking and unliking chirp comments for authenticated users.
  */
-class ChirpCommentLikeController extends Controller
+class ChirpCommentLikeController extends EngagementController
 {
-    use TogglesEngagement;
-
     /**
      * Returns the engagement type represented by this controller.
      *
      * @return EngagementType The like-specific engagement enum value.
      */
     #[Override]
-    private function engagementType(): EngagementType
+    protected function engagementType(): EngagementType
     {
         return EngagementType::Like;
     }
@@ -38,7 +35,7 @@ class ChirpCommentLikeController extends Controller
      * @param  Messageable  $message  Message that will receive the like.
      */
     #[Override]
-    private function attach(User $user, Messageable $message): void
+    protected function attach(User $user, Messageable $message): void
     {
         $message->likes()->create(['user_id' => $user->id]);
     }
@@ -50,7 +47,7 @@ class ChirpCommentLikeController extends Controller
      * @param  Messageable  $message  Message from which the like should be removed.
      */
     #[Override]
-    private function detach(User $user, Messageable $message): void
+    protected function detach(User $user, Messageable $message): void
     {
         $message->likes()->whereBelongsTo($user)->delete();
     }
@@ -65,6 +62,8 @@ class ChirpCommentLikeController extends Controller
      */
     public function __invoke(Request $request, Chirp $chirp, ChirpComment $comment, #[CurrentUser] User $user): RedirectResponse
     {
-        return back()->with(...$this->toggleEngagement($request, $comment, $user));
+        [$status, $message] = $this->toggleEngagement($request, $comment, $user);
+
+        return back()->with($status, $message);
     }
 }

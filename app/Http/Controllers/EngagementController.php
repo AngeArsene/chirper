@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Concerns;
+namespace App\Http\Controllers;
 
 use App\Contracts\Messageable;
 use App\Enums\EngagementType;
@@ -9,20 +9,14 @@ use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Provides the shared request-to-flash-message flow for chirp engagement toggles.
- *
- * The trait centralizes the POST/DELETE decision tree so engagement
- * controllers can share the same semantics while remaining type-specific.
- */
-trait TogglesEngagement
+abstract class EngagementController extends Controller
 {
     /**
      * Get the type of engagement for this model.
      *
      * @return EngagementType The type of engagement for this model.
      */
-    abstract private function engagementType(): EngagementType;
+    abstract protected function engagementType(): EngagementType;
 
     /**
      * Persists a new engagement record for the user and message.
@@ -30,7 +24,7 @@ trait TogglesEngagement
      * @param  User  $user  Authenticated user creating the engagement.
      * @param  Messageable  $message  Message receiving the engagement.
      */
-    abstract private function attach(User $user, Messageable $message): void;
+    abstract protected function attach(User $user, Messageable $message): void;
 
     /**
      * Removes the engagement record between the user and the message.
@@ -38,7 +32,7 @@ trait TogglesEngagement
      * @param  User  $user  Authenticated user removing the engagement.
      * @param  Messageable  $message  Message from which the engagement should be removed.
      */
-    abstract private function detach(User $user, Messageable $message): void;
+    abstract protected function detach(User $user, Messageable $message): void;
 
     /**
      * Routes the request method to the appropriate engagement action.
@@ -48,7 +42,7 @@ trait TogglesEngagement
      * @param  User  $user  Authenticated user performing the action.
      * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
      */
-    private function toggleEngagement(Request $request, Messageable $message, User $user): array
+    protected function toggleEngagement(Request $request, Messageable $message, User $user): array
     {
         return match ($request->method()) {
             'POST' => $this->runAttach($user, $message),
