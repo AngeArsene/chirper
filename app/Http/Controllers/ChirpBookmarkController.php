@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Concerns\TogglesEngagement;
 use App\Contracts\Messageable;
 use App\Enums\EngagementType;
 use App\Models\Chirp;
@@ -23,17 +22,15 @@ use Override;
 /**
  * Handles listing, bookmarking, and unbookmarking chirps for authenticated users.
  */
-class ChirpBookmarkController extends Controller
+class ChirpBookmarkController extends EngagementController
 {
-    use TogglesEngagement;
-
     /**
      * Returns the engagement type represented by this controller.
      *
      * @return EngagementType The bookmark-specific engagement enum value.
      */
     #[Override]
-    private function engagementType(): EngagementType
+    protected function engagementType(): EngagementType
     {
         return EngagementType::Bookmark;
     }
@@ -45,7 +42,7 @@ class ChirpBookmarkController extends Controller
      * @param  Messageable  $message  Chirp that receives the bookmark.
      */
     #[Override]
-    private function attach(User $user, Messageable $message): void
+    protected function attach(User $user, Messageable $message): void
     {
         $user->chirpBookmarks()->create(['chirp_id' => $message->id]);
     }
@@ -57,7 +54,7 @@ class ChirpBookmarkController extends Controller
      * @param  Messageable  $message  Chirp from which the bookmark should be removed.
      */
     #[Override]
-    private function detach(User $user, Messageable $message): void
+    protected function detach(User $user, Messageable $message): void
     {
         $user->chirpBookmarks()->whereBelongsTo($message)->delete();
     }
@@ -84,7 +81,9 @@ class ChirpBookmarkController extends Controller
      */
     public function toggle(Request $request, Chirp $chirp, #[CurrentUser] User $user): RedirectResponse
     {
-        return back()->with(...$this->toggleEngagement($request, $chirp, $user));
+        [$status, $message] = $this->toggleEngagement($request, $chirp, $user);
+
+        return back()->with($status, $message);
     }
 
     /**
