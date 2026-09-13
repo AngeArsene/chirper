@@ -66,18 +66,15 @@ trait TogglesEngagement
      */
     private function runAttach(User $user, Messageable $message): array
     {
+        $pastTenseVerb = $this->engagementType()->pastTense();
+        $messageType = $message->messageableType()->value;
+
         try {
             $this->attach($user, $message);
 
-            return [
-                'success',
-                "You {$this->engagementType()->pastTense()} this {$message->messageableType()->value}.",
-            ];
+            return ['success', "You {$pastTenseVerb} this {$messageType}."];
         } catch (UniqueConstraintViolationException) {
-            return [
-                'error',
-                "You have already {$this->engagementType()->pastTense()} this {$message->messageableType()->value}.",
-            ];
+            return ['error', "You have already {$pastTenseVerb} this {$messageType}."];
         }
     }
 
@@ -95,22 +92,19 @@ trait TogglesEngagement
         $ability = $this->engagementType()->value;
         $policy = Gate::getPolicyFor($message);
 
-        if (is_null($policy) || ! method_exists($policy, $ability)) {
-            throw new \LogicException("No policy method defined for {$ability} on ".get_class($message));
+        if (! method_exists($policy ?? '', $ability)) {
+            throw new \LogicException("No policy method defined for {$ability} on " . get_class($message));
         }
 
+        $pastTenseVerb = $this->engagementType()->pastTense();
+        $messageType = $message->messageableType()->value;
+
         if ($user->can($ability, $message)) {
-            return [
-                'error',
-                "You have not {$this->engagementType()->pastTense()} this {$message->messageableType()->value} yet.",
-            ];
+            return ['error', "You have not {$pastTenseVerb} this {$messageType} yet."];
         }
 
         $this->detach($user, $message);
 
-        return [
-            'success',
-            "You un{$this->engagementType()->pastTense()} this {$message->messageableType()->value}.",
-        ];
+        return ['success', "You un{$pastTenseVerb} this {$messageType}."];
     }
 }
