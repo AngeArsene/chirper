@@ -19,7 +19,9 @@ class EnsureUserIsUnconfirmed
 
         $is_confirmed = $confirmed_at && (time() - $confirmed_at) < config('auth.password_timeout', 10800);
 
-        $is_from_confirmation = url()->previous() === route('profile.edit') || url()->previous() === route('password.confirm');
+        $is_from_confirmation = url()->previous() === route('profile.edit')
+            || url()->previous() === route('password.confirm')
+            || url()->previous() === route('profile.destroy');
 
         if ($is_confirmed || ! $is_from_confirmation) {
             return back()->with(
