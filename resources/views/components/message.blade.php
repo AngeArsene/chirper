@@ -4,10 +4,7 @@
 
             @if ($message->user)
                 <div class="avatar">
-                    <div class="size-10 rounded-full">
-                        <img src="https://avatars.laravel.cloud/{{ urlencode($message->user->email) }}?vibe=ocean"
-                            alt="{{ $message->user->name }}'s avatar" class="rounded-full" />
-                    </div>
+                    <x-profile-avatar :user="$message->user" size="10" />
                 </div>
             @else
                 <div class="avatar placeholder">

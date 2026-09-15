@@ -8,10 +8,7 @@
                     {{-- Avatar + heading --}}
                     <div class="flex flex-col items-center gap-3 mb-6">
                         <div class="avatar">
-                            <div class="size-16 rounded-full">
-                                <img src="https://avatars.laravel.cloud/{{ urlencode(auth()->user()->email) }}?vibe=ocean"
-                                    alt="{{ auth()->user()->name }}'s avatar" class="rounded-full" />
-                            </div>
+                            <x-profile-avatar :user="auth()->user()" />
                         </div>
                         <h1 class="text-xl font-bold">{{ auth()->user()->name }}</h1>
                         <span class="text-sm text-base-content/60">{{ auth()->user()->email }}</span>

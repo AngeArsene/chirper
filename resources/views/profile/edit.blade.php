@@ -8,10 +8,7 @@
                     {{-- Avatar + heading --}}
                     <div class="flex flex-col items-center gap-3 mb-6">
                         <div class="avatar relative">
-                            <div class="size-16 rounded-full">
-                                <img src="https://avatars.laravel.cloud/{{ urlencode(auth()->user()->email) }}?vibe=ocean"
-                                    alt="{{ auth()->user()->name }}'s avatar" class="rounded-full" />
-                            </div>
+                            <x-profile-avatar :user="auth()->user()" />
 
                             {{-- Pencil edit button --}}
                             <form method="POST" action="{{ route('profile.avatar.update') }}"
