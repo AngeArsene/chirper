@@ -12,6 +12,8 @@ CREATE TABLE "users"(
   "remember_token" varchar,
   "created_at" datetime,
   "updated_at" datetime
+  ,
+  "avatar" varchar
 );
 CREATE UNIQUE INDEX "users_email_unique" on "users"("email");
 CREATE TABLE "password_reset_tokens"(
@@ -138,6 +140,13 @@ CREATE UNIQUE INDEX "likes_user_id_likeable_id_likeable_type_unique" on "likes"(
   "likeable_id",
   "likeable_type"
 );
+CREATE INDEX "chirp_bookmarks_user_id_index" on "chirp_bookmarks"("user_id");
+CREATE INDEX "chirp_comments_chirp_id_created_at_index" on "chirp_comments"(
+  "chirp_id",
+  "created_at"
+);
+CREATE INDEX "chirp_comments_user_id_index" on "chirp_comments"("user_id");
+CREATE INDEX "chirps_user_id_index" on "chirps"("user_id");
 
 INSERT INTO migrations VALUES(1,'0001_01_01_000000_create_users_table',1);
 INSERT INTO migrations VALUES(2,'0001_01_01_000001_create_cache_table',1);
@@ -148,3 +157,5 @@ INSERT INTO migrations VALUES(6,'2026_08_22_131823_create_chirp_bookmarks_table'
 INSERT INTO migrations VALUES(7,'2026_08_30_142337_create_chirp_comments_table',1);
 INSERT INTO migrations VALUES(8,'2026_08_30_145342_add_idempotency_key_to_chirp_comments_table',1);
 INSERT INTO migrations VALUES(9,'2026_09_06_202825_create_likes_table',1);
+INSERT INTO migrations VALUES(10,'2026_09_11_202652_add_missing_foreign_key_indexes',2);
+INSERT INTO migrations VALUES(11,'2026_09_14_111921_add_avatar_path_to_users_table',2);
