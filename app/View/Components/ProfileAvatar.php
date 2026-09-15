@@ -18,11 +18,11 @@ class ProfileAvatar extends Component
      */
     public function __construct(
         public User $user,
-        public ?int $size = 16,
-    ) {
+    )
+    {
         $this->avatar = $user->avatar
             ? Storage::url($user->avatar)
-            : Avatar::create($user->name)->toBase64();
+            : Avatar::create($user->name)->toBase64();;
     }
 
     /**
@@ -31,12 +31,8 @@ class ProfileAvatar extends Component
     public function render(): View|Closure|string
     {
         return <<<'blade'
-<div class="size-{{ $size }} rounded-full">
-    <img
-        src="{{ $avatar }}"
-        alt="{{ $user->name }}'s avatar"
-        class="rounded-full w-full h-full object-cover mix-blend-multiply"
-    />
+<div class="size-16 rounded-full">
+    <img src="{{ $avatar }}" alt="{{ $user->name }}'s avatar" class="rounded-full" />
 </div>
 blade;
     }
