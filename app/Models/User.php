@@ -27,7 +27,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Chirp> $chirps
  * @property-read int|null $chirps_count
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'avatar'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
