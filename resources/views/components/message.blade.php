@@ -4,7 +4,7 @@
 
             @if ($message->user)
                 <div class="avatar">
-                    <x-profile-avatar :user="$message->user" size="10" />
+                    <x-profile-avatar :user="$message->user" />
                 </div>
             @else
                 <div class="avatar placeholder">
