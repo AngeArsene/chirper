@@ -22,7 +22,7 @@ class UserFactory extends Factory
     /**
      * Counter used to generate a unique, incrementing id for avatar filenames.
      */
-    protected static int $counter = 2;
+    protected static int $counter = 1;
 
     /**
      * Define the model's default state.
