@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\UpdateProfileAvatarController;
 use Illuminate\Support\Facades\Route;
 
 // Profile view routes
@@ -13,6 +14,10 @@ Route::match(['PUT', 'PATCH'], '/', 'update')
     ->name('update')
     ->middleware('password.confirm');
 
+// Profile avatar update route
+Route::match(['PUT', 'PATCH'], 'avatar/update', UpdateProfileAvatarController::class)
+    ->name('avatar.update');
+
 // Password update route
 Route::match(['PUT', 'PATCH'], 'password/update', [PasswordController::class, 'update'])
     ->name('password.update');
@@ -21,3 +26,4 @@ Route::match(['PUT', 'PATCH'], 'password/update', [PasswordController::class, 'u
 Route::delete('/', 'destroy')
     ->name('destroy')
     ->middleware('password.confirm');
+
