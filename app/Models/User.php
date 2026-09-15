@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property-read int $id
  * @property string $name
  * @property string $email
+ * @property string $avatar
  * @property string|null $email_verified_at
  * @property-read string $password
  * @property-read string|null $remember_token
