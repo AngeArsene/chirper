@@ -19,8 +19,7 @@ class ProfileAvatar extends Component
     public function __construct(
         public User $user,
         public ?int $size = 16,
-    )
-    {
+    ) {
         $this->avatar = $user->avatar
             ? Storage::url($user->avatar)
             : Avatar::create($user->name)->toBase64();
