@@ -87,7 +87,7 @@ abstract class EngagementController extends Controller
         $policy = Gate::getPolicyFor($message);
 
         if (! method_exists($policy ?? '', $ability)) {
-            throw new \LogicException("No policy method defined for {$ability} on " . get_class($message));
+            throw new \LogicException("No policy method defined for {$ability} on ".get_class($message));
         }
 
         $pastTenseVerb = $this->engagementType()->pastTense();

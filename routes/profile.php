@@ -26,4 +26,3 @@ Route::match(['PUT', 'PATCH'], 'password/update', [PasswordController::class, 'u
 Route::delete('/', 'destroy')
     ->name('destroy')
     ->middleware('password.confirm');
-

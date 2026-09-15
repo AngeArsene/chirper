@@ -1,5 +1,7 @@
 <?php
 
+use Laravolt\Avatar\Generator\DefaultGenerator;
+
 /*
  * Set specific configuration variables here
  */
@@ -13,7 +15,7 @@ return [
         'duration' => env('AVATAR_CACHE_DURATION', 86400),
     ],
 
-    'generator' => \Laravolt\Avatar\Generator\DefaultGenerator::class,
+    'generator' => DefaultGenerator::class,
 
     'ascii' => false,
 

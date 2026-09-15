@@ -46,22 +46,20 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn(array $_attributes) => [
+        return $this->state(fn (array $_attributes) => [
             'email_verified_at' => null,
         ]);
     }
 
-    /**
-     *
-     */
     private function avatarUrl(int $id): ?string
     {
         if (fake()->boolean()) {
-            $response = Http::get("https://i.pravatar.cc/256?u=" . fake()->uuid());
+            $response = Http::get('https://i.pravatar.cc/256?u='.fake()->uuid());
 
             if ($response->successful()) {
-                $filename = 'avatars/' . $id . '.jpg';
+                $filename = 'avatars/'.$id.'.jpg';
                 Storage::disk('public')->put($filename, $response->body());
+
                 return $filename; // just the relative path, matching the controller
             }
         }

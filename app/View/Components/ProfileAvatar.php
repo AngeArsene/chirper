@@ -18,11 +18,10 @@ class ProfileAvatar extends Component
      */
     public function __construct(
         public User $user,
-    )
-    {
+    ) {
         $this->avatar = $user->avatar
             ? Storage::url($user->avatar)
-            : Avatar::create($user->name)->toBase64();;
+            : Avatar::create($user->name)->toBase64();
     }
 
     /**

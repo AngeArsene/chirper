@@ -19,7 +19,7 @@ class UpdateProfileAvatarController extends Controller
             Storage::disk('public')->delete($user->avatar);
         }
 
-        $filename = $user->id . '.' . $request->file('avatar')->extension();
+        $filename = $user->id.'.'.$request->file('avatar')->extension();
 
         $path = $request->file('avatar')->storeAs('avatars', $filename, 'public');
 
