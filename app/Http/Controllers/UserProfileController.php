@@ -10,6 +10,7 @@ use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -57,6 +58,7 @@ class UserProfileController extends Controller
         Auth::logout();
 
         $profile->delete();
+        Storage::disk('public')->delete($profile->avatar);
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
