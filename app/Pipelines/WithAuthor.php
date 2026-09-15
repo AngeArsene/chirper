@@ -12,7 +12,7 @@ class WithAuthor
      */
     public function __invoke(Builder $query, Closure $next): Builder
     {
-        $query->with('user:id,name,email');
+        $query->with('user:id,name,avatar');
 
         return $next($query);
     }
