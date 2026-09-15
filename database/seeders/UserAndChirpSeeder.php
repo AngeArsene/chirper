@@ -17,6 +17,7 @@ class UserAndChirpSeeder extends Seeder
             ->create([
                 'name' => config('app.default_user_name'),
                 'email' => config('app.default_user_email'),
+                'avatar' => null,
                 'password' => config('app.default_user_password'),
             ]);
 
