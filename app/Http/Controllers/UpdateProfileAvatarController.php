@@ -25,6 +25,6 @@ class UpdateProfileAvatarController extends Controller
 
         $user->update(['avatar' => $path]);
 
-        return back()->with('status', 'User avatar profile updated successfully.');
+        return back()->with('success', 'User avatar profile updated successfully.');
     }
 }

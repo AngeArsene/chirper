@@ -10,12 +10,11 @@
                         <div class="avatar relative">
                             <x-profile-avatar :user="auth()->user()" />
 
-                            {{-- Pencil edit button --}}
                             <form method="POST" action="{{ route('profile.avatar.update') }}"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <label for="avatar-upload"
+                                <label for="avatar"
                                     class="absolute bottom-0 right-0 btn btn-circle btn-xs btn-primary cursor-pointer border-2 border-base-100">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
@@ -24,11 +23,23 @@
                                         <path d="m15 5 4 4" />
                                     </svg>
                                 </label>
-                                <input type="file" id="avatar-upload" name="avatar"
+                                <input type="file" id="avatar" name="avatar"
                                     accept="image/png,image/jpeg,image/webp" class="hidden"
                                     onchange="this.form.requestSubmit()">
                             </form>
                         </div>
+
+                        @error('avatar')
+                            <div role="alert" class="alert alert-error alert-soft w-fit text-sm py-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 shrink-0" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+
                         <h1 class="text-xl font-bold">{{ auth()->user()->name }}</h1>
                         <span class="text-sm text-base-content/60">{{ auth()->user()->email }}</span>
                     </div>
