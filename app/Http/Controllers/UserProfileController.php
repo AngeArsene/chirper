@@ -30,12 +30,10 @@ class UserProfileController extends Controller
      */
     public function update(UserProfileUpdateRequest $request, #[CurrentUser] User $profile): RedirectResponse
     {
-        $validated = $request->validated();
+        $profile->name = $request->validated('name');
 
-        $profile->name = $validated['name'];
-
-        if ($profile->email !== $validated['email']) {
-            $profile->email = $validated['email'];
+        if ($profile->email !== $request->validated('email')) {
+            $profile->email = $request->validated('email');
             $profile->email_verified_at = null;
         }
 
