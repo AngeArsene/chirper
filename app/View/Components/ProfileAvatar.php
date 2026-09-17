@@ -20,8 +20,8 @@ class ProfileAvatar extends Component
         public User $user,
     ) {
         $this->avatar = $this->user->avatar
-            ? Storage::url($user->avatar)
-            : Avatar::create($user->name)->toBase64();
+            ? Storage::url($this->user->avatar)
+            : Avatar::create($this->user->name)->toBase64();
     }
 
     /**
