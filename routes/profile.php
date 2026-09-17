@@ -24,6 +24,6 @@ Route::delete('/signout', 'destroy')
 Route::match(['PUT', 'PATCH'], 'avatar/update', UpdateProfileAvatarController::class)
     ->name('avatar.update');
 
-// Password update route
+// Profile password update route
 Route::match(['PUT', 'PATCH'], 'password/update', [PasswordController::class, 'update'])
     ->name('password.update');
