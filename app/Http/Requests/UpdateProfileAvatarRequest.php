@@ -2,23 +2,28 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Override;
 
+/**
+ * Validate avatar uploads for a user profile update.
+ */
 class UpdateProfileAvatarRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine whether the current request is authorized for an authenticated user.
+     *
+     * @return bool True when a logged-in user is present.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user() !== null;
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Define the validation rules for the uploaded profile avatar.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string> Validation metadata for the avatar field.
      */
     public function rules(): array
     {
@@ -27,7 +32,11 @@ class UpdateProfileAvatarRequest extends FormRequest
         ];
     }
 
-    #[Override]
+    /**
+     * Provide custom validation messages for profile avatar upload errors.
+     *
+     * @return array<string, string> Human-readable validation messages keyed by field rule.
+     */
     public function messages(): array
     {
         return [
