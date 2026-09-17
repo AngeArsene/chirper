@@ -23,9 +23,7 @@ class ChirpBookmarkSeeder extends Seeder
                 return;
             }
 
-            $randomUsers = $users->random($count);
-
-            $randomUsers->each(
+            $users->random($count)->each(
                 fn (User $randomUser) => ChirpBookmark::factory()
                     ->for($randomUser)
                     ->for($chirp)
