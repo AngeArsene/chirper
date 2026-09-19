@@ -20,11 +20,6 @@ class UserFactory extends Factory
     protected static ?string $password;
 
     /**
-     * Counter used to generate a unique, incrementing id for avatar filenames.
-     */
-    protected static int $counter = 1;
-
-    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -34,7 +29,7 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'avatar' => $this->avatarUrl(static::$counter++),
+            'avatar' => $this->avatarUrl(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make(config('app.default_user_password')), // Default password for testing
             'remember_token' => Str::random(10),
@@ -51,13 +46,14 @@ class UserFactory extends Factory
         ]);
     }
 
-    private function avatarUrl(int $id): ?string
+    private function avatarUrl(): ?string
     {
         if (fake()->boolean()) {
-            $response = Http::get('https://i.pravatar.cc/256?u='.fake()->uuid());
+            $uuid = fake()->uuid();
+            $response = Http::get("https://i.pravatar.cc/256?u=$uuid");
 
             if ($response->successful()) {
-                $filename = 'avatars/'.$id.'.jpg';
+                $filename = "avatars/$uuid.jpg";
                 Storage::disk('public')->put($filename, $response->body());
 
                 return $filename; // just the relative path, matching the controller
