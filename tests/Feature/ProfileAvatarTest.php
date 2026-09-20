@@ -92,7 +92,7 @@ class ProfileAvatarTest extends TestCase
             ->andReturn(false);
 
         $response = $this->actingAs($user)
-            ->from(route('profile.show'))
+            ->from(route('profile.edit'))
             ->put(route('profile.avatar.update'), ['avatar' => $mockedFile]);
 
         $response->assertRedirect()
@@ -115,7 +115,7 @@ class ProfileAvatarTest extends TestCase
         $user = User::factory()->create(['avatar' => null]);
 
         $response = $this->actingAs($user)
-            ->from(route('profile.show'))
+            ->from(route('profile.edit'))
             ->put(route('profile.avatar.update'), ['avatar' => $avatar]);
 
         $response->assertSessionHasErrors('avatar');
@@ -143,14 +143,14 @@ class ProfileAvatarTest extends TestCase
 
         $firstFile = UploadedFile::fake()->image('avatar.jpg');
         $this->actingAs($user)
-            ->from(route('profile.show'))
+            ->from(route('profile.edit'))
             ->put(route('profile.avatar.update'), ['avatar' => $firstFile]);
 
         $firstPath = $user->refresh()->avatar;
 
         $secondFile = UploadedFile::fake()->image('avatar.jpg');
         $this->actingAs($user)
-            ->from(route('profile.show'))
+            ->from(route('profile.edit'))
             ->put(route('profile.avatar.update'), ['avatar' => $secondFile]);
 
         $secondPath = $user->refresh()->avatar;

@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateProfileAvatarRequest;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -35,10 +36,10 @@ class UpdateProfileAvatarController extends Controller
     /**
      * Store the uploaded avatar on the public disk and return its path.
      *
-     * @param  mixed  $avatar  Uploaded file instance with an extension method.
+     * @param  UploadedFile  $avatar  Uploaded file instance with an extension method.
      * @return string|null Stored avatar path, or null when the file could not be persisted.
      */
-    private function storeNewAvatar(mixed $avatar): ?string
+    private function storeNewAvatar(UploadedFile $avatar): ?string
     {
         $path = false;
         $filename = ((string) Str::uuid()).'.'.$avatar->extension();
