@@ -2,12 +2,38 @@
     <div class="hero min-h-[calc(100vh-16rem)]">
         <div class="hero-content flex-col w-full max-w-xl">
 
-            <div class="card w-full bg-base-100">
-                <div class="card-body">
+            <div class="card w-full bg-base-100 shadow-xl overflow-hidden">
+
+                {{-- Cover image --}}
+                <div class="relative">
+                    <figure class="h-40 w-full">
+                        <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&h=400&q=80"
+                            alt="{{ __(auth()->user()->name . "'s cover image") }}" class="h-full w-full object-cover">
+                    </figure>
+
+                    <form method="POST" action="" enctype="multipart/form-data" class="absolute top-3 right-3 z-10">
+                        @csrf
+                        @method('PUT')
+                        <label for="cover" title="{{ __('Change cover image') }}"
+                            class="btn btn-sm gap-2 rounded-full border-0 bg-black/40 text-white shadow-lg backdrop-blur-md transition hover:bg-black/60 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                                <circle cx="12" cy="13" r="3" />
+                            </svg>
+                            <span class="hidden sm:inline">{{ __('Edit cover') }}</span>
+                        </label>
+                        <input type="file" id="cover" name="cover" accept="image/png,image/jpeg,image/webp"
+                            class="hidden" onchange="this.form.requestSubmit()">
+                    </form>
+                </div>
+
+                <div class="card-body pt-0">
 
                     {{-- Avatar + heading --}}
                     <div class="flex flex-col items-center gap-3 mb-6">
-                        <div class="avatar relative">
+                        <div class="avatar relative -mt-12 rounded-full ring-4 ring-base-100 bg-base-100">
                             <x-profile-avatar :user="auth()->user()" />
 
                             <form method="POST" action="{{ route('profile.avatar.update') }}"
