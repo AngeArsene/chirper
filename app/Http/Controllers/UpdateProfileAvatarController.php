@@ -41,7 +41,7 @@ class UpdateProfileAvatarController extends Controller
     private function storeNewAvatar(mixed $avatar): ?string
     {
         $path = false;
-        $filename = ((string) Str::uuid()) . '.' . $avatar->extension();
+        $filename = ((string) Str::uuid()).'.'.$avatar->extension();
 
         $path = $avatar->storeAs('avatars', $filename, 'public');
 
