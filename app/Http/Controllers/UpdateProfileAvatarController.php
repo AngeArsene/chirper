@@ -33,27 +33,6 @@ class UpdateProfileAvatarController extends Controller
     }
 
     /**
-     * Persist the stored avatar path or retain the previous avatar when the upload fails.
-     *
-     * @param  User  $user  User whose profile image is being updated.
-     * @param  string|null  $path  Newly stored avatar path, if available.
-     * @param  string|null  $oldPath  Existing avatar path to restore on failure.
-     * @return RedirectResponse Redirect back with either a success flash or validation error.
-     */
-    private function updateUserAvatar(User $user, ?string $path, ?string $oldPath): RedirectResponse
-    {
-        if ($path) {
-            $user->update(['avatar' => $path]);
-
-            return back()->with('success', 'User avatar profile updated successfully.');
-        }
-
-        $user->update(['avatar' => $oldPath]);
-
-        return back()->withErrors(['avatar' => 'Something went wrong please try again.']);
-    }
-
-    /**
      * Store the uploaded avatar on the public disk and return its path.
      *
      * @param  mixed  $avatar  Uploaded file instance with an extension method.
@@ -62,7 +41,7 @@ class UpdateProfileAvatarController extends Controller
     private function storeNewAvatar(mixed $avatar): ?string
     {
         $path = false;
-        $filename = ((string) Str::uuid()).'.'.$avatar->extension();
+        $filename = ((string) Str::uuid()) . '.' . $avatar->extension();
 
         $path = $avatar->storeAs('avatars', $filename, 'public');
 
@@ -85,5 +64,26 @@ class UpdateProfileAvatarController extends Controller
         }
 
         return $deleted ? null : $avatar;
+    }
+
+    /**
+     * Persist the stored avatar path or retain the previous avatar when the upload fails.
+     *
+     * @param  User  $user  User whose profile image is being updated.
+     * @param  string|null  $path  Newly stored avatar path, if available.
+     * @param  string|null  $oldPath  Existing avatar path to restore on failure.
+     * @return RedirectResponse Redirect back with either a success flash or validation error.
+     */
+    private function updateUserAvatar(User $user, ?string $path, ?string $oldPath): RedirectResponse
+    {
+        if ($path) {
+            $user->update(['avatar' => $path]);
+
+            return back()->with('success', 'User avatar profile updated successfully.');
+        }
+
+        $user->update(['avatar' => $oldPath]);
+
+        return back()->withErrors(['avatar' => 'Something went wrong please try again.']);
     }
 }
