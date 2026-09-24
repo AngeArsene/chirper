@@ -14,6 +14,8 @@ CREATE TABLE "users"(
   "updated_at" datetime
   ,
   "avatar" varchar
+  ,
+  "cover" varchar
 );
 CREATE UNIQUE INDEX "users_email_unique" on "users"("email");
 CREATE TABLE "password_reset_tokens"(
@@ -159,3 +161,4 @@ INSERT INTO migrations VALUES(8,'2026_08_30_145342_add_idempotency_key_to_chirp_
 INSERT INTO migrations VALUES(9,'2026_09_06_202825_create_likes_table',1);
 INSERT INTO migrations VALUES(10,'2026_09_11_202652_add_missing_foreign_key_indexes',2);
 INSERT INTO migrations VALUES(11,'2026_09_14_111921_add_avatar_path_to_users_table',2);
+INSERT INTO migrations VALUES(12,'2026_09_24_165550_add_cover_path_to_users_table',3);
