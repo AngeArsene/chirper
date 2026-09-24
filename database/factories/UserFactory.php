@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'avatar' => $this->avatarUrl(),
+            'cover' => $this->coverUrl(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make(config('app.default_user_password')), // Default password for testing
             'remember_token' => Str::random(10),
@@ -54,6 +55,23 @@ class UserFactory extends Factory
 
             if ($response->successful()) {
                 $filename = "avatars/$uuid.jpg";
+                Storage::disk('public')->put($filename, $response->body());
+
+                return $filename; // just the relative path, matching the controller
+            }
+        }
+
+        return null;
+    }
+
+    private function coverUrl(): ?string
+    {
+        if (fake()->boolean()) {
+            $uuid = fake()->uuid();
+            $response = Http::get("https://picsum.photos/seed/chirper-$uuid/1200/400");
+
+            if ($response->successful()) {
+                $filename = "covers/$uuid.jpg";
                 Storage::disk('public')->put($filename, $response->body());
 
                 return $filename; // just the relative path, matching the controller
