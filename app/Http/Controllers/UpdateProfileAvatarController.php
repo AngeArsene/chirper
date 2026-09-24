@@ -80,7 +80,7 @@ class UpdateProfileAvatarController extends Controller
         if ($path) {
             $user->update(['avatar' => $path]);
 
-            return back()->with('success', 'User avatar profile updated successfully.');
+            return back()->with('success', 'User profile avatar updated successfully.');
         }
 
         $user->update(['avatar' => $oldPath]);
