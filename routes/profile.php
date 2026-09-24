@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UpdateProfileAvatarController;
+use App\Http\Controllers\UpdateProfileCoverController;
 use Illuminate\Support\Facades\Route;
 
 // Profile view routes
@@ -23,6 +24,10 @@ Route::delete('/signout', 'destroy')
 // Profile avatar update route
 Route::match(['PUT', 'PATCH'], 'avatar/update', UpdateProfileAvatarController::class)
     ->name('avatar.update');
+
+// Profile cover update route
+Route::match(['PUT', 'PATCH'], 'cover/update', UpdateProfileCoverController::class)
+    ->name('cover.update');
 
 // Profile password update route
 Route::match(['PUT', 'PATCH'], 'password/update', [PasswordController::class, 'update'])
