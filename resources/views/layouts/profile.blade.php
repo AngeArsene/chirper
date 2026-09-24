@@ -7,12 +7,9 @@
                 @if ($edit)
                     {{-- Cover image --}}
                     <div class="relative">
-                        <figure class="h-40 w-full">
-                            <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&h=400&q=80"
-                                alt="{{ __($user->name . "'s cover image") }}" class="h-full w-full object-cover">
-                        </figure>
+                        <x-profile-cover :user="$user" />
 
-                        <form method="POST" action="" enctype="multipart/form-data" class="absolute top-3 right-3 z-10">
+                        <form method="POST" action="{{ route('profile.cover.update') }}" enctype="multipart/form-data" class="absolute top-3 right-3 z-10">
                             @csrf
                             @method('PUT')
                             <label for="cover" title="{{ __('Change cover image') }}"
@@ -31,10 +28,7 @@
                     </div>
                 @else
                     {{-- Cover image --}}
-                    <figure class="h-40 w-full">
-                        <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&h=400&q=80"
-                            alt="{{ __($user->name . "'s cover image") }}" class="h-full w-full object-cover">
-                    </figure>
+                    <x-profile-cover :user="$user" />
                 @endif
 
                 <div class="card-body pt-0">
