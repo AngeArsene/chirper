@@ -36,8 +36,6 @@
                             <span>{{ __('Email') }}</span>
                         </label>
 
-                        <div class="divider">{{ __('Edit profile ?') }}</div>
-
                         <div class="form-control">
                             <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-sm w-full">
                                 {{ __('Edit my profile') }}
