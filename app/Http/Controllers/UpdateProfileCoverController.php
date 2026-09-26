@@ -34,7 +34,7 @@ class UpdateProfileCoverController extends ProfileImageController
      */
     public function __invoke(UpdateProfileCoverRequest $request, #[CurrentUser] User $user): RedirectResponse
     {
-        $result = $this->handle($request->cover, $user);
+        $result = $this->storeProfileImage($request->cover, $user);
 
         return $result[0] === 'success' ? back()->with(...$result) : back()->withErrors($result);
     }

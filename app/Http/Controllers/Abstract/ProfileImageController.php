@@ -27,7 +27,7 @@ abstract class ProfileImageController extends Controller
      * @param User $user
      * @return array<int|string, string>
      */
-    protected function handle(UploadedFile $image, User $user): array
+    protected function storeProfileImage(UploadedFile $image, User $user): array
     {
         $oldPath = $user->{$this->type()};
 

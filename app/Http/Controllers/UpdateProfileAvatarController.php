@@ -34,7 +34,7 @@ class UpdateProfileAvatarController extends ProfileImageController
      */
     public function __invoke(UpdateProfileAvatarRequest $request, #[CurrentUser] User $user): RedirectResponse
     {
-        $result = $this->handle($request->avatar, $user);
+        $result = $this->storeProfileImage($request->avatar, $user);
 
         return $result[0] === 'success' ? back()->with(...$result) : back()->withErrors($result);
     }
