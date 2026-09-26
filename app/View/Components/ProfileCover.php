@@ -19,7 +19,7 @@ class ProfileCover extends Component
     public function __construct(
         public User $user
     ) {
-        $fallback = Avatar::create("")
+        $fallback = Avatar::create('')
             ->setDimension(1200, 400)
             ->setShape('square')
             ->toBase64();
