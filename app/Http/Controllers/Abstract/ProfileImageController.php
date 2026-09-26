@@ -81,7 +81,6 @@ abstract class ProfileImageController extends Controller
      *
      * @param User $user
      * @param string|null $path
-     * @param string|null $oldPath
      * @return array<int|string, string>
      */
     private function updateUserImage(User $user, ?string $path): array
