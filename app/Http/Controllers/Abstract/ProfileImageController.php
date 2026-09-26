@@ -29,13 +29,16 @@ abstract class ProfileImageController extends Controller
      */
     protected function storeProfileImage(UploadedFile $image, User $user): array
     {
+        /**
+         * @var UploadedFile
+         */
         $oldPath = $user->{$this->type()};
 
         $path = $this->storeNewImage($image, "{$this->type()}s");
 
         $oldPath = $this->deleteCurrentImage($oldPath, $path);
 
-        return $this->updateUserImage($user, $path, $oldPath);
+        return $this->updateUserImage($user, $path);
     }
 
     /**
@@ -81,15 +84,13 @@ abstract class ProfileImageController extends Controller
      * @param string|null $oldPath
      * @return array<int|string, string>
      */
-    private function updateUserImage(User $user, ?string $path, ?string $oldPath): array
+    private function updateUserImage(User $user, ?string $path): array
     {
         if ($path) {
             $user->update([$this->type() => $path]);
 
             return ['success', "User profile {$this->type()} updated successfully."];
         }
-
-        $user->update([$this->type() => $oldPath]);
 
         return [$this->type() => 'Something went wrong please try again.'];
     }
