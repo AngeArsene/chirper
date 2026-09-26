@@ -10,11 +10,14 @@ use Illuminate\View\Component;
 class Profile extends Component
 {
     /**
-     * Create a new component instance.
+     * Create a profile layout component.
+     *
+     * @param User $user
+     * @param bool|null $editProfileImages
      */
     public function __construct(
         public User $user,
-        public ?bool $edit = false
+        public ?bool $editProfileImages = false
     ) {
         //
     }

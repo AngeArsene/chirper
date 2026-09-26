@@ -1,4 +1,4 @@
-<x-layouts.profile :user="auth()->user()" :edit="true">
+<x-layouts.profile :user="auth()->user()" :editProfileImages="true">
     {{-- Profile form --}}
     <form method="POST" action="{{ route('profile.update') }}">
         @csrf

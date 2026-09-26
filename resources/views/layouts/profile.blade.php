@@ -4,7 +4,7 @@
 
             <div class="card w-full bg-base-100 shadow-xl overflow-hidden">
 
-                @if ($edit)
+                @if ($editProfileImages)
                     {{-- Cover image --}}
                     <div class="relative">
                         <x-profile-cover :user="$user" />
@@ -59,7 +59,7 @@
 
                 <div class="card-body pt-0">
 
-                    @if ($edit)
+                    @if ($editProfileImages)
                         {{-- Avatar + heading --}}
                         <div class="flex flex-col items-center gap-3 mb-6">
                             <div class="avatar relative -mt-12 rounded-full ring-4 ring-base-100 bg-base-100">
