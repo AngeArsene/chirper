@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\UpdatePasswordController;
 use App\Http\Controllers\UpdateProfileAvatarController;
 use App\Http\Controllers\UpdateProfileCoverController;
 use Illuminate\Support\Facades\Route;
@@ -22,13 +22,13 @@ Route::delete('/signout', 'destroy')
     ->middleware('password.confirm');
 
 // Profile avatar update route
-Route::match(['PUT', 'PATCH'], 'avatar/update', UpdateProfileAvatarController::class)
+Route::match(['PUT', 'PATCH'], 'avatar', UpdateProfileAvatarController::class)
     ->name('avatar.update');
 
 // Profile cover update route
-Route::match(['PUT', 'PATCH'], 'cover/update', UpdateProfileCoverController::class)
+Route::match(['PUT', 'PATCH'], 'cover', UpdateProfileCoverController::class)
     ->name('cover.update');
 
 // Profile password update route
-Route::match(['PUT', 'PATCH'], 'password/update', [PasswordController::class, 'update'])
+Route::match(['PUT', 'PATCH'], 'password', UpdatePasswordController::class)
     ->name('password.update');

@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\VerifyPasswordController;
 use App\Http\Middleware\EnsureUserIsAuthenticated;
 use App\Http\Middleware\EnsureUserIsGuest;
 use App\Http\Middleware\EnsureUserIsUnconfirmed;
@@ -36,7 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     Route::view('confirm', 'auth.passwords.confirm')
                         ->name('confirm');
 
-                    Route::post('verify', [PasswordController::class, 'verify'])
+                    Route::post('verify', VerifyPasswordController::class)
                         ->name('verify');
                 });
         },
