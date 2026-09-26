@@ -4,7 +4,7 @@ A Laravel 13 microblogging application built around Blade views, Tailwind CSS v4
 
 ## What the app does
 
-This repository is a small Laravel web application. Authenticated users can publish short messages to a paginated home feed, edit or delete their own chirps, and update their profile details. The middleware and policy layer protect the authenticated-only pages and authorize ownership-sensitive actions. Users can also like or unlike chirps, and the home feed ranks posts by how much engagement they receive. Users can also save chirps to a personal bookmarks page and remove those bookmarks later. Users can also reply to chirps and like individual comments in those conversations. Users can now like and unlike both chirps and comment threads through the same shared engagement flow. Users can upload a profile avatar that appears on their profile and beside their chirps and comments.
+This repository is a small Laravel web application. Authenticated users can publish short messages to a paginated home feed, edit or delete their own chirps, and update their profile details. The middleware and policy layer protect the authenticated-only pages and authorize ownership-sensitive actions. Users can also like or unlike chirps, and the home feed ranks posts by how much engagement they receive. Users can also save chirps to a personal bookmarks page and remove those bookmarks later. Users can also reply to chirps and like individual comments in those conversations. Users can now like and unlike both chirps and comment threads through the same shared engagement flow. Users can upload a profile avatar that appears on their profile and beside their chirps and comments. Users can also update a profile cover image and complete password confirmation steps from the profile settings flow.
 
 ## Features
 
@@ -13,7 +13,7 @@ This repository is a small Laravel web application. Authenticated users can publ
 - Authenticated POST, PUT/PATCH, and DELETE chirp actions are defined as a resource route with `auth.only` authorization middleware and throttling settings for store/update/delete.
 - Registration, login, and logout are handled through `AuthController` and the `auth` route file.
 - Profile editing and account removal are routed through `UserProfileController` and the `profile` route file.
-- [app/Http/Controllers/PasswordController.php](app/Http/Controllers/PasswordController.php) updates the user's password and checks the current password during confirmation. You can find its routes in [bootstrap/app.php](bootstrap/app.php).
+- `UpdatePasswordController` and `VerifyPasswordController` handle password updates and password confirmation during the profile settings flow, and their route registrations live in [routes/profile.php](routes/profile.php) and [bootstrap/app.php](bootstrap/app.php).
 - Middleware aliases expose `guest.only`, `auth.only`, and `unconfirmed.only` custom guard behavior through `EnsureUserIsGuest`, `EnsureUserIsAuthenticated`, and `EnsureUserIsUnconfirmed`.
 - The schema includes a users table, sessions table, password reset tokens, and a `chirps` table with a nullable unique `idempotency_key` column added in a later migration.
 - `ChirpController@index` now loads `likes_count` and `liked_by_current_user` metadata.
@@ -25,6 +25,7 @@ This repository is a small Laravel web application. Authenticated users can publ
 - Authenticated users can bookmark and unbookmark a chirp through `ChirpBookmarkController` and the `chirps.bookmark` route, using `POST` and `DELETE` requests with `auth.only` and `throttle:16,1`; `ChirpBookmarkController@index` serves the paginated bookmarks view.
 - The schema adds the `chirp_bookmarks` table with `user_id`, `chirp_id`, and `created_at`, plus a unique `chirp_id`/`user_id` pair constraint; `ChirpBookmarkSeeder` and `ChirpBookmarkFactory` support sample bookmark data for local development and tests.
 - Profile avatars are uploaded through `UpdateProfileAvatarController` at the `profile.avatar.update` route; `UpdateProfileAvatarRequest` accepts required JPG, JPEG, PNG, or WEBP images up to 1024 KB and stores them on the public disk under `avatars/`.
+- Profile cover images are uploaded through `UpdateProfileCoverController` at the `profile.cover.update` route; `UpdateProfileCoverRequest` validates JPG, JPEG, PNG, or WEBP cover images up to 1MB and stores them under `covers/`, while `ProfileCover` renders the uploaded image or a generated fallback.
 - The `ProfileAvatar` view component renders a user's uploaded avatar or a Laravolt-generated initials avatar, and profile and message views use it for user images; the `users` table stores the nullable `avatar` path and `laravolt/avatar` provides the avatar generation package.
 
 ## Project structure
@@ -36,14 +37,15 @@ app/
 ├── Enums/ # EngagementType, MessageableType, and AppRouteNameToAction enums
 ├── Exceptions/ # RouteNotNamedException and ViewResolutionException
 ├── Http/
-│   ├── Controllers/ # AuthController, ChirpBookmarkController, ChirpCommentController, ChirpCommentLikeController, ChirpController, ChirpLikeController, EngagementController, PasswordController, UpdateProfileAvatarController, UserProfileController
+│   ├── Controllers/ # AuthController, ChirpBookmarkController, ChirpCommentController, ChirpCommentLikeController, ChirpController, ChirpLikeController, UpdatePasswordController, UpdateProfileAvatarController, UpdateProfileCoverController, UserProfileController, VerifyPasswordController
+│   ├── Controllers/Abstract/ # EngagementController and ProfileImageController base logic
 │   ├── Middleware/ # EnsureUserIsGuest, EnsureUserIsAuthenticated, EnsureUserIsUnconfirmed
-│   └── Requests/ # PasswordVerifyRequest, StoreChirpCommentRequest, UpdateChirpCommentRequest, UpdateProfileAvatarRequest
+│   └── Requests/ # UpdatePasswordRequest, UpdateProfileAvatarRequest, UpdateProfileCoverRequest, VerifyPasswordRequest, StoreChirpCommentRequest, UpdateChirpCommentRequest
 ├── Models/ # User, Chirp, ChirpBookmark, ChirpComment, and Like Eloquent models
 ├── Pipelines/ # EngagementPipeline and engagement query pipeline stages
 ├── Policies/ # ChirpCommentPolicy and ChirpPolicy authorization rules
 └── View/
-    └── Components/ # BookmarkButton, Feed, LikeButton, Message, MessageForm, and ProfileAvatar components
+    └── Components/ # BookmarkButton, Feed, LikeButton, Message, MessageForm, ProfileAvatar, and ProfileCover components
 bootstrap/
 └── app.php # route registration, middleware aliases, password-confirm route wiring
 config/
@@ -115,4 +117,4 @@ This repository currently has PHPUnit-based tests under [tests/Feature/ChirpTest
 
 ## Status
 
-_Last synced with commit 943718796c242efc36f4f9086a1f05bffbe9ef88 (2026-09-17)_
+_Last synced with commit ee84baf (2026-09-26)_
