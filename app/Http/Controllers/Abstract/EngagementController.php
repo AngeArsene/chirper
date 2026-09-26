@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Abstract;
 
 use App\Contracts\Messageable;
 use App\Enums\EngagementType;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
@@ -12,35 +13,35 @@ use Illuminate\Support\Facades\Gate;
 abstract class EngagementController extends Controller
 {
     /**
-     * Get the type of engagement for this model.
+     * Return the engagement type for this controller.
      *
-     * @return EngagementType The type of engagement for this model.
+     * @return EngagementType
      */
     abstract protected function engagementType(): EngagementType;
 
     /**
-     * Persists a new engagement record for the user and message.
+     * Persist a user engagement for a message.
      *
-     * @param  User  $user  Authenticated user creating the engagement.
-     * @param  Messageable  $message  Message receiving the engagement.
+     * @param User $user
+     * @param Messageable $message
      */
     abstract protected function attach(User $user, Messageable $message): void;
 
     /**
-     * Removes the engagement record between the user and the message.
+     * Remove a user engagement from a message.
      *
-     * @param  User  $user  Authenticated user removing the engagement.
-     * @param  Messageable  $message  Message from which the engagement should be removed.
+     * @param User $user
+     * @param Messageable $message
      */
     abstract protected function detach(User $user, Messageable $message): void;
 
     /**
-     * Routes the request method to the appropriate engagement action.
+     * Toggle the engagement for the current request.
      *
-     * @param  Request  $request  Incoming HTTP request containing the verb that determines the action.
-     * @param  Messageable  $message  Message being acted on.
-     * @param  User  $user  Authenticated user performing the action.
-     * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
+     * @param Request $request
+     * @param Messageable $message
+     * @param User $user
+     * @return array{0: 'success'|'error', 1: string}
      */
     protected function toggleEngagement(Request $request, Messageable $message, User $user): array
     {
@@ -52,11 +53,11 @@ abstract class EngagementController extends Controller
     }
 
     /**
-     * Attempts to attach an engagement and translates duplicate inserts into a friendly flash message.
+     * Attach the engagement and translate duplicate inserts.
      *
-     * @param  User  $user  Authenticated user creating the engagement.
-     * @param  Messageable  $message  Message receiving the engagement.
-     * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
+     * @param User $user
+     * @param Messageable $message
+     * @return array{0: 'success'|'error', 1: string}
      */
     private function runAttach(User $user, Messageable $message): array
     {
@@ -73,13 +74,12 @@ abstract class EngagementController extends Controller
     }
 
     /**
-     * Removes an engagement only when it exists and returns a human-readable result for the UI.
+     * Remove the engagement and return a user-readable result.
      *
-     * @param  User  $user  Authenticated user removing the engagement.
-     * @param  Messageable  $message  Message from which the engagement should be removed.
-     * @return array{0: 'success'|'error', 1: string} A flash-message tuple in the form [key, message].
-     *
-     * @throws \LogicException If the policy method for the engagement type is not defined on the message.
+     * @param User $user
+     * @param Messageable $message
+     * @return array{0: 'success'|'error', 1: string}
+     * @throws \LogicException
      */
     private function runDetach(User $user, Messageable $message): array
     {

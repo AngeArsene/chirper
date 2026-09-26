@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Messageable;
 use App\Enums\EngagementType;
+use App\Http\Controllers\Abstract\EngagementController;
 use App\Models\Chirp;
 use App\Models\User;
 use App\Pipelines\WhereUserHasRelation;

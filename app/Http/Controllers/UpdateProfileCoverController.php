@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Abstract\ProfileImageController;
 use App\Http\Requests\UpdateProfileCoverRequest;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
